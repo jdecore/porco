@@ -19,7 +19,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_TARGET: pages
+      DEPLOY_TARGET: vercel
       ASTRO_BASE: /${{ github.event.repository.name }}/
       SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
     steps:
@@ -44,7 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./dist/client
 
   deploy:
     runs-on: ubuntu-latest

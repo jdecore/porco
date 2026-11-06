@@ -1,39 +1,37 @@
-# porkxi-astro - Estado actual
+# porco - Estado actual
 
 ## Descripción
-Sitio estático para comparar inventario porcino entre Colombia, UE-27 y EE.UU., con monitoreo de fuentes y análisis IA ejecutado en el navegador.
+Observatorio visual de riesgos sanitarios en LatAm. Conecta inventario porcino, cisticercosis, PPA y la brecha de datos con enfoque One Health.
 
 ## Stack
-- Astro 6 (`output: static`)
-- Vue 3 (`client:idle` y `client:load`)
-- Python 3.12 (pipeline snapshot)
-- Node 22+
+- Astro 6 (`output: static`) + adaptador Vercel.
+- Vue 3 (islas `client:visible`).
+- vue-data-ui para barras y dona.
+- mcp-handler + Zod para el endpoint MCP.
+- Node 22+.
 
-## Componentes activos
-- `GraficaInteractiva.vue`: serie histórica por país + vista comparada.
-- `MonitoreoFuentes.vue`: snapshot diario desde `public/estado-fuentes.json` (sin botón de sincronización manual).
-- `AnalisisIA.vue`: selector de modelo y análisis local.
-
-## IA frontend (estado real)
-- Selección manual de modelo al inicio (no autoload inicial).
-- Modelos de selección:
-  - `onnx-community/SmolLM2-135M-ONNX` (pequeño)
-  - `onnx-community/LFM2.5-350M-ONNX` (mediano)
-- Fallback de carga: `Qwen3-0.6B-DQ-ONNX` -> `Qwen3-0.6B-ONNX` -> `gpt2-medium-ONNX`.
-- Carga con variantes WebGPU/CPU (`q4f16`, `q4`, `q8`) para compatibilidad.
-- Limpieza de eco de prompt + validación mínima de salida; fallback textual local si no cumple.
+## Página
+- `src/pages/index.astro`: hero + cuatro tarjetas.
+- `CardProblema.vue`: barras comparativas Colombia / UE-27 / EE.UU. y dato "24 de 40".
+- `CardAmenaza.vue`: dona 9.7% de cisticercosis y métricas de Tolima.
+- `CardAccion.vue`: mockup de chat con botón "Copiar Prompt".
+- `CardDesarrolladores.vue`: terminal con `npx @porco/mcp-server`.
+- Estilos globales en `src/styles/porco.css`.
 
 ## Datos
-- Fuentes base en `src/data/{colombia,europa,usa}.js`.
-- Snapshot de monitoreo: `public/estado-fuentes.json`.
-- Datasets públicos: `public/data/*.json` y `public/data/serie-completa.csv`.
-- Script de actualización: `scripts/generar_estado_fuentes.py` (también ejecuta `scripts/generar_datasets_publicos.mjs`).
+- Fuente canónica: `src/data/porco/riesgos_sanitarios.json`.
+- Copias públicas generadas: `public/data/riesgos_sanitarios.json` y `public/data/sanidad.json`.
+- Sincronización: `scripts/sync-porco-data.mjs` (se ejecuta en `predev` y `prebuild`).
+- Contexto para agentes: `public/llms.txt`.
 
-## Deploy y workflows
-- GitHub Pages: `.github/workflows/deploy-pages.yml` (push a `master`).
-- Actualización diaria de snapshot/datasets: `.github/workflows/actualizar-fuentes.yml`.
-- CI de build: `.github/workflows/ci.yml`.
+## MCP
+- Ruta: `src/pages/api/mcp.ts` (`prerender = false`).
+- Herramientas de solo lectura: `get_riesgos_sanitarios`, `get_inventario_porcino`, `get_cisticercosis`, `get_estado_ppa`, `get_resumen_porco`.
+- Deploy objetivo: Vercel (`vercel.json` con CORS y cache).
 
-## Diseño
-- Fondo unificado crema y tarjetas en misma línea visual.
-- Enfoque en lectura editorial + visualización interactiva ligera.
+## Scripts heredados
+- `scripts/generar_estado_fuentes.py` y `scripts/generar_datasets_publicos.mjs` siguen disponibles para snapshots, aunque la home ya no depende de ellos.
+
+## Deploy
+- Vercel: build `npm run build`.
+- GitHub Pages: `.github/workflows/deploy-pages.yml` (sitio estático; el endpoint MCP requiere Vercel).

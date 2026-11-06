@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel';
 
 const deployTarget = process.env.DEPLOY_TARGET || 'vercel';
 const astroBase = process.env.ASTRO_BASE || '/';
-const siteUrl = process.env.SITE_URL || 'https://porkxi.com';
+const siteUrl = process.env.SITE_URL || 'https://porco.org';
 
 export default defineConfig({
   site: siteUrl,
@@ -16,5 +16,5 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
-  ...(deployTarget === 'vercel' ? { adapter: vercel() } : {}),
+  ...(deployTarget === 'pages' ? {} : { adapter: vercel() }),
 });

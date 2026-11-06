@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#F9F6F1"/>
-  <text x="16" y="23" font-family="serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#C4320A">ξ</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#17181a" />
+  <path d="M14 26c0-8 7.2-14 16.4-14C39.7 12 47 18 47 26v6.6C47 41.6 39.4 49 30.4 49S14 41.6 14 32.6V26Z" fill="#f2eee7" />
+  <path d="M41.6 29.6H50v10.2h-8.4z" fill="#d93a2b" />
+  <circle cx="35.2" cy="26" r="2.5" fill="#d93a2b" />
 </svg>

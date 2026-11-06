@@ -1,214 +1,199 @@
 ---
-import GraficaInteractiva from '../components/GraficaInteractiva.vue';
-import AnalisisIA from '../components/AnalisisIA.vue';
-import MonitoreoFuentes from '../components/MonitoreoFuentes.vue';
-import '../styles/encabezado.css';
-import '../styles/alerta.css';
-import '../styles/grafica.css';
-import '../styles/frecuencia.css';
-import '../styles/detalle.css';
-import '../styles/tabla.css';
-import '../styles/explicacion.css';
-import '../styles/pieDepagina.css';
+import CardProblema from '../components/porco/CardProblema.vue';
+import CardAmenaza from '../components/porco/CardAmenaza.vue';
+import CardAccion from '../components/porco/CardAccion.vue';
+import CardDesarrolladores from '../components/porco/CardDesarrolladores.vue';
+import riesgos from '../data/porco/riesgos_sanitarios.json';
+import 'vue-data-ui/style.css';
+import '../styles/porco.css';
 
-import { SERIE_COLOMBIA, DETALLE_COLOMBIA } from '../data/colombia';
-import { SERIE_USA, DETALLE_USA } from '../data/usa';
-import { SERIE_EUROPA, DETALLE_EUROPA } from '../data/europa';
-
-if (!Array.isArray(SERIE_COLOMBIA) || !SERIE_COLOMBIA.length) {
-  throw new Error('SERIE_COLOMBIA está vacío o no es un array');
-}
-if (!Array.isArray(SERIE_USA) || !SERIE_USA.length) {
-  throw new Error('SERIE_USA está vacío o no es un array');
-}
-if (!Array.isArray(SERIE_EUROPA) || !SERIE_EUROPA.length) {
-  throw new Error('SERIE_EUROPA está vacío o no es un array');
-}
-
-const colombiaRecientes = SERIE_COLOMBIA.filter((d) => Number(d.periodo) >= 2020);
-const europaRecientes = SERIE_EUROPA.filter((d) => Number(d.periodo) >= 2020);
-const usaRecientes = SERIE_USA.slice(-6);
 const baseUrl = import.meta.env.BASE_URL || '/';
-const withBase = (path: string) => `${baseUrl}${String(path).replace(/^\/+/, '')}`;
-const siteUrl = Astro.site ?? new URL('https://porkxi.com');
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
-const ogImageUrl = new URL(withBase('og-image.png'), siteUrl).toString();
+const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
+const site = Astro.site ?? new URL('https://porco.org');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
+
+const tarjeta = (id: string) => {
+  const encontrada = riesgos.tarjetas.find((item) => item.id === id) as
+    | {
+        id: string;
+        titulo: string;
+        microcopy: string;
+        prompt: string;
+        comando: string;
+      }
+    | undefined;
+  if (!encontrada) throw new Error(`Falta la tarjeta ${id} en riesgos_sanitarios.json`);
+  return encontrada;
+};
+
+const problema = tarjeta('problema');
+const amenaza = tarjeta('amenaza');
+const accion = tarjeta('accion');
+const desarrolladores = tarjeta('desarrolladores');
+
+const fecha = new Intl.DateTimeFormat('es-CO', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(`${riesgos.meta.actualizado}T00:00:00Z`));
 ---
 
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐷</text></svg>" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <meta name="description" content="Inventario porcino Colombia vs Europa vs EE.UU. y la diferencia en apertura de datos oficiales." />
+    <meta
+      name="description"
+      content="Porco es un observatorio visual de riesgos sanitarios en LatAm: cisticercosis, PPA y la brecha de datos entre Colombia, la UE-27 y EE.UU."
+    />
     <meta name="author" content="Juan Enríquez" />
-    <meta name="theme-color" content="#F8F5F0" />
+    <meta name="theme-color" content="#F2EEE7" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalUrl} />
 
-    <meta property="og:title" content="porkξ | Inventario porcino" />
-    <meta property="og:description" content="Comparativo de inventario porcino entre Colombia, Europa y EE.UU. con fuentes oficiales." />
+    <meta property="og:title" content="Porco | Observatorio de riesgos sanitarios" />
+    <meta
+      property="og:description"
+      content="Cuatro tarjetas para ver lo que los datos agropecuarios de LatAm no están viendo."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CO" />
-    <meta property="og:site_name" content="porkξ" />
-    <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Gráfica comparativa de inventario porcino Colombia, Europa y EE.UU." />
+    <meta property="og:site_name" content="Porco" />
+    <meta property="og:url" content={canonicalUrl} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="porkξ | Inventario porcino" />
-    <meta name="twitter:description" content="Comparativo de inventario porcino entre Colombia, Europa y EE.UU. con fuentes oficiales." />
-    <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content="Gráfica comparativa de inventario porcino Colombia, Europa y EE.UU." />
+    <meta name="twitter:title" content="Porco | Observatorio de riesgos sanitarios" />
+    <meta
+      name="twitter:description"
+      content="Cisticercosis, PPA y la brecha de datos entre Colombia, la UE-27 y EE.UU."
+    />
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "porkξ",
-      "url": "https://porkxi.com",
-      "description": "Inventario porcino Colombia vs Europa vs EE.UU. Comparativa con fuentes oficiales.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "porkξ",
-        "url": "https://porkxi.com"
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Porco",
+        "url": "https://porco.org",
+        "description": "Observatorio visual de riesgos sanitarios en LatAm con enfoque One Health.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Porco",
+          "url": "https://porco.org"
+        }
       }
-    }
     </script>
 
-    <title>porkξ | Inventario porcino</title>
+    <title>Porco | Observatorio de riesgos sanitarios en LatAm</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:wght@700;900&family=Poppins:wght@900&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
-
-    <style>
-      :root {
-        --crema: #F9F6F1;
-        --crema-oscuro: #F5F5F5;
-        --crema-borde: #E8E4E0;
-        --tinta: #3A2320;
-        --tinta-claro: #5A4A45;
-        --colombia: #C96A5B;
-        --europa: #0F766E;
-        --usa: #1D4ED8;
-        --alerta: #C0392B;
-        --alerta-fondo: #FEF0EE;
-        --cerdo: #C4320A;
-        --cerdo-claro: #D4736B;
-        --radio: 14px;
-        --sombra: 0 10px 28px rgba(59,31,28,0.08);
-      }
-      *, *::before, *::after { box-sizing: border-box; }
-      html { -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
-body { margin: 0; padding: 0; font-family: 'Sora', 'DM Sans', sans-serif; background-color: #edeae5; color: var(--tinta); min-height: 100vh; position: relative; }
-      .hero-bg { background: #edeae5; }
-      .contenedor { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-      img, svg { max-width: 100%; height: auto; }
-      @media (max-width: 700px) { .contenedor { padding: 0 16px; } }
-    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <main class="contenedor hero-bg">
-      <header class="encabezado">
-        <h1 class="encabezado__logo"><span class="encabezado__logo-parte">pork</span><span class="encabezado__logo-xi">ξ</span></h1>
-        <p class="encabezado__subtitulo">Inventario porcino de Colombia, UE-27 y EE.UU. en un solo lugar, con fuente.</p>
+    <main class="contenedor">
+      <header class="topbar">
+        <a class="brand" href={withBase('/')} aria-label="Porco, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M7 13c0-4 3.6-7 8.2-7 4.7 0 8.3 3 8.3 7v3.3c0 4.5-3.7 8.2-8.3 8.2S7 20.8 7 16.3V13Z" />
+              <path class="brand__snout" d="M20.8 14.8h4.4v5.1h-4.4z" />
+              <circle class="brand__eye" cx="17.6" cy="12.9" r="1.25" />
+            </svg>
+          </span>
+          <span class="brand__name">Porco</span>
+        </a>
+
+        <nav class="topnav" aria-label="Navegación principal">
+          <a href="#tarjetas">Datos</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <a href="https://github.com/jdecore/porkxi" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+
+        <span class="live-pill"><i aria-hidden="true"></i> Datos abiertos</span>
       </header>
-      <section class="explicacion">
-        <h2 class="explicacion__titulo">¿Por qué en Colombia es más difícil acceder a los datos?</h2>
-        <div class="explicacion__grid">
-          <div class="explicacion-columna explicacion-columna--colombia">
-            <h3 class="explicacion-columna__titulo">🇨🇴 Colombia</h3>
-            <p class="explicacion-columna__texto">No existe una fuente gubernamental con API pública. Los datos están fragmentados entre ICA, DANE, Porkcolombia e INVIMA — sin consolidación ni acceso programático.</p>
-          </div>
 
-          <div class="explicacion-columna explicacion-columna--europa">
-            <h3 class="explicacion-columna__titulo">🇪🇺 Europa</h3>
-            <p class="explicacion-columna__texto">Eurostat ofrece API abierta con datos consolidados. Automatización directa sin intervención humana.</p>
-          </div>
+      <section class="hero">
+        <p class="eyebrow">One Health · LatAm · Observatorio</p>
+        <h1 class="hero__title">
+          La sanidad porcina,<br />
+          <span>sin puntos ciegos.</span>
+        </h1>
+        <p class="hero__lede">
+          Cuatro señales para conectar animales, datos y personas. Lo que no se mide también enferma.
+        </p>
 
-          <div class="explicacion-columna explicacion-columna--usa">
-            <h3 class="explicacion-columna__titulo">🇺🇸 USA</h3>
-            <p class="explicacion-columna__texto">Ley obligatoria de reporte al USDA. Datos públicos, verificables y con calendario fijo cada 3 meses.</p>
+        <div class="hero__stats">
+          <div class="stat">
+            <strong>40</strong>
+            <span>territorios LatAm</span>
+          </div>
+          <div class="stat">
+            <strong>24</strong>
+            <span>sin datos de PPA</span>
+          </div>
+          <div class="stat stat--alert">
+            <strong>9.7%</strong>
+            <span>cisticercosis</span>
+          </div>
+          <div class="stat stat--mono">
+            <strong>v1.0</strong>
+            <span>actualizado {fecha}</span>
           </div>
         </div>
       </section>
-      <MonitoreoFuentes client:idle />
-      <AnalisisIA client:load />
-      <GraficaInteractiva client:idle />
 
-<div class="comparativa-frecuencia">
-        <div class="frecuencia-card frecuencia-card--colombia">
-          <div class="frecuencia-card__encabezado"><span class="frecuencia-card__icono">🇨🇴</span><h3 class="frecuencia-card__titulo">Colombia</h3></div>
-          <span class="frecuencia-card__pildora">Anual · con retraso</span>
-          <p class="frecuencia-card__descripcion">Los datos más recientes provienen de Porcinews, un medio especializado.</p>
-          <div class="frecuencia-timeline">
-            {colombiaRecientes.map((d) => (
-              <div class="frecuencia-timeline__item">
-                <span class={`frecuencia-timeline__punto ${d.advertencia ? 'frecuencia-timeline__punto--alerta' : 'frecuencia-timeline__punto--colombia'}`}></span>
-                <div class="frecuencia-timeline__periodo">{d.periodo}</div>
-                <div class={`frecuencia-timeline__valor ${d.advertencia ? 'frecuencia-timeline__valor--alerta' : ''}`}>{d.valor.toLocaleString()} cabezas {d.advertencia ? '⚠️ mismo dato de 2022' : d.ultimoDato ? '(Porcinews, ene 2026)' : '✓'}</div>
-              </div>
-            ))}
-          </div>
-          <p class="frecuencia-card__fuente">Fuente: Porcinews</p>
+      <section class="grid" id="tarjetas" aria-label="Cuatro tarjetas de datos">
+        <CardProblema
+          client:visible
+          inventario={riesgos.inventario}
+          territorios={riesgos.acceso_datos.territorios_latam}
+          desconocidos={riesgos.acceso_datos.riesgo_ppa_desconocido}
+          microcopy={problema.microcopy}
+        />
+
+        <CardAmenaza
+          client:visible
+          prevalencia={riesgos.cisticercosis.prevalencia_cerdos_pct}
+          resto={riesgos.cisticercosis.prevalencia_resto_pct}
+          microcopy={amenaza.microcopy}
+        />
+
+        <CardAccion
+          client:visible
+          siteUrl={siteUrl}
+          promptPlantilla={accion.prompt}
+        />
+
+        <CardDesarrolladores
+          client:visible
+          comando={desarrolladores.comando}
+          base={baseUrl}
+        />
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer__brand">
+          <span class="brand__name">Porco</span>
+          <p>Observatorio de riesgos sanitarios. Datos abiertos para decisiones públicas.</p>
         </div>
 
-        <div class="frecuencia-card frecuencia-card--europa">
-          <div class="frecuencia-card__encabezado"><span class="frecuencia-card__icono">🇪🇺</span><h3 class="frecuencia-card__titulo">Europa (UE-27)</h3></div>
-          <span class="frecuencia-card__pildora">Anual · APIabierta</span>
-          <p class="frecuencia-card__descripcion">Serie oficial publicada por Eurostat vía API.</p>
-          <div class="frecuencia-timeline">
-            {europaRecientes.map((d) => (
-              <div class="frecuencia-timeline__item">
-                <span class="frecuencia-timeline__punto frecuencia-timeline__punto--europa"></span>
-                <div class="frecuencia-timeline__periodo">{d.periodo}</div>
-                <div class="frecuencia-timeline__valor">{d.valor.toLocaleString()} cabezas {d.ultimoDato ? '✓ dato oficial más reciente' : '✓'}</div>
-              </div>
-            ))}
-          </div>
-          <p class="frecuencia-card__fuente">Fuente: Eurostat (apro_mt_lspig)</p>
+        <div class="footer__links">
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <a href={withBase('data/riesgos_sanitarios.json')}>JSON</a>
+          <a href={withBase('api/mcp')}>API MCP</a>
+          <a href="https://github.com/jdecore/porkxi" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
 
-        <div class="frecuencia-card frecuencia-card--usa">
-          <div class="frecuencia-card__encabezado"><span class="frecuencia-card__icono">🇺🇸</span><h3 class="frecuencia-card__titulo">Estados Unidos</h3></div>
-          <span class="frecuencia-card__pildora">Trimestral · obligatorio por ley</span>
-          <p class="frecuencia-card__descripcion">Reporte obligatorio bajo la Livestock Mandatory Reporting Act.</p>
-          <div class="frecuencia-timeline">
-            {usaRecientes.map((d) => (
-              <div class="frecuencia-timeline__item">
-                <span class="frecuencia-timeline__punto frecuencia-timeline__punto--usa"></span>
-                <div class="frecuencia-timeline__periodo">{d.periodo}</div>
-                <div class="frecuencia-timeline__valor">{d.valor.toLocaleString()} cabezas {d.ultimoDato ? '(último reporte)' : '✓'}</div>
-              </div>
-            ))}
-          </div>
-          <p class="frecuencia-card__fuente">Fuente: USDA NASS</p>
-        </div>
-</div>
-
-      <footer class="pie-pagina">
-        <div class="pie-pagina__fuentes">
-          <div class="pie-pagina__fuente">
-            <div class="pie-pagina__fuente-titulo">🇨🇴 Colombia</div>
-            <div class="pie-pagina__fuente-nota">Fuente periodística especializada.</div>
-            <a href={DETALLE_COLOMBIA.enlace} target="_blank" rel="noopener noreferrer" class="pie-pagina__enlace">Porcinews (ene 2026)</a>
-          </div>
-          <div class="pie-pagina__fuente">
-            <div class="pie-pagina__fuente-titulo">🇪🇺 Europa</div>
-            <a href={DETALLE_EUROPA.enlace} target="_blank" rel="noopener noreferrer" class="pie-pagina__enlace">Eurostat API (apro_mt_lspig)</a>
-          </div>
-          <div class="pie-pagina__fuente">
-            <div class="pie-pagina__fuente-titulo">🇺🇸 EE.UU.</div>
-            <a href={DETALLE_USA.enlace} target="_blank" rel="noopener noreferrer" class="pie-pagina__enlace">USDA NASS</a>
-          </div>
-        </div>
-
-        <hr class="pie-pagina__separador" />
-        <div class="pie-pagina__creditos">Hecho por Juan Enríquez con ayuda de IA</div>
-        <p class="pie-pagina__creditos-nota">Todos los datos fueron verificados contra fuentes oficiales disponibles públicamente.</p>
-        <div class="pie-pagina__marca">pork<span class="pie-pagina__marca-xi">ξ</span> · 2026</div>
+        <p class="footer__note">
+          Fuentes: Eurostat, USDA NASS, Porcinews y estudios de Córdoba y Tolima. Hecho por Juan Enríquez.
+        </p>
       </footer>
     </main>
   </body>

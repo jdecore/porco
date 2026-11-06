@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "proyecto": "Porco",
+    "descripcion": "Observatorio visual de riesgos sanitarios en LatAm.",
+    "actualizado": "2026-11-06",
+    "unidad_inventario": "millones de cabezas",
+    "enfoque": "One Health",
+    "sitio": "https://porco.org"
+  },
+  "inventario": [
+    {
+      "region": "Colombia",
+      "codigo": "CO",
+      "cabezas": 10668276,
+      "millones": 10.67,
+      "periodo": "2024",
+      "fuente": "Porcinews",
+      "color": "#D93A2B"
+    },
+    {
+      "region": "UE-27",
+      "codigo": "EU",
+      "cabezas": 132135520,
+      "millones": 132.14,
+      "periodo": "2024",
+      "fuente": "Eurostat (apro_mt_lspig)",
+      "color": "#1F5C45"
+    },
+    {
+      "region": "EE.UU.",
+      "codigo": "US",
+      "cabezas": 75500000,
+      "millones": 75.5,
+      "periodo": "Dic 2025",
+      "fuente": "USDA NASS",
+      "color": "#1B1B1B"
+    }
+  ],
+  "acceso_datos": {
+    "territorios_latam": 40,
+    "riesgo_ppa_desconocido": 24,
+    "porcentaje_desconocido": 60,
+    "sistema_referencia": "TRACES NT (UE)",
+    "mensaje": "En LatAm, el riesgo de PPA es desconocido en 24 de 40 territorios por falta de datos."
+  },
+  "cisticercosis": {
+    "patogeno": "Taenia solium",
+    "prevalencia_cerdos_pct": 9.7,
+    "prevalencia_resto_pct": 90.3,
+    "pais": "Colombia",
+    "departamento": "Córdoba",
+    "anio": 2024,
+    "tolima": {
+      "cerdos_pct": 14,
+      "humanos_pct": 8.5,
+      "anio": 2025
+    },
+    "consecuencia": "epilepsia prevenible",
+    "mensaje": "La Taenia solium causa epilepsia prevenible. En Tolima, el 14% de los cerdos y el 8.5% de las personas mostraron exposición."
+  },
+  "ppa": {
+    "riesgo_desconocido_territorios": 24,
+    "total_territorios": 40,
+    "mortalidad_cerdos_pct": 100,
+    "riesgo_colombia": "probable",
+    "causa_colombia": "importaciones informales",
+    "mensaje": "Riesgo desconocido en 24/40 territorios de LatAm."
+  },
+  "tarjetas": [
+    {
+      "id": "problema",
+      "titulo": "Producimos más. Sabemos menos.",
+      "dato_gigante": "24 de 40",
+      "microcopy": "En LatAm, el riesgo de PPA es desconocido en 24 de 40 territorios por falta de datos."
+    },
+    {
+      "id": "amenaza",
+      "titulo": "El ciclo oculto: Cerdos y humanos.",
+      "dato_gigante": "9.7%",
+      "microcopy": "La Taenia solium causa epilepsia prevenible. En Tolima, el 14% de los cerdos y el 8.5% de las personas mostraron exposición."
+    },
+    {
+      "id": "accion",
+      "titulo": "Interroga a los datos.",
+      "prompt": "Lee los datos de Porco en {SITE_URL}/llms.txt. ¿Cómo se conecta la falta de saneamiento en Colombia con la Cisticercosis y la epilepsia?"
+    },
+    {
+      "id": "desarrolladores",
+      "titulo": "Conecta tu Agente.",
+      "comando": "npx @porco/mcp-server"
+    }
+  ]
+}

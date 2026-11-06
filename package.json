@@ -1,15 +1,18 @@
 {
-  "name": "porkxi-astro",
+  "name": "porco",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
+    "predev": "node scripts/sync-porco-data.mjs",
     "build": "astro build",
+    "prebuild": "node scripts/sync-porco-data.mjs",
     "preview": "astro preview",
     "check": "astro check",
+    "sync:data": "node scripts/sync-porco-data.mjs",
     "update:fuentes": "python3 scripts/generar_estado_fuentes.py",
     "update:datasets": "node scripts/generar_datasets_publicos.mjs",
     "astro": "astro"
@@ -18,9 +21,13 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/vue": "^6.0.1",
     "@huggingface/transformers": "^4.1.0",
+    "@modelcontextprotocol/server": "^2.4.0",
     "astro": "^6.1.2",
     "jspdf": "^4.2.1",
-    "vue": "^3.5.32"
+    "mcp-handler": "^2.3.1",
+    "vue": "^3.5.32",
+    "vue-data-ui": "^3.28.12",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
