@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel';
 
 const deployTarget = process.env.DEPLOY_TARGET || 'vercel';
 const astroBase = process.env.ASTRO_BASE || '/';
-const siteUrl = process.env.SITE_URL || 'https://porco.org';
+const siteUrl = process.env.SITE_URL || 'https://porco-tau.vercel.app';
 
 export default defineConfig({
   site: siteUrl,

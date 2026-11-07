@@ -1,6 +1,19 @@
 node_modules
 dist
-.env
+
+# Astro
 .astro
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Vercel
 .vercel
+
+# Neon CLI
+.neon
+
+# Sistema
 .DS_Store

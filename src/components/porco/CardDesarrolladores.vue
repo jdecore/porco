@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
   comando: string;
-  base: string;
+  siteUrl: string;
 }>();
 
-const conBase = (ruta: string) => `${props.base.replace(/\/$/, '')}/${ruta.replace(/^\//, '')}`;
+const baseUrl = computed(() => props.siteUrl.replace(/\/$/, ''));
+const conBase = (ruta: string) => `${baseUrl.value}/${ruta.replace(/^\//, '')}`;
+const comandoFinal = computed(() => props.comando.replace('{SITE_URL}', baseUrl.value));
 
 const copiado = ref(false);
 
@@ -38,8 +40,13 @@ async function copiarComando(comando: string) {
         <span class="terminal__file">~/porco</span>
       </div>
       <div class="terminal__body">
-        <code><span class="terminal__prompt">$</span> {{ comando }}</code>
-        <button type="button" class="terminal__copy" :aria-label="copiado ? 'Comando copiado' : 'Copiar comando'" @click="copiarComando(comando)">
+        <code><span class="terminal__prompt">$</span> {{ comandoFinal }}</code>
+        <button
+          type="button"
+          class="terminal__copy"
+          :aria-label="copiado ? 'Comando copiado' : 'Copiar comando'"
+          @click="copiarComando(comandoFinal)"
+        >
           <span v-if="!copiado">copiar</span>
           <span v-else>ok</span>
         </button>
@@ -49,7 +56,7 @@ async function copiarComando(comando: string) {
     <div class="devs__links">
       <span class="devs__pill"><i></i> MCP endpoint</span>
       <a class="devs__link" :href="conBase('api/mcp')">/api/mcp →</a>
-      <a class="devs__link" :href="conBase('llms.txt')">/llms.txt →</a>
+      <a class="devs__link" :href="conBase('conectar')">Guía paso a paso →</a>
     </div>
 
     <ul class="devs__tools" aria-label="Herramientas MCP disponibles">

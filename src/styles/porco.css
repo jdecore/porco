@@ -10,7 +10,12 @@
   --green: #1f5c45;
   --dark: #17181a;
   --dark-soft: #232427;
-  --lime: #c7f36b;
+  /* Un solo acento: el rojo. Sobre claro se oscurece; sobre carbón se ilumina. */
+  --accent: var(--red);
+  --accent-deep: var(--red-deep);
+  --accent-bright: #ff7a6b;
+  --accent-soft: #f6d7d2;
+  --accent-wash: rgba(217, 58, 43, 0.11);
   --radius: 28px;
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -108,6 +113,8 @@ a {
 
 .topnav {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 4px;
   margin-left: auto;
 }
@@ -127,28 +134,24 @@ a {
   color: var(--ink);
 }
 
-.live-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 14px;
-  border: 1px solid var(--line);
+.nav-cta {
+  padding: 9px 16px;
+  border: 1px solid var(--red);
   border-radius: 999px;
-  background: rgba(251, 249, 244, 0.7);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  cursor: pointer;
   white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.live-pill i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 4px rgba(31, 92, 69, 0.14);
+.nav-cta:hover {
+  background: var(--red-deep);
+  border-color: var(--red-deep);
+  transform: translateY(-1px);
 }
 
 /* ---------- Hero ---------- */
@@ -161,7 +164,7 @@ a {
 .eyebrow {
   margin: 0 0 18px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -216,7 +219,7 @@ a {
 }
 
 .stat span {
-  font-size: 0.74rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--muted);
@@ -295,7 +298,7 @@ a {
 
 .card__index {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: var(--red);
   border: 1px solid rgba(217, 58, 43, 0.35);
@@ -305,7 +308,7 @@ a {
 
 .card__tag {
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -341,7 +344,7 @@ a {
 
 .data-unit {
   max-width: 12ch;
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.25;
   color: var(--muted);
@@ -419,7 +422,7 @@ a {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
 }
 
 .mini-legend__dot {
@@ -437,7 +440,7 @@ a {
 .mini-legend__value {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   color: var(--muted);
 }
 
@@ -488,7 +491,7 @@ a {
 
 .donut-center span {
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -519,7 +522,7 @@ a {
 }
 
 .metric__label {
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--muted);
 }
@@ -579,14 +582,14 @@ a {
 
 .chat__title {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 700;
 }
 
 .chat__status {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--green);
@@ -604,7 +607,7 @@ a {
   max-width: 92%;
   padding: 11px 14px;
   border-radius: 16px;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 
@@ -635,7 +638,7 @@ a {
   display: block;
   margin-bottom: 5px;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -657,7 +660,7 @@ a {
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.8125rem;
   line-height: 1.45;
   color: var(--muted);
 }
@@ -674,7 +677,7 @@ a {
   background: var(--red);
   color: #fff;
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
@@ -704,14 +707,14 @@ a {
 .card--devs {
   border-color: #2c2d30;
   background:
-    radial-gradient(circle at 85% 0%, rgba(199, 243, 107, 0.12), transparent 18rem),
+    radial-gradient(circle at 85% 0%, rgba(255, 122, 107, 0.16), transparent 18rem),
     var(--dark);
   color: #f8f5ee;
 }
 
 .card__head--dark .card__index {
-  color: var(--lime);
-  border-color: rgba(199, 243, 107, 0.35);
+  color: var(--accent-bright);
+  border-color: rgba(255, 122, 107, 0.4);
 }
 
 .card__head--dark .card__tag {
@@ -748,7 +751,7 @@ a {
 
 .terminal__file {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.8125rem;
   color: rgba(248, 245, 238, 0.45);
 }
 
@@ -768,7 +771,7 @@ a {
 }
 
 .terminal__prompt {
-  color: var(--lime);
+  color: var(--accent-bright);
   font-weight: 700;
   margin-right: 4px;
 }
@@ -781,14 +784,14 @@ a {
   background: transparent;
   color: rgba(248, 245, 238, 0.6);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.8125rem;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .terminal__copy:hover {
-  color: var(--lime);
-  border-color: rgba(199, 243, 107, 0.5);
+  color: var(--accent-bright);
+  border-color: rgba(255, 122, 107, 0.55);
 }
 
 .devs__links {
@@ -805,10 +808,10 @@ a {
   gap: 7px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(199, 243, 107, 0.12);
-  color: var(--lime);
+  background: var(--accent-wash);
+  color: var(--accent-bright);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -818,20 +821,20 @@ a {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--lime);
+  background: var(--accent-bright);
 }
 
 .devs__link {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   color: rgba(248, 245, 238, 0.66);
   text-decoration: none;
   border-bottom: 1px solid transparent;
 }
 
 .devs__link:hover {
-  color: var(--lime);
-  border-bottom-color: var(--lime);
+  color: var(--accent-bright);
+  border-bottom-color: var(--accent-bright);
 }
 
 .devs__tools {
@@ -855,16 +858,16 @@ a {
 
 .devs__tools code {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   color: rgba(248, 245, 238, 0.82);
 }
 
 .devs__tools span {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(199, 243, 107, 0.7);
+  color: rgba(255, 122, 107, 0.75);
 }
 
 /* ---------- Footer ---------- */
@@ -893,18 +896,22 @@ a {
   gap: 8px;
 }
 
-.footer__links a {
+.footer__links a,
+.footer__links button {
   padding: 8px 12px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: rgba(251, 249, 244, 0.6);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
+  color: var(--ink);
   text-decoration: none;
-  transition: background 0.2s ease;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.footer__links a:hover {
+.footer__links a:hover,
+.footer__links button:hover {
   background: var(--ink);
   color: var(--card);
 }
@@ -912,7 +919,7 @@ a {
 .footer__note {
   grid-column: 1 / -1;
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   color: var(--muted);
 }
 

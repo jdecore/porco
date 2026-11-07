@@ -5,7 +5,10 @@
     "actualizado": "2026-11-06",
     "unidad_inventario": "millones de cabezas",
     "enfoque": "One Health",
-    "sitio": "https://porco.org"
+    "sitio": "https://porco-tau.vercel.app",
+    "mcp": "https://porco-tau.vercel.app/api/mcp",
+    "guia_conexion": "https://porco-tau.vercel.app/conectar",
+    "llms": "https://porco-tau.vercel.app/llms.txt"
   },
   "inventario": [
     {
@@ -87,7 +90,7 @@
     {
       "id": "desarrolladores",
       "titulo": "Conecta tu Agente.",
-      "comando": "npx @porco/mcp-server"
+      "comando": "claude mcp add --transport http porco {SITE_URL}/api/mcp"
     }
   ]
 }

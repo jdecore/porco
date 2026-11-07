@@ -3,13 +3,14 @@ import CardProblema from '../components/porco/CardProblema.vue';
 import CardAmenaza from '../components/porco/CardAmenaza.vue';
 import CardAccion from '../components/porco/CardAccion.vue';
 import CardDesarrolladores from '../components/porco/CardDesarrolladores.vue';
+import FeedbackForm from '../components/porco/FeedbackForm.vue';
 import riesgos from '../data/porco/riesgos_sanitarios.json';
 import 'vue-data-ui/style.css';
 import '../styles/porco.css';
 
 const baseUrl = import.meta.env.BASE_URL || '/';
 const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
-const site = Astro.site ?? new URL('https://porco.org');
+const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
 
@@ -77,12 +78,12 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Porco",
-        "url": "https://porco.org",
+        "url": "https://porco-tau.vercel.app",
         "description": "Observatorio visual de riesgos sanitarios en LatAm con enfoque One Health.",
         "publisher": {
           "@type": "Organization",
           "name": "Porco",
-          "url": "https://porco.org"
+          "url": "https://porco-tau.vercel.app"
         }
       }
     </script>
@@ -112,11 +113,10 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
 
         <nav class="topnav" aria-label="Navegación principal">
           <a href="#tarjetas">Datos</a>
+          <a href={withBase('conectar')}>Conectar</a>
           <a href={withBase('llms.txt')}>llms.txt</a>
-          <a href="https://github.com/jdecore/porkxi" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
         </nav>
-
-        <span class="live-pill"><i aria-hidden="true"></i> Datos abiertos</span>
       </header>
 
       <section class="hero">
@@ -174,7 +174,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         <CardDesarrolladores
           client:visible
           comando={desarrolladores.comando}
-          base={baseUrl}
+          siteUrl={siteUrl}
         />
       </section>
 
@@ -185,10 +185,11 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </div>
 
         <div class="footer__links">
+          <a href={withBase('conectar')}>Conectar MCP</a>
           <a href={withBase('llms.txt')}>llms.txt</a>
           <a href={withBase('data/riesgos_sanitarios.json')}>JSON</a>
           <a href={withBase('api/mcp')}>API MCP</a>
-          <a href="https://github.com/jdecore/porkxi" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <button type="button" data-feedback-open>Comentarios</button>
         </div>
 
         <p class="footer__note">
@@ -196,5 +197,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </p>
       </footer>
     </main>
+
+    <FeedbackForm client:load />
   </body>
 </html>

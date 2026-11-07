@@ -1,7 +1,134 @@
-# Porco (porco.org): Observatorio de Riesgos Sanitarios en LatAm.
-> Problema: Fragmentación de datos agropecuarios causa ceguera institucional.
-## Datos Clave:
-- Cisticercosis (Taenia solium): 9.7% prevalencia en cerdos (Córdoba, 2024). 14% en cerdos y 8.5% en humanos (Tolima, 2025). Causa epilepsia prevenible. Datos nacionales incompletos.
-- Peste Porcina Africana (PPA): Riesgo desconocido en 24/40 territorios de LatAm. Riesgo "probable" en Colombia por importaciones informales. Mortalidad cercana al 100% en cerdos.
-## Uso para el Agente:
-Enfatiza el enfoque "One Health". Explica que la falta de un sistema como TRACES NT (UE) impide alertas tempranas. Conecta la falta de saneamiento con el ciclo de la cisticercosis.
+# Porco — Observatorio de riesgos sanitarios en LatAm
+
+> Porco conecta inventario porcino, cisticercosis, Peste Porcina Africana (PPA) y la brecha de datos públicos con un enfoque One Health. Es un sitio estático con un endpoint MCP de solo lectura para que agentes y asistentes consulten las mismas cifras sin scraping.
+
+## URLs canónicas
+
+- Sitio: https://porco-tau.vercel.app/
+- Guía de conexión (Claude, Claude Code, Cursor, VS Code): https://porco-tau.vercel.app/conectar
+- Endpoint MCP (Streamable HTTP, sin autenticación): https://porco-tau.vercel.app/api/mcp
+- Contexto para agentes: https://porco-tau.vercel.app/llms.txt
+- Datos completos (JSON): https://porco-tau.vercel.app/data/riesgos_sanitarios.json
+- Resumen público (JSON): https://porco-tau.vercel.app/data/sanidad.json
+- Repositorio: https://github.com/jdecore/porkxi
+
+Versión de datos: `1.1.0` · Actualizado: `2026-11-06` · Idioma: español (es-CO).
+
+## Qué es Porco
+
+Porco es un observatorio visual, no un dashboard operativo. Su tesis: la fragmentación de los datos agropecuarios produce ceguera institucional. La ausencia de un sistema equivalente a TRACES NT (UE) impide alertas tempranas de PPA y cisticercosis en LatAm. El sitio muestra cuatro señales:
+
+1. **La brecha de datos:** 24 de 40 territorios de LatAm sin datos de PPA.
+2. **La amenaza:** cisticercosis porcina y exposición humana por *Taenia solium*.
+3. **La acción:** un prompt para interrogar los datos con un agente.
+4. **La infraestructura:** un servidor MCP público para conectar agentes.
+
+## Cifras clave (usar exactamente estas)
+
+- **Inventario porcino (millones de cabezas):** Colombia 10,67 (2024, Porcinews); UE-27 132,14 (2024, Eurostat `apro_mt_lspig`); EE.UU. 75,5 (dic 2025, USDA NASS).
+- **Brecha de datos:** 24 de 40 territorios de LatAm tienen riesgo de PPA desconocido (60%).
+- **Cisticercosis:** 9,7% de prevalencia en cerdos en Córdoba, Colombia (2024). En Tolima (2025): 14% en cerdos y 8,5% en humanos.
+- **Consecuencia:** la cisticercosis porcina se traduce en epilepsia prevenible en personas.
+- **PPA:** mortalidad cercana al 100% en cerdos. Riesgo “probable” en Colombia por importaciones informales.
+- **Referencia internacional:** TRACES NT (UE). LatAm no tiene un sistema equivalente.
+
+No inventes cifras, años ni fuentes. Si un dato no aparece aquí o en las herramientas MCP, dilo explícitamente.
+
+## Herramientas MCP
+
+Servidor: `porco` · transporte: Streamable HTTP (stateless) · autenticación: ninguna · solo lectura.
+
+| Herramienta | Argumentos | Devuelve |
+| :--- | :--- | :--- |
+| `get_riesgos_sanitarios` | ninguno | Observatorio completo: meta, inventario, acceso a datos, cisticercosis, PPA y tarjetas. |
+| `get_inventario_porcino` | ninguno | Serie comparada Colombia / UE-27 / EE.UU. con cabezas, periodo y fuente. |
+| `get_cisticercosis` | `incluir_contexto_one_health?: boolean` | Prevalencia, casos de Tolima y, opcionalmente, el vínculo saneamiento → cerdos → epilepsia. |
+| `get_estado_ppa` | ninguno | Territorios sin datos, riesgo en Colombia y mortalidad del virus. |
+| `get_resumen_porco` | ninguno | Cifras mínimas para respuestas rápidas. |
+
+Ejemplo de llamada `tools/call`:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": { "name": "get_resumen_porco", "arguments": {} }
+}
+```
+
+El endpoint es stateless: se usa `POST` para `initialize`, `tools/list` y `tools/call`. Un `GET` devuelve `405` y es normal; no hay stream SSE persistente.
+
+## Cómo conectar
+
+### Claude (web o escritorio)
+
+1. Abre **Configuración → Conectores → Añadir conector personalizado**.
+2. Nombre: `Porco`. URL: `https://porco-tau.vercel.app/api/mcp`.
+3. Autenticación: **Sin autenticación**.
+4. En un chat nuevo, pide: “¿Qué puedes consultar con Porco?”.
+
+Guía completa: https://porco-tau.vercel.app/conectar
+
+### Claude Code
+
+```bash
+claude mcp add --transport http porco https://porco-tau.vercel.app/api/mcp
+```
+
+### Cursor, VS Code u otros clientes con Streamable HTTP
+
+```json
+{
+  "mcpServers": {
+    "porco": {
+      "url": "https://porco-tau.vercel.app/api/mcp"
+    }
+  }
+}
+```
+
+### Clientes que solo hablan stdio
+
+```bash
+npx -y mcp-remote https://porco-tau.vercel.app/api/mcp
+```
+
+## Cómo interpretar los datos
+
+- Usa siempre el enfoque **One Health**: saneamiento, animales y personas son un solo ciclo.
+- La cisticercosis no es solo un problema veterinario: la exposición humana produce epilepsia prevenible.
+- La PPA no es solo una cifra de mortalidad: la falta de datos impide alertas tempranas y respuestas coordinadas.
+- No presentes “24 de 40” como un conteo de brotes. Es un conteo de territorios sin datos de vigilancia.
+- Distingue entre dato observado (prevalencia, inventario) y riesgo estimado o desconocido (PPA).
+- Cita la fuente y el año cuando uses una cifra. Si la fuente es un estudio local, dilo.
+
+## Estructura del JSON canónico
+
+`riesgos_sanitarios.json` contiene:
+
+- `meta`: proyecto, descripción, fecha de actualización, unidad, enfoque y URLs.
+- `inventario[]`: `region`, `codigo`, `cabezas`, `millones`, `periodo`, `fuente`, `color`.
+- `acceso_datos`: territorios de LatAm, riesgo desconocido, porcentaje, sistema de referencia y mensaje.
+- `cisticercosis`: patógeno, prevalencias, país, departamento, año, Tolima y consecuencia.
+- `ppa`: territorios, mortalidad, riesgo en Colombia, causa y mensaje.
+- `tarjetas[]`: textos y prompts de la home.
+
+## Límites y transparencia
+
+- El sitio no recopila datos personales de lectura. El formulario de comentarios es opcional y guarda respuestas en Neon para mejorar el producto.
+- El endpoint MCP no requiere credenciales y no escribe en sistemas externos.
+- Las cifras son las publicadas en la fuente canónica del repositorio; no hay actualización en tiempo real.
+- Si necesitas un dato que no está en el JSON ni en las herramientas, responde que no está disponible y sugiere consultar la fuente primaria.
+
+## Contacto y colaboración
+
+- Comentarios, mejoras o interés en colaborar: usa el botón **Comentarios** del sitio.
+- Repositorio y issues: https://github.com/jdecore/porkxi
+- Autor: Juan Enríquez.
+
+## Prompt de prueba
+
+```text
+Mira si ya tienes Porco conectado. Si no, guíame paso a paso con esta guía https://porco-tau.vercel.app/conectar. Si ya está listo, muéstrame todo lo que puedo consultar con Porco: inventario porcino, cisticercosis, PPA y la brecha de datos en LatAm. Dime qué fuentes me servirían más.
+```

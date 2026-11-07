@@ -1,0 +1,538 @@
+---
+import FeedbackForm from '../components/porco/FeedbackForm.vue';
+import 'vue-data-ui/style.css';
+import '../styles/porco.css';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
+const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
+const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const mcpUrl = `${siteUrl}/api/mcp`;
+const prompt = `Mira si ya tienes Porco conectado. Si no, guíame paso a paso con esta guía ${siteUrl}/conectar. Si ya está listo, muéstrame todo lo que puedo consultar con Porco: inventario porcino, cisticercosis, PPA y la brecha de datos en LatAm. Dime qué fuentes me servirían más.`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="description"
+      content="Guía paso a paso para conectar Porco a Claude y a otros agentes por MCP: conector remoto, herramientas y prompt de prueba."
+    />
+    <meta name="author" content="Juan Enríquez" />
+    <meta name="theme-color" content="#F2EEE7" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content="Conecta Porco a Claude | Guía MCP" />
+    <meta
+      property="og:description"
+      content="Agrega el conector una vez y consulta los datos de Porco en cualquier conversación."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Porco" />
+    <meta property="og:url" content={canonicalUrl} />
+    <title>Conecta Porco a Claude | Guía MCP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="contenedor guia">
+      <header class="topbar">
+        <a class="brand" href={withBase('/')} aria-label="Porco, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M7 13c0-4 3.6-7 8.2-7 4.7 0 8.3 3 8.3 7v3.3c0 4.5-3.7 8.2-8.3 8.2S7 20.8 7 16.3V13Z" />
+              <path class="brand__snout" d="M20.8 14.8h4.4v5.1h-4.4z" />
+              <circle class="brand__eye" cx="17.6" cy="12.9" r="1.25" />
+            </svg>
+          </span>
+          <span class="brand__name">Porco</span>
+        </a>
+
+        <nav class="topnav" aria-label="Navegación principal">
+          <a href={withBase('/')}>Inicio</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+        </nav>
+      </header>
+
+      <section class="guia-hero">
+        <p class="eyebrow">MCP · Claude · Agentes</p>
+        <h1 class="guia-title">Conecta Porco<br /><span>a Claude.</span></h1>
+        <p class="guia-lede">
+          Un conector, cinco herramientas y los mismos datos que ves en la home. Sin scraping y sin
+          instalar nada.
+        </p>
+        <div class="guia-meta">
+          <span class="guia-pill">Solo lectura</span>
+          <span class="guia-pill">Sin autenticación</span>
+          <span class="guia-pill">Streamable HTTP</span>
+        </div>
+      </section>
+
+      <ol class="guia-steps">
+        <li class="guia-step">
+          <div class="guia-step__head">
+            <span class="guia-step__num">1</span>
+            <h2>Agrega el conector</h2>
+          </div>
+          <p>
+            En Claude abre <strong>Configuración → Conectores → Añadir conector personalizado</strong>.
+            Usa el nombre <strong>Porco</strong> y esta URL.
+          </p>
+          <div class="guia-code">
+            <code id="mcp-url">{mcpUrl}</code>
+            <button type="button" class="guia-copy" data-copy-target="mcp-url">Copiar</button>
+          </div>
+          <p class="guia-note">
+            En autenticación elige <strong>Sin autenticación</strong>. Porco es público y de solo
+            lectura.
+          </p>
+          <a class="guia-cta" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener noreferrer">
+            Abrir conectores de Claude
+          </a>
+        </li>
+
+        <li class="guia-step">
+          <div class="guia-step__head">
+            <span class="guia-step__num">2</span>
+            <h2>Verifica que responda</h2>
+          </div>
+          <p>
+            Claude debe listar cinco herramientas. Si no aparecen, comprueba que la URL termine en
+            <code>/api/mcp</code> y que no tenga barra final.
+          </p>
+          <div class="guia-code guia-code--stack">
+            <code id="curl-test">curl -s {mcpUrl} -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" -d '&#123;"jsonrpc":"2.0","id":1,"method":"tools/list"&#125;'</code>
+            <button type="button" class="guia-copy" data-copy-target="curl-test">Copiar</button>
+          </div>
+          <p class="guia-note">
+            El endpoint es stateless: un <code>GET</code> devuelve 405 y es normal. Las consultas
+            van por <code>POST</code>.
+          </p>
+        </li>
+
+        <li class="guia-step">
+          <div class="guia-step__head">
+            <span class="guia-step__num">3</span>
+            <h2>Empieza a usarlo</h2>
+          </div>
+          <p>
+            Abre un chat nuevo y pega este prompt. No hace falta mencionar a Porco en cada
+            conversación: Claude lo usa cuando la pregunta lo necesita.
+          </p>
+          <div class="guia-code guia-code--stack">
+            <code id="prompt-prueba">{prompt}</code>
+            <button type="button" class="guia-copy" data-copy-target="prompt-prueba">Copiar prompt</button>
+          </div>
+        </li>
+      </ol>
+
+      <section class="guia-block" aria-labelledby="herramientas">
+        <h2 id="herramientas">Qué puedes consultar</h2>
+        <ul class="guia-tools">
+          <li><code>get_riesgos_sanitarios</code><span>Observatorio completo</span></li>
+          <li><code>get_inventario_porcino</code><span>Colombia, UE-27 y EE.UU.</span></li>
+          <li><code>get_cisticercosis</code><span>Prevalencia y contexto One Health</span></li>
+          <li><code>get_estado_ppa</code><span>Brecha de datos y riesgo</span></li>
+          <li><code>get_resumen_porco</code><span>Cifras ejecutivas</span></li>
+        </ul>
+      </section>
+
+      <section class="guia-block" aria-labelledby="otros-clientes">
+        <h2 id="otros-clientes">Otros clientes</h2>
+        <p>Claude Code, Cursor, VS Code y cualquier cliente con Streamable HTTP usan la misma URL.</p>
+
+        <h3>Claude Code</h3>
+        <div class="guia-code">
+          <code id="cmd-claude">claude mcp add --transport http porco {mcpUrl}</code>
+          <button type="button" class="guia-copy" data-copy-target="cmd-claude">Copiar</button>
+        </div>
+
+        <h3>Cursor o VS Code</h3>
+        <div class="guia-code guia-code--stack">
+          <code id="json-client">&#123;"mcpServers":&#123;"porco":&#123;"url":"{mcpUrl}"&#125;&#125;&#125;</code>
+          <button type="button" class="guia-copy" data-copy-target="json-client">Copiar</button>
+        </div>
+
+        <h3>Cliente solo stdio</h3>
+        <div class="guia-code">
+          <code id="cmd-stdio">npx -y mcp-remote {mcpUrl}</code>
+          <button type="button" class="guia-copy" data-copy-target="cmd-stdio">Copiar</button>
+        </div>
+      </section>
+
+      <section class="guia-block guia-block--alert" aria-labelledby="si-falla">
+        <h2 id="si-falla">Si algo falla</h2>
+        <ul class="guia-faq">
+          <li>
+            <strong>Claude no encuentra el servidor.</strong> Revisa que la URL sea exactamente
+            <code>{mcpUrl}</code>, sin espacios ni barra final.
+          </li>
+          <li>
+            <strong>Pide autorización.</strong> Elige <strong>Sin autenticación</strong>. No hay
+            login de Porco.
+          </li>
+          <li>
+            <strong>No aparecen las herramientas.</strong> Elimina el conector, vuelve a agregarlo y
+            espera unos segundos. El endpoint responde en frío.
+          </li>
+          <li>
+            <strong>Quieres el contexto sin MCP.</strong> Pega <code>{siteUrl}/llms.txt</code> en la
+            conversación.
+          </li>
+        </ul>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer__brand">
+          <span class="brand__name">Porco</span>
+          <p>Observatorio de riesgos sanitarios en LatAm. Datos para decisiones públicas.</p>
+        </div>
+
+        <div class="footer__links">
+          <a href={withBase('/')}>Inicio</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <a href={withBase('api/mcp')}>API MCP</a>
+          <button type="button" data-feedback-open>Comentarios</button>
+        </div>
+
+        <p class="footer__note">
+          Porco no pide credenciales y no escribe en tu cuenta. Las herramientas son de solo
+          lectura.
+        </p>
+      </footer>
+    </main>
+
+    <FeedbackForm client:load />
+
+    <script>
+      document.querySelectorAll('[data-copy-target]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const target = document.getElementById(button.getAttribute('data-copy-target') ?? '');
+          if (!target) return;
+
+          const texto = target.textContent ?? '';
+          const original = button.textContent;
+
+          try {
+            await navigator.clipboard.writeText(texto);
+          } catch {
+            const area = document.createElement('textarea');
+            area.value = texto;
+            area.setAttribute('readonly', '');
+            area.style.position = 'fixed';
+            area.style.opacity = '0';
+            document.body.appendChild(area);
+            area.select();
+            const copiaLegada = (
+              document as unknown as { execCommand?: (cmd: string) => boolean }
+            ).execCommand;
+            copiaLegada?.('copy');
+            document.body.removeChild(area);
+          }
+
+          button.textContent = 'Copiado';
+          window.setTimeout(() => {
+            button.textContent = original;
+          }, 1800);
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .guia {
+    padding-bottom: 64px;
+  }
+
+  .guia-hero {
+    padding: clamp(28px, 5vw, 64px) 4px clamp(28px, 4vw, 44px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .guia-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.7rem, 7vw, 5.6rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+
+  .guia-title span {
+    color: var(--red);
+  }
+
+  .guia-lede {
+    max-width: 52ch;
+    margin: 22px 0 0;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .guia-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .guia-pill {
+    padding: 7px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+
+  .guia-steps {
+    display: grid;
+    gap: 16px;
+    margin: clamp(24px, 4vw, 40px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guia-step {
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: 0 1px 0 rgba(22, 21, 18, 0.04), 0 24px 60px -44px rgba(22, 21, 18, 0.5);
+  }
+
+  .guia-step__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .guia-step__num {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .guia-step h2,
+  .guia-block h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+
+  .guia-step p,
+  .guia-block p {
+    max-width: 72ch;
+    margin: 0 0 14px;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .guia-step strong,
+  .guia-block strong {
+    color: var(--ink);
+  }
+
+  .guia-code {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg);
+  }
+
+  .guia-code code {
+    min-width: 0;
+    flex: 1;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .guia-code--stack {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .guia-code--stack code {
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .guia-copy {
+    flex: none;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .guia-copy:hover {
+    background: var(--ink);
+    color: var(--card);
+  }
+
+  .guia-note {
+    padding-left: 12px;
+    border-left: 3px solid var(--red);
+    font-size: 0.875rem !important;
+  }
+
+  .guia-cta {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .guia-cta:hover {
+    background: var(--red-deep);
+    transform: translateY(-1px);
+  }
+
+  .guia-block {
+    margin-top: 16px;
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+
+  .guia-block h3 {
+    margin: 20px 0 10px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red-deep);
+  }
+
+  .guia-tools {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guia-tools li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 11px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+  }
+
+  .guia-tools code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .guia-tools span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .guia-block--alert {
+    border-color: rgba(217, 58, 43, 0.35);
+    background:
+      radial-gradient(circle at 92% 0%, rgba(217, 58, 43, 0.08), transparent 16rem),
+      var(--card);
+  }
+
+  .guia-faq {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guia-faq li {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .guia-faq strong {
+    color: var(--ink);
+  }
+
+  .guia-faq code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 640px) {
+    .guia-code {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .guia-copy {
+      align-self: flex-start;
+    }
+
+    .guia-tools li {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+    }
+
+    .guia-tools span {
+      text-align: left;
+    }
+  }
+</style>
