@@ -255,15 +255,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Teleport to="body">
-    <div v-if="abierto" class="fb-overlay" @click.self="cerrar">
-      <section
-        ref="panel"
-        class="fb-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="fb-title"
-      >
+  <div v-if="abierto" class="fb-overlay" @click.self="cerrar">
+    <section
+      ref="panel"
+      class="fb-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="fb-title"
+    >
         <header class="fb-head">
           <div>
             <p class="fb-kicker">Comentarios</p>
@@ -446,7 +445,6 @@ onBeforeUnmount(() => {
         </div>
       </section>
     </div>
-  </Teleport>
 </template>
 
 <style scoped>
