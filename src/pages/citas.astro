@@ -1,0 +1,262 @@
+---
+import FeedbackForm from '../components/porco/FeedbackForm.vue';
+import { CITAS_IEEE } from '../data/porco/citas';
+import 'vue-data-ui/style.css';
+import '../styles/porco.css';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
+const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="description"
+      content="Referencias bibliográficas oficiales y fuentes de datos en formato IEEE para el observatorio Porco: PPA, cisticercosis e inventario porcino."
+    />
+    <meta name="author" content="Juan Enríquez" />
+    <meta name="theme-color" content="#F2EEE7" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>Fuentes y Citas IEEE | Porco</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="contenedor citas-page">
+      <header class="topbar">
+        <a class="brand" href={withBase('/')} aria-label="Porco, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M7 13c0-4 3.6-7 8.2-7 4.7 0 8.3 3 8.3 7v3.3c0 4.5-3.7 8.2-8.3 8.2S7 20.8 7 16.3V13Z" />
+              <path class="brand__snout" d="M20.8 14.8h4.4v5.1h-4.4z" />
+              <circle class="brand__eye" cx="17.6" cy="12.9" r="1.25" />
+            </svg>
+          </span>
+          <span class="brand__name">Porco</span>
+        </a>
+
+        <nav class="topnav" aria-label="Navegación principal">
+          <a href={withBase('/')}>← Inicio</a>
+          <a href={withBase('conectar')}>Conectar MCP</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+        </nav>
+      </header>
+
+      <section class="citas-hero">
+        <p class="eyebrow">Metodología · Rigor Científico · Citas IEEE</p>
+        <h1 class="citas-title">Fuentes y Referencias<br /><span>en formato IEEE.</span></h1>
+        <p class="citas-lede">
+          Cada cifra del observatorio proviene de estudios revisados por pares o censos oficiales directos.
+          La transparencia metodológica es el núcleo de Porco.
+        </p>
+      </section>
+
+      <section class="citas-list-section" aria-label="Lista de referencias bibliográficas">
+        <ol class="citas-list">
+          {CITAS_IEEE.map((c) => (
+            <li id={`ref-${c.id}`} class="cita-item">
+              <div class="cita-item__num">[{c.id}]</div>
+              <div class="cita-item__content">
+                <p class="cita-item__citation">
+                  <span class="cita-authors">{c.autores}</span>, &ldquo;{c.titulo},&rdquo;{' '}
+                  <em class="cita-pub">{c.publicacion}</em>
+                  {c.detalle && <span>, {c.detalle}</span>}, {c.anio}.
+                </p>
+                {c.nota && (
+                  <p class="cita-item__nota">
+                    <strong>Alcance y aplicación en Porco:</strong> {c.nota}
+                  </p>
+                )}
+                <div class="cita-item__actions">
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="cita-link"
+                  >
+                    Ver publicación original ↗
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer__brand">
+          <span class="brand__name">Porco</span>
+          <p>Observatorio de riesgos sanitarios. Datos abiertos para decisiones públicas.</p>
+        </div>
+
+        <div class="footer__links">
+          <a href={withBase('/')}>Inicio</a>
+          <a href={withBase('conectar')}>Conectar MCP</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <a href={withBase('data/riesgos_sanitarios.json')}>JSON</a>
+          <a href={withBase('api/mcp')}>API MCP</a>
+          <button type="button" data-feedback-open>Comentarios</button>
+        </div>
+
+        <p class="footer__note">
+          Fuentes y limitaciones: Eurostat (UE, 2025), USDA NASS (EE. UU., septiembre de 2026), Castillo et al. (2025) para riesgo de introducción de PPA, estudios locales de Córdoba y Tolima para cisticercosis, y WOAH para la epidemiología de la PPA. Las cifras de cisticercosis son estimaciones locales, no nacionales ni regionales. Un dato faltante no implica ausencia de enfermedad.
+        </p>
+      </footer>
+    </main>
+
+    <FeedbackForm client:load />
+  </body>
+</html>
+
+<style>
+  .citas-page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .citas-hero {
+    margin-top: 16px;
+    max-width: 800px;
+  }
+
+  .citas-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin: 12px 0 16px;
+    color: var(--ink);
+  }
+
+  .citas-title span {
+    color: var(--red);
+  }
+
+  .citas-lede {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0;
+  }
+
+  .citas-list-section {
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+
+  .citas-list {
+    display: grid;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cita-item {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .cita-item:target {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px var(--accent-wash);
+  }
+
+  .cita-item__num {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--red);
+    text-align: right;
+  }
+
+  .cita-item__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cita-item__citation {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .cita-authors {
+    font-weight: 600;
+  }
+
+  .cita-pub {
+    font-style: italic;
+  }
+
+  .cita-item__nota {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border-left: 3px solid var(--line);
+  }
+
+  .cita-item__nota strong {
+    color: var(--ink);
+  }
+
+  .cita-item__actions {
+    margin-top: 4px;
+  }
+
+  .cita-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--red-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+  }
+
+  .cita-link:hover {
+    color: var(--red);
+  }
+
+  @media (max-width: 640px) {
+    .cita-item {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .cita-item__num {
+      text-align: left;
+    }
+  }
+</style>

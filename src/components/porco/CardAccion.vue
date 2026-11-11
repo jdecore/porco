@@ -6,6 +6,10 @@ const props = defineProps<{
   promptPlantilla: string;
 }>();
 
+const emit = defineEmits<{
+  (e: 'abrir-cita', id: number): void;
+}>();
+
 const copiado = ref(false);
 let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -57,13 +61,23 @@ async function copiarPrompt() {
       <div class="chat__body">
         <div class="bubble bubble--user">
           <span class="bubble__meta">Tú</span>
-          <p>¿Cómo se conecta la falta de saneamiento en Colombia con la Cisticercosis y la epilepsia?</p>
+          <p>¿Cómo se conecta la falta de saneamiento en Colombia con la cisticercosis y la epilepsia?</p>
         </div>
 
         <div class="bubble bubble--agent">
           <span class="bubble__meta">Porco</span>
-          <p>El saneamiento incompleto cierra el ciclo de <em>Taenia solium</em>: heces humanas → cerdos → epilepsia.</p>
-          <p>Sin datos abiertos, la alerta llega cuando el brote ya ocurrió.</p>
+          <p>
+            Poor sanitation can sustain the <em>Taenia solium</em> cycle. Humans with taeniasis shed eggs in feces; pigs ingest those eggs and develop porcine cysticercosis. Humans can develop cysticercosis after accidentally ingesting <em>T. solium</em> eggs, and neurocysticercosis can cause epilepsy. Eating undercooked pork can cause taeniasis, but it does not directly cause cysticercosis.
+            <button
+              type="button"
+              class="cite-tag cite-tag--inline"
+              aria-label="Ver citas IEEE [3], [5]"
+              @click="emit('abrir-cita', 5)"
+            >
+              [5]
+            </button>
+          </p>
+          <p>Sin datos integrados, la alerta llega cuando el brote ya ocurrió.</p>
         </div>
       </div>
 

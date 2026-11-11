@@ -7,6 +7,10 @@ const props = defineProps<{
   microcopy: string;
 }>();
 
+const emit = defineEmits<{
+  (e: 'abrir-cita', id: number): void;
+}>();
+
 const montado = ref(false);
 onMounted(() => {
   montado.value = true;
@@ -21,7 +25,7 @@ const dataset = computed(() => [
     name: 'Cisticercosis',
     values: [props.prevalencia],
     color: '#D93A2B',
-    comment: 'Prevalencia en cerdos',
+    comment: 'Prevalencia local en cerdos (Tuchín)',
   },
   {
     name: 'Resto',
@@ -78,27 +82,67 @@ const config = {
     <h2 class="card__title">El ciclo oculto: Cerdos y humanos.</h2>
 
     <div class="amenaza__body">
-      <div class="donut-wrap" aria-label="Prevalencia de cisticercosis en cerdos: 9.7 por ciento">
+      <div class="donut-wrap" aria-label="Prevalencia local de cisticercosis en cerdos: 9.7 por ciento en Tuchín">
         <VueUiDonut v-if="montado" :dataset="dataset" :config="config" />
         <div v-else class="chart-skeleton chart-skeleton--round" aria-hidden="true"></div>
         <div class="donut-center">
           <strong class="giant">9.7%</strong>
-          <span>en cerdos</span>
+          <span>
+            en Tuchín
+            <button
+              type="button"
+              class="cite-tag cite-tag--inline"
+              aria-label="Ver cita IEEE [3]"
+              @click="emit('abrir-cita', 3)"
+            >
+              [3]
+            </button>
+          </span>
         </div>
       </div>
 
       <div class="amenaza__side">
         <div class="metric">
-          <span class="metric__value">14%</span>
-          <span class="metric__label">cerdos · Tolima</span>
+          <span class="metric__value">
+            14%
+            <button
+              type="button"
+              class="cite-tag cite-tag--inline"
+              aria-label="Ver cita IEEE [4]"
+              @click="emit('abrir-cita', 4)"
+            >
+              [4]
+            </button>
+          </span>
+          <span class="metric__label">cerdos · Coyaima</span>
         </div>
         <div class="metric">
-          <span class="metric__value">8.5%</span>
-          <span class="metric__label">humanos · Tolima</span>
+          <span class="metric__value">
+            8.5%
+            <button
+              type="button"
+              class="cite-tag cite-tag--inline"
+              aria-label="Ver cita IEEE [4]"
+              @click="emit('abrir-cita', 4)"
+            >
+              [4]
+            </button>
+          </span>
+          <span class="metric__label">humanos · Coyaima</span>
         </div>
         <div class="metric metric--alert">
-          <span class="metric__value">100%</span>
-          <span class="metric__label">mortalidad PPA</span>
+          <span class="metric__value">
+            ≤100%
+            <button
+              type="button"
+              class="cite-tag cite-tag--inline"
+              aria-label="Ver cita IEEE [2]"
+              @click="emit('abrir-cita', 2)"
+            >
+              [2]
+            </button>
+          </span>
+          <span class="metric__label">mortalidad PPA aguda</span>
         </div>
       </div>
     </div>

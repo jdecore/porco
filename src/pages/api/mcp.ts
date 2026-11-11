@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { z } from 'zod';
 import riesgos from '../../data/porco/riesgos_sanitarios.json';
+import { CITAS_IEEE } from '../../data/porco/citas';
 
 export const prerender = false;
 
@@ -24,11 +25,11 @@ const json = (data: unknown) => ({
 });
 
 const instrucciones =
-  'Porco es un observatorio de riesgos sanitarios en LatAm. Usa un enfoque One Health: conecta saneamiento, cerdos y salud humana. Explica que la ausencia de un sistema equivalente a TRACES NT impide alertas tempranas de PPA y cisticercosis. No inventes cifras: si un dato no aparece en las herramientas, dilo.';
+  'Porco es un observatorio de riesgos sanitarios en LatAm con enfoque One Health. Conecta saneamiento, cerdos y salud humana. Ten rigor con las citas: 24 de 40 territorios evaluados en ALyC tienen riesgo de introducción de PPA clasificado como desconocido por datos insuficientes (Castillo et al., 2025). La mortalidad por PPA puede alcanzar 100% en formas agudas (WOAH). Las cifras de cisticercosis (9.7% en Tuchín, 14% y 8.5% en Coyaima) son estimaciones locales, no nacionales ni regionales. La neurocisticercosis por Taenia solium es causa importante y prevenible de epilepsia.';
 
 function crearServidor() {
   const server = new McpServer(
-    { name: 'porco', version: '1.1.0' },
+    { name: 'porco', version: '1.2.0' },
     { instructions: instrucciones },
   );
 
@@ -37,11 +38,11 @@ function crearServidor() {
     {
       title: 'Riesgos sanitarios de Porco',
       description:
-        'Devuelve el observatorio completo: inventario porcino, acceso a datos, cisticercosis y PPA en LatAm.',
+        'Devuelve el observatorio completo: inventario porcino, acceso a datos, cisticercosis, PPA y referencias bibliográficas IEEE.',
       inputSchema: {},
       annotations: { readOnlyHint: true },
     },
-    async () => json(riesgos),
+    async () => json({ ...riesgos, citas_ieee: CITAS_IEEE }),
   );
 
   server.registerTool(
@@ -49,7 +50,7 @@ function crearServidor() {
     {
       title: 'Inventario porcino comparado',
       description:
-        'Inventario de cabezas de cerdo en Colombia, UE-27 y EE.UU. con periodo y fuente oficial.',
+        'Inventario de cabezas de cerdo en Colombia (2024), UE-27 (2025) y EE.UU. (septiembre 2026) con periodo y fuente oficial.',
       inputSchema: {},
       annotations: { readOnlyHint: true },
     },
@@ -61,23 +62,22 @@ function crearServidor() {
     {
       title: 'Cisticercosis y salud humana',
       description:
-        'Prevalencia de Taenia solium en cerdos y exposición humana, incluyendo los casos de Córdoba y Tolima.',
+        'Prevalencia local de Taenia solium en cerdos y exposición humana (Tuchín 2021/2024 y Coyaima 2025), ciclo biológico y epilepsia.',
       inputSchema: {
         incluir_contexto_one_health: z
           .boolean()
           .optional()
-          .describe('Añade el vínculo entre saneamiento, cerdos y epilepsia prevenible.'),
+          .describe('Añade la explicación biológica completa del ciclo de Taenia solium y neurocisticercosis.'),
       },
       annotations: { readOnlyHint: true },
     },
     async ({ incluir_contexto_one_health }) => {
       const contexto = {
         enfoque: 'One Health',
-        saneamiento:
-          'La falta de saneamiento expone a los cerdos a heces humanas con huevos de Taenia solium.',
-        consecuencia: 'La cisticercosis porcina se traduce en epilepsia prevenible en personas.',
-        brecha:
-          'Sin vigilancia integrada, los casos humanos y animales se reportan por separado y tarde.',
+        ciclo_biologico:
+          'Huevos de T. solium en heces humanas → cerdos con cisticercosis → consumo de carne de cerdo poco cocida → teniasis humana; la cisticercosis humana ocurre por ingesta accidental de huevos.',
+        consecuencia: 'La neurocisticercosis por Taenia solium es una causa importante y prevenible de epilepsia.',
+        alcance: 'Las cifras corresponden a estudios locales en Tuchín (Córdoba) y Coyaima (Tolima), no a promedios nacionales.',
       };
 
       return json({
@@ -92,7 +92,7 @@ function crearServidor() {
     {
       title: 'Estado de la Peste Porcina Africana',
       description:
-        'Territorios de LatAm sin datos de PPA, riesgo probable en Colombia y mortalidad del virus en cerdos.',
+        'Riesgo de introducción clasificado como desconocido en 24 de 40 territorios evaluados en ALyC por datos insuficientes, riesgo en Colombia y mortalidad según WOAH.',
       inputSchema: {},
       annotations: { readOnlyHint: true },
     },
@@ -101,6 +101,8 @@ function crearServidor() {
         ...riesgos.ppa,
         acceso_datos: riesgos.acceso_datos,
         referencia_internacional: 'TRACES NT (UE)',
+        fuente_estudio: 'Castillo et al., Front. Vet. Sci. 2025',
+        fuente_mortalidad: 'WOAH Factsheet 2024',
       }),
   );
 
@@ -109,7 +111,7 @@ function crearServidor() {
     {
       title: 'Resumen ejecutivo de Porco',
       description:
-        'Cifras mínimas para responder preguntas rápidas sobre la brecha de datos sanitarios en LatAm.',
+        'Cifras mínimas verificadas para responder preguntas rápidas sobre la brecha de datos sanitarios en LatAm.',
       inputSchema: {},
       annotations: { readOnlyHint: true },
     },
@@ -117,11 +119,11 @@ function crearServidor() {
       json({
         proyecto: riesgos.meta.proyecto,
         actualizado: riesgos.meta.actualizado,
-        territorios_sin_datos_ppa: `${riesgos.acceso_datos.riesgo_ppa_desconocido} de ${riesgos.acceso_datos.territorios_latam}`,
-        prevalencia_cisticercosis_pct: riesgos.cisticercosis.prevalencia_cerdos_pct,
-        tolima: riesgos.cisticercosis.tolima,
-        mortalidad_ppa_pct: riesgos.ppa.mortalidad_cerdos_pct,
-        sistema_referencia: riesgos.acceso_datos.sistema_referencia,
+        territorios_evaluados: '40 territorios en América Latina y el Caribe',
+        riesgo_desconocido_ppa: '24 de 40 territorios con riesgo clasificado como desconocido por datos insuficientes',
+        cisticercosis_local: '9.7% en cerdos (Tuchín, Córdoba, 2021); 14% cerdos y 8.5% humanos en Coyaima, Tolima (2025)',
+        mortalidad_ppa: 'Puede alcanzar el 100% en formas agudas (WOAH)',
+        sistema_referencia: 'TRACES NT (UE)',
       }),
   );
 

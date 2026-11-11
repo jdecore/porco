@@ -8,6 +8,8 @@ type InventarioItem = {
   millones: number;
   periodo: string;
   fuente: string;
+  fuente_detalle?: string;
+  cita_id?: number;
   color: string;
 };
 
@@ -16,6 +18,10 @@ const props = defineProps<{
   territorios: number;
   desconocidos: number;
   microcopy: string;
+}>();
+
+const emit = defineEmits<{
+  (e: 'abrir-cita', id: number): void;
 }>();
 
 const montado = ref(false);
@@ -91,7 +97,17 @@ const formatoCabezas = (valor: number) =>
 
     <div class="card__data">
       <strong class="giant">{{ desconocidos }} de {{ territorios }}</strong>
-      <span class="data-unit">territorios sin datos de PPA</span>
+      <span class="data-unit">
+        territorios con riesgo de introducción clasificado como desconocido
+        <button
+          type="button"
+          class="cite-tag"
+          aria-label="Ver cita IEEE [1]"
+          @click="emit('abrir-cita', 1)"
+        >
+          [1]
+        </button>
+      </span>
     </div>
 
     <div class="chart-wrap chart-wrap--bars" aria-label="Inventario porcino comparado en millones de cabezas">
@@ -102,7 +118,19 @@ const formatoCabezas = (valor: number) =>
     <ul class="mini-legend">
       <li v-for="item in inventario" :key="item.codigo">
         <span class="mini-legend__dot" :style="{ background: item.color }"></span>
-        <span class="mini-legend__name">{{ item.region }}</span>
+        <span class="mini-legend__name">
+          {{ item.region }}
+          <button
+            v-if="item.cita_id"
+            type="button"
+            class="cite-tag cite-tag--inline"
+            :aria-label="`Ver cita IEEE [${item.cita_id}]`"
+            @click="emit('abrir-cita', item.cita_id)"
+          >
+            [{{ item.cita_id }}]
+          </button>
+        </span>
+        <span class="mini-legend__periodo">{{ item.periodo }}</span>
         <span class="mini-legend__value">{{ formatoCabezas(item.cabezas) }}</span>
       </li>
     </ul>
@@ -110,3 +138,13 @@ const formatoCabezas = (valor: number) =>
     <p class="card__copy">{{ microcopy }}</p>
   </article>
 </template>
+
+<style scoped>
+.mini-legend__periodo {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  margin-left: auto;
+  margin-right: 8px;
+}
+</style>

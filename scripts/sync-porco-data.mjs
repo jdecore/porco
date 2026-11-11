@@ -8,16 +8,18 @@ const publicDir = resolve(root, 'public/data');
 
 const data = JSON.parse(await readFile(source, 'utf8'));
 
+const totalTerritorios = data.acceso_datos.territorios_evaluados ?? data.acceso_datos.territorios_latam ?? 40;
+
 const sanidad = {
   proyecto: data.meta.proyecto,
   descripcion: data.meta.descripcion,
   actualizado: data.meta.actualizado,
   enfoque: data.meta.enfoque,
   indicadores: {
-    territorios_latam: data.acceso_datos.territorios_latam,
+    territorios_evaluados: totalTerritorios,
     riesgo_ppa_desconocido: data.acceso_datos.riesgo_ppa_desconocido,
     prevalencia_cisticercosis_pct: data.cisticercosis.prevalencia_cerdos_pct,
-    mortalidad_ppa_pct: data.ppa.mortalidad_cerdos_pct,
+    mortalidad_ppa_nota: data.ppa.mortalidad_nota,
   },
   inventario: data.inventario,
   prevalencias: {

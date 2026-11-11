@@ -1,13 +1,13 @@
 {
   "proyecto": "Porco",
   "descripcion": "Observatorio visual de riesgos sanitarios en LatAm.",
-  "actualizado": "2026-11-06",
+  "actualizado": "2026-11-09",
   "enfoque": "One Health",
   "indicadores": {
-    "territorios_latam": 40,
+    "territorios_evaluados": 40,
     "riesgo_ppa_desconocido": 24,
     "prevalencia_cisticercosis_pct": 9.7,
-    "mortalidad_ppa_pct": 100
+    "mortalidad_ppa_nota": "La mortalidad por PPA puede alcanzar el 100% en formas agudas."
   },
   "inventario": [
     {
@@ -16,25 +16,31 @@
       "cabezas": 10668276,
       "millones": 10.67,
       "periodo": "2024",
-      "fuente": "Porcinews",
+      "fuente": "ICA / Porcinews",
+      "fuente_detalle": "Censo pecuario 2024, 189.198 predios",
+      "cita_id": 10,
       "color": "#D93A2B"
     },
     {
       "region": "UE-27",
       "codigo": "EU",
-      "cabezas": 132135520,
-      "millones": 132.14,
-      "periodo": "2024",
+      "cabezas": 131450440,
+      "millones": 131.45,
+      "periodo": "2025",
       "fuente": "Eurostat (apro_mt_lspig)",
+      "fuente_detalle": "Censo anual UE-27 2025",
+      "cita_id": 8,
       "color": "#1F5C45"
     },
     {
-      "region": "EE.UU.",
+      "region": "EE. UU.",
       "codigo": "US",
-      "cabezas": 75500000,
-      "millones": 75.5,
-      "periodo": "Dic 2025",
+      "cabezas": 74300000,
+      "millones": 74.3,
+      "periodo": "Sep 2026",
       "fuente": "USDA NASS",
+      "fuente_detalle": "Estimación al 1 de septiembre de 2026",
+      "cita_id": 9,
       "color": "#1B1B1B"
     }
   ],
@@ -44,27 +50,39 @@
       "prevalencia_cerdos_pct": 9.7,
       "prevalencia_resto_pct": 90.3,
       "pais": "Colombia",
+      "municipio": "Tuchín",
       "departamento": "Córdoba",
-      "anio": 2024,
+      "muestra_cerdos": 472,
+      "anio_muestreo": 2021,
+      "anio_publicacion": 2024,
+      "cita_id": 3,
       "tolima": {
+        "municipio": "Coyaima",
+        "departamento": "Tolima",
         "cerdos_pct": 14,
         "humanos_pct": 8.5,
-        "anio": 2025
+        "anio": 2025,
+        "cita_id": 4
       },
-      "consecuencia": "epilepsia prevenible",
-      "mensaje": "La Taenia solium causa epilepsia prevenible. En Tolima, el 14% de los cerdos y el 8.5% de las personas mostraron exposición."
+      "consecuencia": "La neurocisticercosis por Taenia solium es una causa importante y prevenible de epilepsia.",
+      "ciclo_biologico": "Huevos de T. solium en heces humanas → cerdos con cisticercosis → consumo de carne de cerdo poco cocida → teniasis humana; la cisticercosis humana ocurre por ingesta accidental de huevos.",
+      "mensaje": "9.7% de cisticercosis porcina en Tuchín, Córdoba (Colombia), 2021. En Coyaima (Tolima, 2025), seroprevalencia de 14% en cerdos y 8.5% en humanos."
     },
     "ppa": {
       "riesgo_desconocido_territorios": 24,
       "total_territorios": 40,
+      "ambito_territorial": "40 territorios evaluados en América Latina y el Caribe",
       "mortalidad_cerdos_pct": 100,
+      "mortalidad_nota": "La mortalidad por PPA puede alcanzar el 100% en formas agudas.",
       "riesgo_colombia": "probable",
-      "causa_colombia": "importaciones informales",
-      "mensaje": "Riesgo desconocido en 24/40 territorios de LatAm."
+      "causa_colombia": "vías de importación informal",
+      "mensaje": "24 de 40 territorios con riesgo de introducción de PPA clasificado como desconocido.",
+      "cita_id": 1,
+      "cita_mortalidad_id": 2
     }
   },
   "fuentes": [
-    "Porcinews",
+    "ICA / Porcinews",
     "Eurostat (apro_mt_lspig)",
     "USDA NASS"
   ]

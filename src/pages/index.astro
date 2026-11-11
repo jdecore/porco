@@ -1,8 +1,5 @@
 ---
-import CardProblema from '../components/porco/CardProblema.vue';
-import CardAmenaza from '../components/porco/CardAmenaza.vue';
-import CardAccion from '../components/porco/CardAccion.vue';
-import CardDesarrolladores from '../components/porco/CardDesarrolladores.vue';
+import CardsGrid from '../components/porco/CardsGrid.vue';
 import FeedbackForm from '../components/porco/FeedbackForm.vue';
 import riesgos from '../data/porco/riesgos_sanitarios.json';
 import 'vue-data-ui/style.css';
@@ -20,8 +17,8 @@ const tarjeta = (id: string) => {
         id: string;
         titulo: string;
         microcopy: string;
-        prompt: string;
-        comando: string;
+        prompt?: string;
+        comando?: string;
       }
     | undefined;
   if (!encontrada) throw new Error(`Falta la tarjeta ${id} en riesgos_sanitarios.json`);
@@ -32,6 +29,8 @@ const problema = tarjeta('problema');
 const amenaza = tarjeta('amenaza');
 const accion = tarjeta('accion');
 const desarrolladores = tarjeta('desarrolladores');
+
+const totalTerritorios = riesgos.acceso_datos.territorios_evaluados ?? 40;
 
 const fecha = new Intl.DateTimeFormat('es-CO', {
   day: '2-digit',
@@ -114,6 +113,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         <nav class="topnav" aria-label="Navegación principal">
           <a href="#tarjetas">Datos</a>
           <a href={withBase('conectar')}>Conectar</a>
+          <a href={withBase('citas')}>Citas IEEE</a>
           <a href={withBase('llms.txt')}>llms.txt</a>
           <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
         </nav>
@@ -131,52 +131,70 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
 
         <div class="hero__stats">
           <div class="stat">
-            <strong>40</strong>
-            <span>territorios LatAm</span>
+            <div class="stat__head">
+              <strong>{totalTerritorios}</strong>
+              <button
+                type="button"
+                class="cite-tag"
+                aria-label="Ver cita IEEE [1]"
+                data-trigger-cite="1"
+              >
+                [1]
+              </button>
+            </div>
+            <span>40 territorios evaluados en América Latina y el Caribe</span>
           </div>
+
           <div class="stat">
-            <strong>24</strong>
-            <span>sin datos de PPA</span>
+            <div class="stat__head">
+              <strong>{riesgos.acceso_datos.riesgo_ppa_desconocido}</strong>
+              <button
+                type="button"
+                class="cite-tag"
+                aria-label="Ver cita IEEE [1]"
+                data-trigger-cite="1"
+              >
+                [1]
+              </button>
+            </div>
+            <span>24 de 40 territorios con riesgo de introducción de PPA clasificado como desconocido</span>
           </div>
+
           <div class="stat stat--alert">
-            <strong>9.7%</strong>
-            <span>cisticercosis</span>
+            <div class="stat__head">
+              <strong>9.7%</strong>
+              <button
+                type="button"
+                class="cite-tag cite-tag--alert"
+                aria-label="Ver cita IEEE [3]"
+                data-trigger-cite="3"
+              >
+                [3]
+              </button>
+            </div>
+            <span>9.7% de cisticercosis porcina en Tuchín, Córdoba (Colombia), 2021</span>
           </div>
+
           <div class="stat stat--mono">
-            <strong>v1.0</strong>
+            <strong>v1.2</strong>
             <span>actualizado {fecha}</span>
           </div>
         </div>
       </section>
 
-      <section class="grid" id="tarjetas" aria-label="Cuatro tarjetas de datos">
-        <CardProblema
-          client:visible
-          inventario={riesgos.inventario}
-          territorios={riesgos.acceso_datos.territorios_latam}
-          desconocidos={riesgos.acceso_datos.riesgo_ppa_desconocido}
-          microcopy={problema.microcopy}
-        />
-
-        <CardAmenaza
-          client:visible
-          prevalencia={riesgos.cisticercosis.prevalencia_cerdos_pct}
-          resto={riesgos.cisticercosis.prevalencia_resto_pct}
-          microcopy={amenaza.microcopy}
-        />
-
-        <CardAccion
-          client:visible
-          siteUrl={siteUrl}
-          promptPlantilla={accion.prompt}
-        />
-
-        <CardDesarrolladores
-          client:visible
-          comando={desarrolladores.comando}
-          siteUrl={siteUrl}
-        />
-      </section>
+      <CardsGrid
+        client:visible
+        inventario={riesgos.inventario}
+        territorios={totalTerritorios}
+        desconocidos={riesgos.acceso_datos.riesgo_ppa_desconocido}
+        microcopyProblema={problema.microcopy}
+        prevalencia={riesgos.cisticercosis.prevalencia_cerdos_pct}
+        resto={riesgos.cisticercosis.prevalencia_resto_pct}
+        microcopyAmenaza={amenaza.microcopy}
+        siteUrl={siteUrl}
+        promptAccion={accion.prompt ?? ''}
+        comandoDevs={desarrolladores.comando ?? ''}
+      />
 
       <footer class="site-footer">
         <div class="footer__brand">
@@ -186,6 +204,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
 
         <div class="footer__links">
           <a href={withBase('conectar')}>Conectar MCP</a>
+          <a href={withBase('citas')}>Citas IEEE</a>
           <a href={withBase('llms.txt')}>llms.txt</a>
           <a href={withBase('data/riesgos_sanitarios.json')}>JSON</a>
           <a href={withBase('api/mcp')}>API MCP</a>
@@ -193,11 +212,32 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </div>
 
         <p class="footer__note">
-          Fuentes: Eurostat, USDA NASS, Porcinews y estudios de Córdoba y Tolima. Hecho por Juan Enríquez.
+          Fuentes y limitaciones: Eurostat (UE, 2025), USDA NASS (EE. UU., septiembre de 2026), Castillo et al. (2025) para riesgo de introducción de PPA, estudios locales de Córdoba y Tolima para cisticercosis, y WOAH para la epidemiología de la PPA. Las cifras de cisticercosis son estimaciones locales, no nacionales ni regionales. Un dato faltante no implica ausencia de enfermedad.
         </p>
+
+        <div class="footer__citas-link-box">
+          <a href={withBase('citas')} class="footer__citas-anchor">
+            <span>Explorar catálogo completo de citas IEEE y metodología detallada</span>
+            <span class="footer__citas-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
       </footer>
     </main>
 
     <FeedbackForm client:load />
+
+    <script is:inline>
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const trigger = target.closest('[data-trigger-cite]');
+        if (trigger) {
+          const id = Number(trigger.getAttribute('data-trigger-cite'));
+          if (id) {
+            window.dispatchEvent(new CustomEvent('porco:abrir-cita', { detail: { id } }));
+          }
+        }
+      });
+    </script>
   </body>
 </html>

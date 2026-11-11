@@ -210,6 +210,12 @@ a {
   background: rgba(251, 249, 244, 0.55);
 }
 
+.stat__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
 .stat strong {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 3vw, 2.4rem);
@@ -920,7 +926,84 @@ a {
   grid-column: 1 / -1;
   margin: 0;
   font-size: 0.8125rem;
+  line-height: 1.6;
   color: var(--muted);
+}
+
+.footer__citas-link-box {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+.footer__citas-anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--red-deep);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer__citas-anchor:hover {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: var(--ink);
+  transform: translateX(2px);
+}
+
+.footer__citas-arrow {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.footer__citas-anchor:hover .footer__citas-arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Citas IEEE Tags & Buttons ---------- */
+
+.cite-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--red-deep);
+  background: var(--accent-wash);
+  border: 1px solid rgba(217, 58, 43, 0.25);
+  border-radius: 6px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  cursor: pointer;
+  line-height: 1.2;
+  vertical-align: baseline;
+  transition: all 0.15s ease;
+}
+
+.cite-tag:hover {
+  background: var(--red);
+  color: #ffffff;
+  border-color: var(--red);
+  transform: translateY(-1px);
+}
+
+.cite-tag--alert {
+  background: rgba(217, 58, 43, 0.18);
+  border-color: var(--red);
+}
+
+.cite-tag--inline {
+  font-size: 0.6875rem;
+  padding: 0 4px;
+  margin-left: 3px;
 }
 
 /* ---------- Responsive ---------- */
