@@ -56,17 +56,17 @@ const config = {
     fontFamily: "'Inter', system-ui, sans-serif",
     chart: {
       backgroundColor: 'transparent',
-      color: '#161512',
+      color: '#FBF9F4',
       padding: { top: 18, right: 6, bottom: 4, left: 6 },
       layout: {
         bars: {
-          rowColor: '#EEE8DE',
+          rowColor: '#9C4423',
           borderRadius: 8,
           gap: 24,
           useGradient: false,
           fillOpacity: 1,
           dataLabels: {
-            color: '#161512',
+            color: '#FBF9F4',
             bold: true,
             fontSize: 16,
             value: { show: true, roundingValue: 1, suffix: ' M' },
@@ -74,7 +74,7 @@ const config = {
           },
           nameLabels: {
             show: false,
-            color: '#726B5F',
+            color: '#FBF9F4',
             fontSize: 12,
             bold: false,
           },

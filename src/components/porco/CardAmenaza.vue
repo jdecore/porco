@@ -31,13 +31,13 @@ const dataset = computed(() => [
   {
     name: 'Cisticercosis',
     values: [props.prevalencia],
-    color: '#D93A2B',
+    color: '#B8E3A0',
     comment: 'Prevalencia local en cerdos (Tuchín)',
   },
   {
     name: 'Resto',
     values: [props.resto],
-    color: '#E7E0D4',
+    color: '#8F3A1C',
     comment: 'Sin exposición reportada',
   },
 ]);

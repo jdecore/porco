@@ -5,17 +5,22 @@
   --ink: #161512;
   --muted: #726b5f;
   --line: #ded6c9;
-  --red: #d93a2b;
-  --red-deep: #a32318;
+  --red: #b5502b;
+  --red-deep: #8f3a1c;
   --green: #1f5c45;
   --dark: #17181a;
   --dark-soft: #232427;
-  /* Un solo acento: el rojo. Sobre claro se oscurece; sobre carbón se ilumina. */
-  --accent: var(--red);
-  --accent-deep: var(--red-deep);
-  --accent-bright: #ff7a6b;
-  --accent-soft: #f6d7d2;
-  --accent-wash: rgba(217, 58, 43, 0.11);
+  /* Tres roles: fondo claro (--bg), base terracota (--terra) y un verde claro (--lime) para llamar la atención. */
+  --terra: #b5502b;
+  --terra-deep: #8f3a1c;
+  --terra-dark: #7a3519;
+  --lime: #b8e3a0;
+  --cream: #fbf9f4;
+  --accent: var(--terra);
+  --accent-deep: var(--terra-deep);
+  --accent-bright: var(--lime);
+  --accent-soft: #f3dacb;
+  --accent-wash: rgba(181, 80, 43, 0.12);
   --radius: 28px;
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -36,10 +41,7 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 8% 2%, rgba(217, 58, 43, 0.08), transparent 28rem),
-    radial-gradient(circle at 92% 18%, rgba(31, 92, 69, 0.08), transparent 26rem),
-    var(--bg);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   min-height: 100vh;
@@ -93,22 +95,15 @@ a {
 .brand__mark {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: var(--ink);
-  color: var(--bg);
+  width: 44px;
+  height: 44px;
 }
 
-.brand__mark svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-}
-
-.brand__mark .brand__snout,
-.brand__mark .brand__eye {
-  fill: var(--red);
+.brand__mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .topnav {
@@ -256,9 +251,10 @@ a {
   flex-direction: column;
   min-height: 560px;
   padding: clamp(22px, 2.4vw, 32px);
-  border: 1px solid var(--line);
+  border: 1px solid var(--terra-deep);
   border-radius: var(--radius);
-  background: var(--card);
+  background: var(--terra);
+  color: var(--cream);
   box-shadow: 0 1px 0 rgba(22, 21, 18, 0.04), 0 24px 60px -44px rgba(22, 21, 18, 0.5);
   overflow: hidden;
   animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -306,8 +302,8 @@ a {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--red);
-  border: 1px solid rgba(217, 58, 43, 0.35);
+  color: var(--lime);
+  border: 1px solid rgba(184, 227, 160, 0.55);
   border-radius: 999px;
   padding: 4px 9px;
 }
@@ -318,7 +314,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.78);
 }
 
 .card__title {
@@ -345,7 +341,7 @@ a {
   font-weight: 800;
   line-height: 0.86;
   letter-spacing: -0.06em;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .data-unit {
@@ -353,7 +349,7 @@ a {
   font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.25;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.85);
 }
 
 .card__copy {
@@ -361,7 +357,7 @@ a {
   padding-top: 20px;
   font-size: 0.9rem;
   line-height: 1.55;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.88);
   max-width: 42ch;
 }
 
@@ -392,7 +388,7 @@ a {
   height: 100%;
   min-height: 160px;
   border-radius: 14px;
-  background: linear-gradient(100deg, var(--bg-soft) 20%, #f6f2ea 40%, var(--bg-soft) 60%);
+  background: linear-gradient(100deg, var(--terra-deep) 20%, #a14624 40%, var(--terra-deep) 60%);
   background-size: 220% 100%;
   animation: shimmer 1.4s linear infinite;
 }
@@ -440,23 +436,17 @@ a {
 
 .mini-legend__name {
   font-weight: 600;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .mini-legend__value {
   margin-left: auto;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.85);
 }
 
 /* ---------- Threat card ---------- */
-
-.card--amenaza {
-  background:
-    radial-gradient(circle at 78% 8%, rgba(217, 58, 43, 0.1), transparent 16rem),
-    var(--card);
-}
 
 .amenaza__body {
   display: grid;
@@ -501,7 +491,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.85);
 }
 
 .amenaza__side {
@@ -514,9 +504,9 @@ a {
   flex-direction: column;
   gap: 2px;
   padding: 12px 14px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(251, 249, 244, 0.28);
   border-radius: 14px;
-  background: rgba(242, 238, 231, 0.55);
+  background: var(--terra-deep);
 }
 
 .metric__value {
@@ -530,25 +520,19 @@ a {
 .metric__label {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.85);
 }
 
 .metric--alert {
-  border-color: rgba(217, 58, 43, 0.35);
-  background: rgba(217, 58, 43, 0.07);
+  border-color: var(--lime);
+  background: var(--terra-dark);
 }
 
 .metric--alert .metric__value {
-  color: var(--red);
+  color: var(--lime);
 }
 
 /* ---------- Chat card ---------- */
-
-.card--accion {
-  background:
-    radial-gradient(circle at 12% 100%, rgba(31, 92, 69, 0.1), transparent 18rem),
-    var(--card);
-}
 
 .chat {
   display: flex;
@@ -556,8 +540,9 @@ a {
   flex: 1 1 auto;
   min-height: 0;
   border: 1px solid var(--line);
+  border-color: rgba(251, 249, 244, 0.28);
   border-radius: 20px;
-  background: #f5f1e9;
+  background: var(--terra-deep);
   overflow: hidden;
 }
 
@@ -566,8 +551,8 @@ a {
   align-items: center;
   gap: 10px;
   padding: 11px 14px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(251, 249, 244, 0.8);
+  border-bottom: 1px solid rgba(251, 249, 244, 0.2);
+  background: var(--terra-dark);
 }
 
 .chat__dots {
@@ -579,11 +564,11 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #c9c1b4;
+  background: rgba(251, 249, 244, 0.35);
 }
 
 .chat__dots i:first-child {
-  background: var(--red);
+  background: var(--lime);
 }
 
 .chat__title {
@@ -598,7 +583,7 @@ a {
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--lime);
 }
 
 .chat__body {
@@ -628,15 +613,15 @@ a {
 .bubble--user {
   align-self: flex-end;
   border-bottom-right-radius: 5px;
-  background: var(--ink);
-  color: #f8f5ee;
+  background: var(--terra-dark);
+  color: var(--cream);
 }
 
 .bubble--agent {
   align-self: flex-start;
-  border: 1px solid var(--line);
+  border: 1px solid var(--cream);
   border-bottom-left-radius: 5px;
-  background: var(--card);
+  background: var(--cream);
   color: var(--ink);
 }
 
@@ -656,8 +641,8 @@ a {
   align-items: center;
   gap: 10px;
   padding: 10px;
-  border-top: 1px solid var(--line);
-  background: var(--card);
+  border-top: 1px solid rgba(251, 249, 244, 0.2);
+  background: var(--terra-dark);
 }
 
 .chat__prompt {
@@ -668,7 +653,7 @@ a {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: var(--muted);
+  color: rgba(251, 249, 244, 0.85);
 }
 
 .copy-btn {
@@ -680,8 +665,8 @@ a {
   padding: 10px 14px;
   border: 0;
   border-radius: 12px;
-  background: var(--red);
-  color: #fff;
+  background: var(--lime);
+  color: var(--ink);
   font-family: var(--font-body);
   font-size: 0.8125rem;
   font-weight: 700;
@@ -690,7 +675,7 @@ a {
 }
 
 .copy-btn:hover {
-  background: var(--red-deep);
+  background: #cdeebb;
   transform: translateY(-1px);
 }
 
@@ -705,22 +690,18 @@ a {
 }
 
 .copy-btn--done {
-  background: var(--green);
+  background: var(--cream);
 }
 
 /* ---------- Dev card ---------- */
 
 .card--devs {
-  border-color: #2c2d30;
-  background:
-    radial-gradient(circle at 85% 0%, rgba(255, 122, 107, 0.16), transparent 18rem),
-    var(--dark);
-  color: #f8f5ee;
+  color: var(--cream);
 }
 
 .card__head--dark .card__index {
   color: var(--accent-bright);
-  border-color: rgba(255, 122, 107, 0.4);
+  border-color: rgba(184, 227, 160, 0.55);
 }
 
 .card__head--dark .card__tag {
@@ -732,11 +713,11 @@ a {
 }
 
 .terminal {
-  border: 1px solid #34363a;
+  border: 1px solid rgba(251, 249, 244, 0.28);
   border-radius: 16px;
-  background: #0d0e0f;
+  background: var(--terra-dark);
   overflow: hidden;
-  box-shadow: 0 24px 60px -32px #000;
+  box-shadow: 0 24px 60px -32px rgba(0, 0, 0, 0.6);
 }
 
 .terminal__bar {
@@ -744,15 +725,15 @@ a {
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-bottom: 1px solid #26282b;
+  border-bottom: 1px solid rgba(251, 249, 244, 0.2);
 }
 
 .terminal__bar .chat__dots i {
-  background: #3a3c40;
+  background: rgba(251, 249, 244, 0.35);
 }
 
 .terminal__bar .chat__dots i:first-child {
-  background: var(--red);
+  background: var(--lime);
 }
 
 .terminal__file {
@@ -785,7 +766,7 @@ a {
 .terminal__copy {
   margin-left: auto;
   padding: 6px 10px;
-  border: 1px solid #34363a;
+  border: 1px solid rgba(251, 249, 244, 0.35);
   border-radius: 8px;
   background: transparent;
   color: rgba(248, 245, 238, 0.6);
@@ -797,7 +778,7 @@ a {
 
 .terminal__copy:hover {
   color: var(--accent-bright);
-  border-color: rgba(255, 122, 107, 0.55);
+  border-color: var(--lime);
 }
 
 .devs__links {
@@ -814,8 +795,8 @@ a {
   gap: 7px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: var(--accent-wash);
-  color: var(--accent-bright);
+  background: var(--lime);
+  color: var(--ink);
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
@@ -827,7 +808,7 @@ a {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent-bright);
+  background: var(--terra-deep);
 }
 
 .devs__link {
@@ -857,9 +838,9 @@ a {
   justify-content: space-between;
   gap: 12px;
   padding: 9px 12px;
-  border: 1px solid #2c2d30;
+  border: 1px solid rgba(251, 249, 244, 0.28);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--terra-deep);
 }
 
 .devs__tools code {
@@ -873,7 +854,7 @@ a {
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 122, 107, 0.75);
+  color: var(--lime);
 }
 
 /* ---------- Footer ---------- */
@@ -978,7 +959,7 @@ a {
   font-weight: 700;
   color: var(--red-deep);
   background: var(--accent-wash);
-  border: 1px solid rgba(217, 58, 43, 0.25);
+  border: 1px solid rgba(181, 80, 43, 0.3);
   border-radius: 6px;
   padding: 1px 5px;
   margin-left: 4px;
@@ -996,7 +977,7 @@ a {
 }
 
 .cite-tag--alert {
-  background: rgba(217, 58, 43, 0.18);
+  background: rgba(181, 80, 43, 0.2);
   border-color: var(--red);
 }
 
@@ -1087,4 +1068,18 @@ a {
   .amenaza__side {
     grid-template-columns: 1fr;
   }
+}
+
+/* Citas dentro de tarjetas terracota */
+.card .cite-tag {
+  color: var(--cream);
+  background: rgba(251, 249, 244, 0.16);
+  border-color: rgba(251, 249, 244, 0.5);
+}
+
+.card .cite-tag:hover,
+.card .cite-tag--alert {
+  background: var(--lime);
+  color: var(--ink);
+  border-color: var(--lime);
 }

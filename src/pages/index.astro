@@ -105,11 +105,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
       <header class="topbar">
         <a class="brand" href={withBase('/')} aria-label="Porco, inicio">
           <span class="brand__mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" role="img">
-              <path d="M7 13c0-4 3.6-7 8.2-7 4.7 0 8.3 3 8.3 7v3.3c0 4.5-3.7 8.2-8.3 8.2S7 20.8 7 16.3V13Z" />
-              <path class="brand__snout" d="M20.8 14.8h4.4v5.1h-4.4z" />
-              <circle class="brand__eye" cx="17.6" cy="12.9" r="1.25" />
-            </svg>
+            <img src={withBase('logo.svg')} alt="" width="44" height="44" />
           </span>
           <span class="brand__name">Porco</span>
         </a>

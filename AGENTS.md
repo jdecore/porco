@@ -29,10 +29,10 @@ Observatorio visual de riesgos sanitarios en LatAm. Conecta inventario porcino, 
 - Estilos globales en `src/styles/porco.css`.
 
 ## Sistema visual
-- Base editorial de 4 colores: papel `#F2EEE7`, tinta `#161512`, verde bosque `#1F5C45`, carbón `#17181A`.
-- Acento único: **rojo `#D93A2B`**. No hay quinto color ni verde ácido.
-- Tokens: `--accent` (rojo), `--accent-deep` (`#A32318` sobre claro), `--accent-bright` (`#FF7A6B` sobre carbón), `--accent-soft`, `--accent-wash`.
-- Regla de uso: el verde solo confirma estados (copiado, en línea). El rojo es el único acento, también en la tarjeta oscura.
+- Tres roles de color: fondo claro papel #F2EEE7, base terracota #B5502B (superficie de las 4 tarjetas) y verde claro #B8E3A0 para llamar la atención (cifras clave, botones, pills, serie crítica).
+- Apoyos: terracota profunda #8F3A1C / oscura #7A3519 (paneles internos), crema #FBF9F4 (texto sobre terracota), tinta #161512 (texto sobre claro y sobre verde claro).
+- Sin halos ni degradados decorativos. Sin rojo, coral, carbón ni verde bosque.
+- Logo: `public/logo.svg` (también `public/favicon.svg`).
 - Tipografías: Bricolage Grotesque (display), Inter (cuerpo), JetBrains Mono (datos).
 - Radios: 28px tarjeta, 20px panel, 12–14px control, 999px cápsula.
 - Máximo 2 oraciones de copy por tarjeta; tipografía mínima 13px sin excepciones.

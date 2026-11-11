@@ -19,7 +19,7 @@
       "fuente": "ICA / Porcinews",
       "fuente_detalle": "Censo pecuario 2024, 189.198 predios",
       "cita_id": 10,
-      "color": "#D93A2B"
+      "color": "#B8E3A0"
     },
     {
       "region": "UE-27",
@@ -30,7 +30,7 @@
       "fuente": "Eurostat (apro_mt_lspig)",
       "fuente_detalle": "Censo anual UE-27 2025",
       "cita_id": 8,
-      "color": "#1F5C45"
+      "color": "#FBF9F4"
     },
     {
       "region": "EE. UU.",
@@ -41,7 +41,7 @@
       "fuente": "USDA NASS",
       "fuente_detalle": "Estimación al 1 de septiembre de 2026",
       "cita_id": 9,
-      "color": "#1B1B1B"
+      "color": "#E8C3AE"
     }
   ],
   "prevalencias": {
