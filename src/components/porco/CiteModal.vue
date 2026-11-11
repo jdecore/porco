@@ -55,71 +55,69 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Teleport to="body">
-    <div
-      v-if="citaSeleccionada"
-      class="cite-modal"
-      role="dialog"
-      aria-modal="true"
-      :aria-labelledby="'cite-title-' + citaSeleccionada.id"
-      @click.self="cerrarModal"
-    >
-      <div class="cite-modal__panel">
-        <header class="cite-modal__head">
-          <div class="cite-modal__tag">
-            <span class="cite-modal__num">[{{ citaSeleccionada.id }}]</span>
-            <span class="cite-modal__badge">Referencia IEEE</span>
-          </div>
-          <button
-            type="button"
-            class="cite-modal__close"
-            aria-label="Cerrar modal de cita"
-            @click="cerrarModal"
-          >
-            ✕
-          </button>
-        </header>
-
-        <div class="cite-modal__body">
-          <h3 :id="'cite-title-' + citaSeleccionada.id" class="cite-modal__title">
-            {{ citaSeleccionada.titulo }}
-          </h3>
-
-          <p class="cite-modal__authors">
-            <strong>Autores:</strong> {{ citaSeleccionada.autores }}
-          </p>
-
-          <p class="cite-modal__source">
-            <strong>Publicación:</strong> <em>{{ citaSeleccionada.publicacion }}</em>
-            <span v-if="citaSeleccionada.detalle"> · {{ citaSeleccionada.detalle }}</span>
-            ({{ citaSeleccionada.anio }})
-          </p>
-
-          <p v-if="citaSeleccionada.nota" class="cite-modal__note">
-            <strong>Contexto en Porco:</strong> {{ citaSeleccionada.nota }}
-          </p>
+  <div
+    v-if="citaSeleccionada"
+    class="cite-modal"
+    role="dialog"
+    aria-modal="true"
+    :aria-labelledby="'cite-title-' + citaSeleccionada.id"
+    @click.self="cerrarModal"
+  >
+    <div class="cite-modal__panel">
+      <header class="cite-modal__head">
+        <div class="cite-modal__tag">
+          <span class="cite-modal__num">[{{ citaSeleccionada.id }}]</span>
+          <span class="cite-modal__badge">Referencia IEEE</span>
         </div>
+        <button
+          type="button"
+          class="cite-modal__close"
+          aria-label="Cerrar modal de cita"
+          @click="cerrarModal"
+        >
+          ✕
+        </button>
+      </header>
 
-        <footer class="cite-modal__foot">
-          <a
-            :href="citaSeleccionada.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="cite-modal__btn cite-modal__btn--primary"
-          >
-            Abrir fuente original ↗
-          </a>
-          <button
-            type="button"
-            class="cite-modal__btn cite-modal__btn--secondary"
-            @click="copiarCita"
-          >
-            {{ copiado ? 'Copiado' : 'Copiar formato IEEE' }}
-          </button>
-        </footer>
+      <div class="cite-modal__body">
+        <h3 :id="'cite-title-' + citaSeleccionada.id" class="cite-modal__title">
+          {{ citaSeleccionada.titulo }}
+        </h3>
+
+        <p class="cite-modal__authors">
+          <strong>Autores:</strong> {{ citaSeleccionada.autores }}
+        </p>
+
+        <p class="cite-modal__source">
+          <strong>Publicación:</strong> <em>{{ citaSeleccionada.publicacion }}</em>
+          <span v-if="citaSeleccionada.detalle"> · {{ citaSeleccionada.detalle }}</span>
+          ({{ citaSeleccionada.anio }})
+        </p>
+
+        <p v-if="citaSeleccionada.nota" class="cite-modal__note">
+          <strong>Contexto en Porco:</strong> {{ citaSeleccionada.nota }}
+        </p>
       </div>
+
+      <footer class="cite-modal__foot">
+        <a
+          :href="citaSeleccionada.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cite-modal__btn cite-modal__btn--primary"
+        >
+          Abrir fuente original ↗
+        </a>
+        <button
+          type="button"
+          class="cite-modal__btn cite-modal__btn--secondary"
+          @click="copiarCita"
+        >
+          {{ copiado ? 'Copiado' : 'Copiar formato IEEE' }}
+        </button>
+      </footer>
     </div>
-  </Teleport>
+  </div>
 </template>
 
 <style scoped>
