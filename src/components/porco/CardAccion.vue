@@ -10,6 +10,13 @@ const emit = defineEmits<{
   (e: 'abrir-cita', id: number): void;
 }>();
 
+function notificarCita(id: number) {
+  emit('abrir-cita', id);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('porco:abrir-cita', { detail: { id } }));
+  }
+}
+
 const copiado = ref(false);
 let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -72,7 +79,7 @@ async function copiarPrompt() {
               type="button"
               class="cite-tag cite-tag--inline"
               aria-label="Ver citas IEEE [3], [5]"
-              @click="emit('abrir-cita', 5)"
+              @click="notificarCita(5)"
             >
               [5]
             </button>

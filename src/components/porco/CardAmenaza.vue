@@ -11,6 +11,13 @@ const emit = defineEmits<{
   (e: 'abrir-cita', id: number): void;
 }>();
 
+function notificarCita(id: number) {
+  emit('abrir-cita', id);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('porco:abrir-cita', { detail: { id } }));
+  }
+}
+
 const montado = ref(false);
 onMounted(() => {
   montado.value = true;
@@ -93,7 +100,7 @@ const config = {
               type="button"
               class="cite-tag cite-tag--inline"
               aria-label="Ver cita IEEE [3]"
-              @click="emit('abrir-cita', 3)"
+              @click="notificarCita(3)"
             >
               [3]
             </button>
@@ -109,7 +116,7 @@ const config = {
               type="button"
               class="cite-tag cite-tag--inline"
               aria-label="Ver cita IEEE [4]"
-              @click="emit('abrir-cita', 4)"
+              @click="notificarCita(4)"
             >
               [4]
             </button>
@@ -123,7 +130,7 @@ const config = {
               type="button"
               class="cite-tag cite-tag--inline"
               aria-label="Ver cita IEEE [4]"
-              @click="emit('abrir-cita', 4)"
+              @click="notificarCita(4)"
             >
               [4]
             </button>
@@ -137,7 +144,7 @@ const config = {
               type="button"
               class="cite-tag cite-tag--inline"
               aria-label="Ver cita IEEE [2]"
-              @click="emit('abrir-cita', 2)"
+              @click="notificarCita(2)"
             >
               [2]
             </button>

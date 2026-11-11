@@ -2,29 +2,29 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { CITAS_IEEE, type CitaIEEE } from '../../data/porco/citas';
 
-const props = defineProps<{
-  citaIdActiva?: number | null;
-}>();
-
-const emit = defineEmits<{
-  (e: 'cerrar'): void;
-  (e: 'seleccionar', id: number): void;
-}>();
+const citaIdActiva = ref<number | null>(null);
 
 const citaSeleccionada = computed<CitaIEEE | undefined>(() => {
-  if (!props.citaIdActiva) return undefined;
-  return CITAS_IEEE.find((c) => c.id === props.citaIdActiva);
+  if (!citaIdActiva.value) return undefined;
+  return CITAS_IEEE.find((c) => c.id === citaIdActiva.value);
 });
 
 const copiado = ref(false);
 
 function cerrarModal() {
-  emit('cerrar');
+  citaIdActiva.value = null;
 }
 
 function handleKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && props.citaIdActiva) {
+  if (e.key === 'Escape' && citaIdActiva.value) {
     cerrarModal();
+  }
+}
+
+function handleAbrirCita(e: Event) {
+  const custom = e as CustomEvent<{ id: number }>;
+  if (custom.detail?.id) {
+    citaIdActiva.value = custom.detail.id;
   }
 }
 
@@ -45,77 +45,81 @@ async function copiarCita() {
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
+  window.addEventListener('porco:abrir-cita', handleAbrirCita as EventListener);
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
+  window.removeEventListener('porco:abrir-cita', handleAbrirCita as EventListener);
 });
 </script>
 
 <template>
-  <div
-    v-if="citaSeleccionada"
-    class="cite-modal"
-    role="dialog"
-    aria-modal="true"
-    :aria-labelledby="'cite-title-' + citaSeleccionada.id"
-    @click.self="cerrarModal"
-  >
-    <div class="cite-modal__panel">
-      <header class="cite-modal__head">
-        <div class="cite-modal__tag">
-          <span class="cite-modal__num">[{{ citaSeleccionada.id }}]</span>
-          <span class="cite-modal__badge">Referencia IEEE</span>
+  <Teleport to="body">
+    <div
+      v-if="citaSeleccionada"
+      class="cite-modal"
+      role="dialog"
+      aria-modal="true"
+      :aria-labelledby="'cite-title-' + citaSeleccionada.id"
+      @click.self="cerrarModal"
+    >
+      <div class="cite-modal__panel">
+        <header class="cite-modal__head">
+          <div class="cite-modal__tag">
+            <span class="cite-modal__num">[{{ citaSeleccionada.id }}]</span>
+            <span class="cite-modal__badge">Referencia IEEE</span>
+          </div>
+          <button
+            type="button"
+            class="cite-modal__close"
+            aria-label="Cerrar modal de cita"
+            @click="cerrarModal"
+          >
+            ✕
+          </button>
+        </header>
+
+        <div class="cite-modal__body">
+          <h3 :id="'cite-title-' + citaSeleccionada.id" class="cite-modal__title">
+            {{ citaSeleccionada.titulo }}
+          </h3>
+
+          <p class="cite-modal__authors">
+            <strong>Autores:</strong> {{ citaSeleccionada.autores }}
+          </p>
+
+          <p class="cite-modal__source">
+            <strong>Publicación:</strong> <em>{{ citaSeleccionada.publicacion }}</em>
+            <span v-if="citaSeleccionada.detalle"> · {{ citaSeleccionada.detalle }}</span>
+            ({{ citaSeleccionada.anio }})
+          </p>
+
+          <p v-if="citaSeleccionada.nota" class="cite-modal__note">
+            <strong>Contexto en Porco:</strong> {{ citaSeleccionada.nota }}
+          </p>
         </div>
-        <button
-          type="button"
-          class="cite-modal__close"
-          aria-label="Cerrar modal de cita"
-          @click="cerrarModal"
-        >
-          ✕
-        </button>
-      </header>
 
-      <div class="cite-modal__body">
-        <h3 :id="'cite-title-' + citaSeleccionada.id" class="cite-modal__title">
-          {{ citaSeleccionada.titulo }}
-        </h3>
-
-        <p class="cite-modal__authors">
-          <strong>Autores:</strong> {{ citaSeleccionada.autores }}
-        </p>
-
-        <p class="cite-modal__source">
-          <strong>Publicación:</strong> <em>{{ citaSeleccionada.publicacion }}</em>
-          <span v-if="citaSeleccionada.detalle"> · {{ citaSeleccionada.detalle }}</span>
-          ({{ citaSeleccionada.anio }})
-        </p>
-
-        <p v-if="citaSeleccionada.nota" class="cite-modal__note">
-          <strong>Contexto en Porco:</strong> {{ citaSeleccionada.nota }}
-        </p>
+        <footer class="cite-modal__foot">
+          <a
+            :href="citaSeleccionada.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cite-modal__btn cite-modal__btn--primary"
+          >
+            Abrir fuente original ↗
+          </a>
+          <button
+            type="button"
+            class="cite-modal__btn cite-modal__btn--secondary"
+            @click="copiarCita"
+          >
+            {{ copiado ? 'Copiado' : 'Copiar formato IEEE' }}
+          </button>
+        </footer>
       </div>
-
-      <footer class="cite-modal__foot">
-        <a
-          :href="citaSeleccionada.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="cite-modal__btn cite-modal__btn--primary"
-        >
-          Abrir fuente original ↗
-        </a>
-        <button
-          type="button"
-          class="cite-modal__btn cite-modal__btn--secondary"
-          @click="copiarCita"
-        >
-          {{ copiado ? 'Copiado' : 'Copiar formato IEEE' }}
-        </button>
-      </footer>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>

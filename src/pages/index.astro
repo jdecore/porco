@@ -1,5 +1,9 @@
 ---
-import CardsGrid from '../components/porco/CardsGrid.vue';
+import CardProblema from '../components/porco/CardProblema.vue';
+import CardAmenaza from '../components/porco/CardAmenaza.vue';
+import CardAccion from '../components/porco/CardAccion.vue';
+import CardDesarrolladores from '../components/porco/CardDesarrolladores.vue';
+import CiteModal from '../components/porco/CiteModal.vue';
 import FeedbackForm from '../components/porco/FeedbackForm.vue';
 import riesgos from '../data/porco/riesgos_sanitarios.json';
 import 'vue-data-ui/style.css';
@@ -182,19 +186,34 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </div>
       </section>
 
-      <CardsGrid
-        client:visible
-        inventario={riesgos.inventario}
-        territorios={totalTerritorios}
-        desconocidos={riesgos.acceso_datos.riesgo_ppa_desconocido}
-        microcopyProblema={problema.microcopy}
-        prevalencia={riesgos.cisticercosis.prevalencia_cerdos_pct}
-        resto={riesgos.cisticercosis.prevalencia_resto_pct}
-        microcopyAmenaza={amenaza.microcopy}
-        siteUrl={siteUrl}
-        promptAccion={accion.prompt ?? ''}
-        comandoDevs={desarrolladores.comando ?? ''}
-      />
+      <section class="grid" id="tarjetas" aria-label="Cuatro tarjetas de datos">
+        <CardProblema
+          client:visible
+          inventario={riesgos.inventario}
+          territorios={totalTerritorios}
+          desconocidos={riesgos.acceso_datos.riesgo_ppa_desconocido}
+          microcopy={problema.microcopy}
+        />
+
+        <CardAmenaza
+          client:visible
+          prevalencia={riesgos.cisticercosis.prevalencia_cerdos_pct}
+          resto={riesgos.cisticercosis.prevalencia_resto_pct}
+          microcopy={amenaza.microcopy}
+        />
+
+        <CardAccion
+          client:visible
+          siteUrl={siteUrl}
+          promptPlantilla={accion.prompt ?? ''}
+        />
+
+        <CardDesarrolladores
+          client:visible
+          comando={desarrolladores.comando ?? ''}
+          siteUrl={siteUrl}
+        />
+      </section>
 
       <footer class="site-footer">
         <div class="footer__brand">
@@ -224,6 +243,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
       </footer>
     </main>
 
+    <CiteModal client:load />
     <FeedbackForm client:load />
 
     <script is:inline>
