@@ -9,6 +9,12 @@ const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
 const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const mcpUrl = `${siteUrl}/api/mcp`;
+const claudeUrl = `https://claude.ai/new?modal=add-custom-connector&connectorName=${encodeURIComponent(
+  'Porco | Observatorio sanitario porcino',
+)}&connectorUrl=${encodeURIComponent(mcpUrl)}#settings/customize-connectors`;
+const claudePromptUrl = `https://claude.ai/new?q=${encodeURIComponent(
+  `Mira si ya tienes Porco conectado. Si no, guíame paso a paso con esta guía ${siteUrl}/conectar. Si ya está listo, muéstrame todo lo que puedo consultar con Porco y dime qué fuentes me servirían más.`,
+)}`;
 const prompt = `Mira si ya tienes Porco conectado. Si no, guíame paso a paso con esta guía ${siteUrl}/conectar. Si ya está listo, muéstrame todo lo que puedo consultar con Porco: inventario porcino, cisticercosis, PPA y la brecha de datos en LatAm. Dime qué fuentes me servirían más.`;
 ---
 
@@ -56,8 +62,7 @@ const prompt = `Mira si ya tienes Porco conectado. Si no, guíame paso a paso co
 
         <nav class="topnav" aria-label="Navegación principal">
           <a href={withBase('/')}>Inicio</a>
-          <a href={withBase('llms.txt')}>llms.txt</a>
-          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+          <a class="nav-cta" href={claudeUrl} target="_blank" rel="noopener noreferrer">Conectar con Claude</a>
         </nav>
       </header>
 
@@ -82,20 +87,25 @@ const prompt = `Mira si ya tienes Porco conectado. Si no, guíame paso a paso co
             <h2>Agrega el conector</h2>
           </div>
           <p>
-            En Claude abre <strong>Configuración → Conectores → Añadir conector personalizado</strong>.
-            Usa el nombre <strong>Porco</strong> y esta URL.
+            Claude abre el diálogo con el nombre y la URL ya diligenciados. Haz clic en
+            <strong>Continuar</strong> y luego en <strong>Agregar</strong>. Porco es público: no hay
+            inicio de sesión.
+          </p>
+          <a class="guia-cta" href={claudeUrl} target="_blank" rel="noopener noreferrer">
+            Abrir en Claude
+          </a>
+          <p class="guia-note">
+            ¿No se abrió? En un chat de Claude ve a <strong>+ → Conectores → Agregar conector →
+            Agregar conector personalizado</strong> y pega estos valores.
           </p>
           <div class="guia-code">
-            <code id="mcp-url">{mcpUrl}</code>
-            <button type="button" class="guia-copy" data-copy-target="mcp-url">Copiar</button>
+            <code id="mcp-name">Porco | Observatorio sanitario porcino</code>
+            <button type="button" class="guia-copy" data-copy-target="mcp-name">Copiar nombre</button>
           </div>
-          <p class="guia-note">
-            En autenticación elige <strong>Sin autenticación</strong>. Porco es público y de solo
-            lectura.
-          </p>
-          <a class="guia-cta" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener noreferrer">
-            Abrir conectores de Claude
-          </a>
+          <div class="guia-code">
+            <code id="mcp-url">{mcpUrl}</code>
+            <button type="button" class="guia-copy" data-copy-target="mcp-url">Copiar URL</button>
+          </div>
         </li>
 
         <li class="guia-step">
@@ -130,6 +140,9 @@ const prompt = `Mira si ya tienes Porco conectado. Si no, guíame paso a paso co
             <code id="prompt-prueba">{prompt}</code>
             <button type="button" class="guia-copy" data-copy-target="prompt-prueba">Copiar prompt</button>
           </div>
+          <a class="guia-cta" href={claudePromptUrl} target="_blank" rel="noopener noreferrer">
+            Pruébalo en Claude
+          </a>
         </li>
       </ol>
 

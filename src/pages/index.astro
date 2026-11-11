@@ -15,6 +15,10 @@ const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
 const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
 
+const claudeUrl = `https://claude.ai/new?modal=add-custom-connector&connectorName=${encodeURIComponent(
+  'Porco | Observatorio sanitario porcino',
+)}&connectorUrl=${encodeURIComponent(`${siteUrl}/api/mcp`)}#settings/customize-connectors`;
+
 const tarjeta = (id: string) => {
   const encontrada = riesgos.tarjetas.find((item) => item.id === id) as
     | {
@@ -111,16 +115,17 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </a>
 
         <nav class="topnav" aria-label="Navegación principal">
-          <a href="#tarjetas">Datos</a>
-          <a href={withBase('conectar')}>Conectar</a>
-          <a href={withBase('citas')}>Citas IEEE</a>
-          <a href={withBase('llms.txt')}>llms.txt</a>
-          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+          <a
+            class="nav-cta"
+            href={claudeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Conectar Porco a Claude por MCP"
+          >Conectar con Claude</a>
         </nav>
       </header>
 
       <section class="hero">
-        <p class="eyebrow">One Health · LatAm · Observatorio</p>
         <h1 class="hero__title">
           La sanidad porcina,<br />
           <span>sin puntos ciegos.</span>

@@ -1083,3 +1083,17 @@ a {
   color: var(--ink);
   border-color: var(--lime);
 }
+
+.topnav a.nav-cta {
+  display: inline-block;
+  border: 1px solid var(--terra);
+  background: var(--terra);
+  color: #fff;
+  text-decoration: none;
+}
+
+.topnav a.nav-cta:hover {
+  background: var(--terra-deep);
+  border-color: var(--terra-deep);
+  color: #fff;
+}
