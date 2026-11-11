@@ -29,8 +29,8 @@ Observatorio visual de riesgos sanitarios en LatAm. Conecta inventario porcino, 
 - Estilos globales en `src/styles/porco.css`.
 
 ## Sistema visual
-- Tres roles de color: fondo claro papel #F2EEE7, base terracota #B5502B (superficie de las 4 tarjetas) y verde claro #B8E3A0 para llamar la atención (cifras clave, botones, pills, serie crítica).
-- Apoyos: terracota profunda #8F3A1C / oscura #7A3519 (paneles internos), crema #FBF9F4 (texto sobre terracota), tinta #161512 (texto sobre claro y sobre verde claro).
+- Tres roles de color: fondo claro papel #F2EEE7, base terracota #E35336 (superficie de las 4 tarjetas) y verde claro #B8E3A0 para llamar la atención (cifras clave, botones, pills, serie crítica).
+- Apoyos: terracota profunda #B8401F / oscura #9A3219 (paneles internos), crema #FBF9F4 (texto sobre terracota), tinta #161512 (texto sobre claro y sobre verde claro).
 - Sin halos ni degradados decorativos. Sin rojo, coral, carbón ni verde bosque.
 - Logo: `public/logo.svg` (también `public/favicon.svg`).
 - Tipografías: Bricolage Grotesque (display), Inter (cuerpo), JetBrains Mono (datos).

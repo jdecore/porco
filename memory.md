@@ -94,4 +94,4 @@ Contraste: `#A32318` sobre crema â‰ˆ 7.1:1 (AAA). `#D93A2B` con blanco â‰ˆ 4.57:
 
 Eurostat, USDA NASS, Porcinews y estudios de CÃ³rdoba y Tolima. La fuente canÃ³nica dentro del repo es `src/data/porco/riesgos_sanitarios.json`; nunca editar las copias de `public/data/` a mano.
 
-- **2026-11** — Nueva paleta: fondo claro + terracota `#B5502B` como base de las 4 tarjetas + verde claro `#B8E3A0` como único color de atención. Se eliminan rojo, coral, carbón, verde bosque y halos. Logo nuevo en `public/logo.svg`. Contraste: crema sobre terracota ˜4.6:1; tinta sobre verde claro ˜11:1.
+- **2026-11** ï¿½ Nueva paleta: fondo claro + terracota `#E35336` como base de las 4 tarjetas + verde claro `#B8E3A0` como ï¿½nico color de atenciï¿½n. Se eliminan rojo, coral, carbï¿½n, verde bosque y halos. Logo nuevo en `public/logo.svg`. Contraste: crema sobre terracota ï¿½4.6:1; tinta sobre verde claro ï¿½11:1.

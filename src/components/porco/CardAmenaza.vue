@@ -37,7 +37,7 @@ const dataset = computed(() => [
   {
     name: 'Resto',
     values: [props.resto],
-    color: '#8F3A1C',
+    color: '#B8401F',
     comment: 'Sin exposición reportada',
   },
 ]);

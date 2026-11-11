@@ -5,22 +5,22 @@
   --ink: #161512;
   --muted: #726b5f;
   --line: #ded6c9;
-  --red: #b5502b;
-  --red-deep: #8f3a1c;
+  --red: #e35336;
+  --red-deep: #b8401f;
   --green: #1f5c45;
   --dark: #17181a;
   --dark-soft: #232427;
   /* Tres roles: fondo claro (--bg), base terracota (--terra) y un verde claro (--lime) para llamar la atención. */
-  --terra: #b5502b;
-  --terra-deep: #8f3a1c;
-  --terra-dark: #7a3519;
+  --terra: #e35336;
+  --terra-deep: #b8401f;
+  --terra-dark: #9a3219;
   --lime: #b8e3a0;
   --cream: #fbf9f4;
   --accent: var(--terra);
   --accent-deep: var(--terra-deep);
   --accent-bright: var(--lime);
   --accent-soft: #f3dacb;
-  --accent-wash: rgba(181, 80, 43, 0.12);
+  --accent-wash: rgba(227, 83, 54, 0.12);
   --radius: 28px;
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -388,7 +388,7 @@ a {
   height: 100%;
   min-height: 160px;
   border-radius: 14px;
-  background: linear-gradient(100deg, var(--terra-deep) 20%, #a14624 40%, var(--terra-deep) 60%);
+  background: linear-gradient(100deg, var(--terra-deep) 20%, #cc4a2c 40%, var(--terra-deep) 60%);
   background-size: 220% 100%;
   animation: shimmer 1.4s linear infinite;
 }
@@ -959,7 +959,7 @@ a {
   font-weight: 700;
   color: var(--red-deep);
   background: var(--accent-wash);
-  border: 1px solid rgba(181, 80, 43, 0.3);
+  border: 1px solid rgba(227, 83, 54, 0.3);
   border-radius: 6px;
   padding: 1px 5px;
   margin-left: 4px;
@@ -977,7 +977,7 @@ a {
 }
 
 .cite-tag--alert {
-  background: rgba(181, 80, 43, 0.2);
+  background: rgba(227, 83, 54, 0.2);
   border-color: var(--red);
 }
 

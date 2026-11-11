@@ -60,7 +60,7 @@ const config = {
       padding: { top: 18, right: 6, bottom: 4, left: 6 },
       layout: {
         bars: {
-          rowColor: '#9C4423',
+          rowColor: '#C94A2A',
           borderRadius: 8,
           gap: 24,
           useGradient: false,

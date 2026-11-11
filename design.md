@@ -1,6 +1,6 @@
 # PORCO Design System — Paleta vigente (2026-11)
 
-> **Esta nota reemplaza a las secciones de color de abajo.** Tres roles: fondo claro `#F2EEE7`, base terracota `#B5502B` (las 4 tarjetas), verde claro `#B8E3A0` (atención: cifras clave, botones, pills, serie crítica). Apoyos: `#8F3A1C`/`#7A3519` (paneles internos), `#FBF9F4` (texto sobre terracota), `#161512` (texto sobre claro y sobre verde). Sin halos, rojo, coral, carbón ni verde bosque. Verde claro solo en rellenos, cifras grandes o con texto en tinta. Logo: `public/logo.svg`. Tokens: `--terra`, `--terra-deep`, `--terra-dark`, `--lime`, `--cream`.
+> **Esta nota reemplaza a las secciones de color de abajo.** Tres roles: fondo claro `#F2EEE7`, base terracota `#E35336` (las 4 tarjetas), verde claro `#B8E3A0` (atención: cifras clave, botones, pills, serie crítica). Apoyos: `#B8401F`/`#9A3219` (paneles internos), `#FBF9F4` (texto sobre terracota), `#161512` (texto sobre claro y sobre verde). Sin halos, rojo, coral, carbón ni verde bosque. Verde claro solo en rellenos, cifras grandes o con texto en tinta. Logo: `public/logo.svg`. Tokens: `--terra`, `--terra-deep`, `--terra-dark`, `--lime`, `--cream`.
 
 ---
 
