@@ -1,0 +1,294 @@
+---
+import CardsFeed from '../../components/porco/CardsFeed.vue';
+import CiteModal from '../../components/porco/CiteModal.vue';
+import FeedbackForm from '../../components/porco/FeedbackForm.vue';
+import riesgos from '../../data/porco/riesgos_sanitarios.json';
+import 'vue-data-ui/style.css';
+import '../../styles/porco.css';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
+const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
+const claudeUrl = "https://claude.ai/new?modal=add-custom-connector&connectorName=" + encodeURIComponent("Porco | Swine Health Data Observatory") + "&connectorUrl=" + encodeURIComponent(siteUrl + "/api/mcp") + "#settings/customize-connectors";
+
+const fecha = new Intl.DateTimeFormat('en-US', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(`${riesgos.meta.actualizado}T00:00:00Z`));
+
+// English translated feed cards
+const tarjetasEn = [
+  {
+    id: "problem",
+    numero: "01",
+    tag: "The Problem",
+    titulo: "A published number is not a complete answer.",
+    cifra_principal: "46 / 471",
+    cifra_subtitulo: "Audited field sample vs. headline percentage (9.7%)",
+    texto_corto: "Before reusing a public health statistic, you need to verify what it measures, when it was sampled, and which population it describes. Porco makes data gaps visible instead of hiding them behind headline claims.",
+    boton_texto: "View documented examples",
+    referencias: "MinSalud RIPS (datos.gov.co) · Tuchín Swine Study (PubMed)"
+  },
+  {
+    id: "scope",
+    numero: "02",
+    tag: "First Public Version",
+    titulo: "Colombia first. A clear and measurable scope.",
+    cifra_principal: "v0.0.1",
+    cifra_subtitulo: "Colombia focus with planned Andean region roadmap",
+    texto_corto: "We structured initial evidence on taeniasis and cysticercosis before expanding across the Andean region. Sources enter the verified table only after method, timeline, and denominator audits.",
+    candidatas: [
+      { nombre: "ICA (AnalítICA)", estado: "Evaluated in Census/CSF" },
+      { nombre: "MinSalud RIPS", estado: "Evaluated (4-year lag)" },
+      { nombre: "WOAH / WAHIS", estado: "Under Andean Evaluation" }
+    ],
+    boton_texto: "What this version includes"
+  },
+  {
+    id: "units",
+    numero: "03",
+    tag: "Units of Measurement",
+    titulo: "A medical appointment is not a person. A local sample is not an entire country.",
+    comparativa: [
+      {
+        tipo: "Administrative Records (RIPS)",
+        unidad: "Healthcare Encounters",
+        advertencia: "Measures billed visits, not unique patient counts or general prevalence."
+      },
+      {
+        tipo: "Local Scientific Study (Tuchín)",
+        unidad: "Sampled Swine & Lab Tests",
+        advertencia: "Describes 42 indigenous communities, not all Colombian swine."
+      }
+    ],
+    texto_corto: "RIPS tracks billed medical consultations. The Tuchín trial studied pigs in specific rural indigenous settings. Confusing units distorts any downstream AI models."
+  },
+  {
+    id: "verification",
+    numero: "04",
+    tag: "Auditable Evidence",
+    titulo: "Same source. Divergent dates. Unresolved denominators.",
+    discrepancias: [
+      {
+        fuente: "MinSalud RIPS (datos.gov.co)",
+        linea_1: "Metadata updated: May 18, 2026",
+        linea_2: "Actual microdata: June 9, 2022 (frozen at 2021)",
+        badge: "Verified update discrepancy"
+      },
+      {
+        fuente: "Tuchín Study (PMC11054264)",
+        linea_1: "Abstract methods: n = 442 pigs",
+        linea_2: "Abstract results: 46 / 472 (9.7%)",
+        badge: "Unresolved denominator mismatch"
+      },
+      {
+        fuente: "ICA (AnalítICA 2026)",
+        linea_1: "241 evaluated episodes: 85% negative for CSF",
+        linea_2: "Farm-level cysticercosis surveillance: 0%",
+        badge: "Backyard farm blindspot documented"
+      }
+    ],
+    boton_texto: "Open verification record"
+  },
+  {
+    id: "registry",
+    numero: "05",
+    tag: "What Porco Delivers",
+    titulo: "From an isolated link to an auditable trace record.",
+    ficha_preview: {
+      id: "OBS-COL-004",
+      fuente: "Tuchín Field Study (Córdoba)",
+      pais: "Colombia",
+      periodo: "Dec 2020 – Mar 2021",
+      resultado: "Ag-ELISA Positivity: 9.7% (46/472)",
+      estado: "Abstract denominator mismatch",
+      ref: "PMC11054264"
+    },
+    planes: ["Structured queries", "Territorial risk filters", "Agent MCP API feed"]
+  },
+  {
+    id: "access",
+    numero: "06",
+    tag: "People First, AI Next",
+    titulo: "Explore it yourself. Connect an agent when ready.",
+    texto_corto: "Download cleaned microdata as CSV or query the observatory directly from your AI agent via MCP. AI is a complementary interface; the core value is in the curated data.",
+    acciones: [
+      { label: "Download CSV", tipo: "descarga", url: "/data/colombia-andina-sanidad.csv" },
+      { label: "Connect an Agent", tipo: "enlace", url: "/conectar" }
+    ]
+  }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="description"
+      content="Porco is an auditable observatory for swine health data quality in Colombia and the Andean Region: cysticercosis, ASF, and traceability in the era of AI."
+    />
+    <meta name="author" content="Juan Enríquez" />
+    <meta name="theme-color" content="#F2EEE7" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:title" content="Porco | Swine Health Data Observatory" />
+    <meta
+      property="og:description"
+      content="Six signals auditing what public health and agricultural datasets are missing."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Porco" />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Porco | Swine Health Data Observatory" />
+    <meta
+      name="twitter:description"
+      content="Cysticercosis, ASF, ICA AnalítICA 2026, and data quality across the Andean Region."
+    />
+
+    <title>Porco | Without clean and structured data, AI is blind</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="contenedor">
+      <header class="topbar">
+        <a class="brand" href={withBase('en')} aria-label="Porco, Home">
+          <span class="brand__mark" aria-hidden="true">
+            <img src={withBase('logo.svg')} alt='' width='44' height='44' />
+          </span>
+          <span class="brand__name">Porco</span>
+        </a>
+
+        <nav class="topnav" aria-label="Main Navigation">
+          <a
+            class="nav-cta"
+            href={claudeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Connect Porco to Claude via MCP"
+          >Connect with Claude</a>
+          <a
+            class="lang-toggle"
+            href={withBase('/')}
+            aria-label="Cambiar a Español"
+          >ES</a>
+        </nav>
+      </header>
+
+      <!-- HERO CONTEXT -->
+      <section class="hero">
+        <p class="eyebrow">Audit · Evidence · Colombia v0.0.1 Public</p>
+        <h1 class="hero__title">
+          Without clean and structured data,<br />
+          <span>AI is blind.</span>
+        </h1>
+        <p class="hero__lede">
+          In the era of AI, without curated data there are no artificial intelligence models that deliver solid results without hallucinating. Six signals on data blindspots in Colombia before expanding to the Andean Region.
+        </p>
+
+        <div class="hero__stats">
+          <div class="stat">
+            <div class="stat__head">
+              <strong>241</strong>
+              <button
+                type="button"
+                class="cite-tag"
+                aria-label="View ICA Citation"
+                data-trigger-cite="10"
+              >
+                ICA
+              </button>
+            </div>
+            <span>Episodes in AnalítICA 2026 (85% ruled out for CSF)</span>
+          </div>
+
+          <div class="stat">
+            <div class="stat__head">
+              <strong>78.4%</strong>
+            </div>
+            <span>Informal backyard farms (without active surveillance)</span>
+          </div>
+
+          <div class="stat stat--alert">
+            <div class="stat__head">
+              <strong>4 years</strong>
+            </div>
+            <span>Time lag in MinSalud RIPS microdata (frozen in 2021)</span>
+          </div>
+
+          <div class="stat stat--mono">
+            <strong>v0.0.1 public</strong>
+            <span>updated {fecha}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6-CARD FEED -->
+      <CardsFeed
+        client:visible
+        tarjetas={tarjetasEn}
+      />
+
+      <footer class="site-footer">
+        <div class="footer__brand">
+          <span class="brand__name">Porco</span>
+          <p>Auditable health evidence observatory. Clean data for public decisions and AI agents.</p>
+        </div>
+
+        <div class="footer__links">
+          <a href={withBase('conectar')}>Connect MCP</a>
+          <a href={withBase('citas')}>IEEE Citations</a>
+          <a href={withBase('data/colombia-andina-sanidad.csv')} download="colombia-andina-sanidad.csv">Download CSV</a>
+          <a href={withBase('llms.txt')}>llms.txt</a>
+          <a href={withBase('data/riesgos_sanitarios.json')}>JSON</a>
+          <a href={withBase('api/mcp')}>MCP API</a>
+          <button type="button" data-feedback-open>Feedback</button>
+        </div>
+
+        <p class="footer__note">
+          Sources & limitations: ICA (AnalítICA 2026 & Livestock Census), MinSalud (RIPS open data), WOAH / WAHIS, Eurostat, USDA NASS, and local peer-reviewed field studies (Córdoba & Tolima). Administrative healthcare data counts billed encounters, not unique patients. Local community studies describe specific rural settings, not an entire nation. A missing record does not imply absence of disease.
+        </p>
+
+        <div class="footer__citas-link-box">
+          <a href={withBase('citas')} class="footer__citas-anchor">
+            <span>Explore complete IEEE citations catalog and detailed methodology</span>
+            <span class="footer__citas-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </footer>
+    </main>
+
+    <CiteModal client:load />
+    <FeedbackForm client:load />
+
+    <script is:inline>
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const trigger = target.closest('[data-trigger-cite]');
+        if (trigger) {
+          const id = Number(trigger.getAttribute('data-trigger-cite'));
+          if (id) {
+            window.dispatchEvent(new CustomEvent('porco:abrir-cita', { detail: { id } }));
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

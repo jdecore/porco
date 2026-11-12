@@ -10,6 +10,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
 const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
 const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const siteUrl = new URL(withBase('/'), site).toString().replace(/\/$/, '');
+const claudeUrl = "https://claude.ai/new?modal=add-custom-connector&connectorName=" + encodeURIComponent("Porco | Observatorio sanitario porcino") + "&connectorUrl=" + encodeURIComponent(siteUrl + "/api/mcp") + "#settings/customize-connectors";
 
 const fecha = new Intl.DateTimeFormat('es-CO', {
   day: '2-digit',
@@ -86,12 +88,18 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </a>
 
         <nav class="topnav" aria-label="Navegación principal">
-          <a href="#feed-tarjetas">Evidencia</a>
-          <a href={withBase('conectar')}>Conectar MCP</a>
-          <a href={withBase('citas')}>Citas IEEE</a>
-          <a href={withBase('data/colombia-andina-sanidad.csv')} download="colombia-andina-sanidad.csv">CSV</a>
-          <a href={withBase('llms.txt')}>llms.txt</a>
-          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+          <a
+            class="nav-cta"
+            href={claudeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Conectar Porco a Claude por MCP"
+          >Conectar con Claude</a>
+          <a
+            class="lang-toggle"
+            href={withBase('en')}
+            aria-label="Switch to English"
+          >EN</a>
         </nav>
       </header>
 
