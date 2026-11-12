@@ -235,15 +235,16 @@ function notificarCita(id: number) {
   flex-direction: column;
   padding: clamp(22px, 3vw, 32px);
   border-radius: var(--radius);
-  background: var(--card);
-  border: 1px solid var(--line);
-  box-shadow: 0 4px 16px -8px rgba(22, 21, 18, 0.04);
+  background: var(--terra);
+  border: 1px solid var(--terra-deep);
+  color: #ffffff;
+  box-shadow: 0 8px 24px -6px rgba(184, 64, 31, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .feed-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px -12px rgba(22, 21, 18, 0.08);
+  box-shadow: 0 14px 32px -8px rgba(184, 64, 31, 0.35);
 }
 
 .feed-card__head {
@@ -257,7 +258,7 @@ function notificarCita(id: number) {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .feed-card__tag {
@@ -266,11 +267,11 @@ function notificarCita(id: number) {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--red-deep);
-  background: var(--accent-wash);
-  padding: 3px 8px;
+  color: #161512;
+  background: var(--lime);
+  padding: 3px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(217, 58, 43, 0.15);
+  border: none;
 }
 
 .feed-card__title {
@@ -280,14 +281,15 @@ function notificarCita(id: number) {
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: #ffffff;
 }
 
 .feed-card__desc {
   margin: 0 0 18px;
   font-size: 0.9375rem;
   line-height: 1.55;
-  color: var(--muted);
+  color: #fbf9f4;
+  opacity: 0.92;
 }
 
 /* Card 1 Metric */
@@ -295,8 +297,8 @@ function notificarCita(id: number) {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: var(--bg);
-  border: 1px solid var(--line);
+  background: var(--terra-deep);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 14px 18px;
   border-radius: 18px;
   margin-bottom: 16px;
@@ -311,20 +313,19 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.5);
   text-decoration: line-through;
-  opacity: 0.7;
 }
 
 .struck-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .metric-arrow {
   font-size: 1.25rem;
-  color: var(--red);
+  color: var(--lime);
   font-weight: bold;
 }
 
@@ -337,13 +338,13 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.85rem;
   font-weight: 800;
-  color: var(--red);
+  color: var(--lime);
 }
 
 .verified-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ink);
+  color: #ffffff;
 }
 
 /* Card 2 Coverage */
@@ -359,30 +360,32 @@ function notificarCita(id: number) {
   flex-direction: column;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: var(--terra-deep);
 }
 
 .coverage-pill strong {
   font-family: var(--font-mono);
   font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .coverage-pill span {
   font-size: 0.6875rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .coverage-pill--active {
-  background: rgba(217, 58, 43, 0.08);
-  border-color: rgba(217, 58, 43, 0.3);
+  background: var(--terra-dark);
+  border-color: var(--lime);
 }
 
 .coverage-pill--active strong {
-  color: var(--red);
+  color: var(--lime);
 }
 
 .coverage-pill--pending {
-  background: var(--bg);
+  background: var(--terra-deep);
 }
 
 .candidatas-list {
@@ -397,27 +400,28 @@ function notificarCita(id: number) {
   justify-content: space-between;
   padding: 8px 12px;
   border-radius: 10px;
-  background: var(--bg);
-  border: 1px solid var(--line);
+  background: var(--terra-deep);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .candidata-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--lime);
   margin-right: 8px;
 }
 
 .candidata-nombre {
   font-size: 0.8125rem;
   font-weight: 600;
+  color: #ffffff;
 }
 
 .candidata-badge {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* Card 3 Units Split */
@@ -430,8 +434,8 @@ function notificarCita(id: number) {
 .unit-box {
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--terra-deep);
 }
 
 .unit-kicker {
@@ -439,7 +443,7 @@ function notificarCita(id: number) {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   text-transform: uppercase;
-  color: var(--red-deep);
+  color: var(--lime);
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -448,7 +452,7 @@ function notificarCita(id: number) {
   display: block;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--ink);
+  color: #ffffff;
   margin-bottom: 4px;
 }
 
@@ -456,7 +460,7 @@ function notificarCita(id: number) {
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Card 4 Discrepancias */
@@ -469,8 +473,8 @@ function notificarCita(id: number) {
 .discrepancia-item {
   padding: 10px 14px;
   border-radius: 12px;
-  background: var(--bg);
-  border: 1px solid var(--line);
+  background: var(--terra-deep);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .discrepancia-head {
@@ -483,37 +487,37 @@ function notificarCita(id: number) {
 
 .discrepancia-head strong {
   font-size: 0.8125rem;
-  color: var(--ink);
+  color: #ffffff;
 }
 
 .badge-alert {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: var(--red-deep);
-  background: rgba(217, 58, 43, 0.12);
-  padding: 2px 6px;
+  color: #161512;
+  background: var(--lime);
+  padding: 2px 7px;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .discrepancia-lines {
   display: grid;
   gap: 2px;
   font-size: 0.75rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.85);
   font-family: var(--font-mono);
 }
 
 /* Card 5 Terminal */
 .terminal-preview {
   border-radius: 14px;
-  background: var(--dark, #17181a);
-  color: #fff;
+  background: var(--terra-dark);
+  color: #ffffff;
   padding: 12px 14px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   margin-bottom: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .terminal-top {
@@ -522,24 +526,24 @@ function notificarCita(id: number) {
   gap: 5px;
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .term-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .term-dot:first-child {
-  background: var(--red);
+  background: var(--lime);
 }
 
 .term-id {
   margin-left: auto;
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .terminal-code {
@@ -548,11 +552,12 @@ function notificarCita(id: number) {
 }
 
 .term-k {
-  color: #999;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .term-warn {
-  color: #ff9e79;
+  color: var(--lime);
+  font-weight: 700;
 }
 
 .plans-tags {
@@ -564,11 +569,11 @@ function notificarCita(id: number) {
 .plan-tag {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--ink);
-  background: var(--bg);
+  color: #ffffff;
+  background: var(--terra-deep);
   padding: 4px 8px;
   border-radius: 8px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Card 6 Actions */
@@ -584,7 +589,7 @@ function notificarCita(id: number) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
+  padding: 11px 18px;
   border-radius: 12px;
   font-family: var(--font-body);
   font-size: 0.8125rem;
@@ -596,23 +601,23 @@ function notificarCita(id: number) {
 }
 
 .feed-card__btn--red {
-  background: var(--red);
-  color: #ffffff;
+  background: var(--lime);
+  color: #161512;
 }
 
 .feed-card__btn--red:hover {
-  background: var(--red-deep);
+  background: #cbf0b5;
   transform: translateY(-1px);
 }
 
 .feed-card__btn--secondary {
-  background: var(--bg);
-  color: var(--ink);
-  border-color: var(--line);
+  background: var(--terra-deep);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .feed-card__btn--secondary:hover {
-  background: var(--ink);
+  background: var(--terra-dark);
   color: #ffffff;
 }
 
@@ -625,7 +630,7 @@ function notificarCita(id: number) {
 
 .feed-card__ref-note {
   font-size: 0.75rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* Mobile: Feed de cartas individual y fluido */
