@@ -8,25 +8,18 @@ const publicDir = resolve(root, 'public/data');
 
 const data = JSON.parse(await readFile(source, 'utf8'));
 
-const totalTerritorios = data.acceso_datos.territorios_evaluados ?? data.acceso_datos.territorios_latam ?? 40;
-
 const sanidad = {
   proyecto: data.meta.proyecto,
+  version: data.meta.version,
   descripcion: data.meta.descripcion,
   actualizado: data.meta.actualizado,
   enfoque: data.meta.enfoque,
-  indicadores: {
-    territorios_evaluados: totalTerritorios,
-    riesgo_ppa_desconocido: data.acceso_datos.riesgo_ppa_desconocido,
-    prevalencia_cisticercosis_pct: data.cisticercosis.prevalencia_cerdos_pct,
-    mortalidad_ppa_nota: data.ppa.mortalidad_nota,
-  },
+  indicadores: data.indicadores_clave,
   inventario: data.inventario,
-  prevalencias: {
-    cisticercosis: data.cisticercosis,
-    ppa: data.ppa,
-  },
-  fuentes: [...new Set(data.inventario.map((item) => item.fuente))],
+  tarjetas_feed: data.tarjetas_feed,
+  csv_descarga: data.meta.csv_descarga,
+  documento_metodologia: data.meta.documento_metodologia,
+  fuentes: ['ICA (AnalítICA)', 'MinSalud (RIPS)', 'OMSA / WAHIS', 'PubMed / PMC', 'Eurostat', 'USDA NASS'],
 };
 
 await mkdir(publicDir, { recursive: true });

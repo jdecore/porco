@@ -1,132 +1,69 @@
-# Porco (porco-tau.vercel.app) — Observatorio de riesgos sanitarios en LatAm
+# Porco (porco-tau.vercel.app) — Observatorio de Evidencia y Datos Sanitarios (v0.0.1)
 
-> Porco conecta inventario porcino, cisticercosis, Peste Porcina Africana (PPA) y la brecha de datos públicos con un enfoque One Health. Es un sitio estático con un endpoint MCP de solo lectura para que agentes y asistentes consulten las mismas cifras sin scraping.
+> Porco es un observatorio de auditoría, trazabilidad y calidad de datos sanitarios porcinos enfocado en Colombia y en expansión hacia la Región Andina.
+> Tesis central: **En la era de la inteligencia artificial, ningún modelo de predicción de brotes o bioseguridad funciona si los datos de origen están desactualizados, dispersos en PDFs estáticos o reportan unidades incompatibles.**
 
-## URLs canónicas
+## URLs y Recursos Canónicos
 
-- Sitio: https://porco-tau.vercel.app/
-- Guía de conexión (Claude, Claude Code, Cursor, VS Code): https://porco-tau.vercel.app/conectar
-- Fuentes y citas completas (IEEE): https://porco-tau.vercel.app/citas
+- Sitio Web: https://porco-tau.vercel.app/
+- Guía de Conexión MCP (Claude, Cursor, VS Code): https://porco-tau.vercel.app/conectar
+- Fuentes y Citas Científicas (IEEE): https://porco-tau.vercel.app/citas
 - Endpoint MCP (Streamable HTTP, sin autenticación): https://porco-tau.vercel.app/api/mcp
-- Contexto para agentes: https://porco-tau.vercel.app/llms.txt
-- Datos completos (JSON): https://porco-tau.vercel.app/data/riesgos_sanitarios.json
-- Resumen público (JSON): https://porco-tau.vercel.app/data/sanidad.json
-- Repositorio: https://github.com/jdecore/porkxi
+- Microdatos Curados en CSV (descarga directa): https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv
+- Base de Conocimiento y Matriz Andina (Markdown): https://porco-tau.vercel.app/data/colombia-andina-sanidad.md
+- Datos Completos de la Plataforma (JSON): https://porco-tau.vercel.app/data/riesgos_sanitarios.json
+- Repositorio Oficial: https://github.com/jdecore/porco
 
-Versión de datos: `1.2.0` · Actualizado: `2026-11-09` · Idioma: español (es-CO).
+Versión de datos: `0.0.1` · Actualizado: `Noviembre 2026` · Idioma: español (es-CO).
 
-## Qué es Porco
+---
 
-Porco es un observatorio visual, no un dashboard operativo. Su tesis: la fragmentación de los datos agropecuarios produce ceguera institucional. La ausencia de un sistema equivalente a TRACES NT (UE) impide alertas tempranas de PPA y cisticercosis en LatAm. El sitio muestra cuatro señales:
+## 1. El Problema de los Datos en Salud Animal y Humana
 
-1. **La brecha de datos:** 24 de 40 territorios evaluados en América Latina y el Caribe con riesgo de introducción de PPA clasificado como desconocido por datos insuficientes.
-2. **La amenaza:** cisticercosis porcina focalizada y exposición humana por *Taenia solium*.
-3. **La acción:** un prompt para interrogar los datos con un agente.
-4. **La infraestructura:** un servidor MCP público para conectar agentes.
+No se trata de culpar a una entidad, sino de evidenciar las limitaciones técnicas y operativas actuales:
+1. **MinSalud RIPS (datos.gov.co):**
+   - **Desfase crítico de 4 años:** Metadatos con fecha de mayo de 2026, pero los datos reales están congelados en junio de 2022 (solo cubren hasta 2021).
+   - **Unidad de medida engañosa:** RIPS registra `numeroatenciones` (consultas médicas facturadas). Una persona con neurocisticercosis que asiste a 5 controles genera 5 filas, distorsionando cualquier estimación de prevalencia.
+   - **Omisión en SIVIGILA:** La cisticercosis humana no es un evento de notificación obligatoria regular, lo que genera un subregistro severo.
+2. **Estudios Científicos Locales (ej. Tuchín, Córdoba - PMC11054264):**
+   - El abstract presenta una discrepancia tipográfica de denominador: menciona evaluar $n = 442$ cerdos, pero reporta la positividad de antígeno como $46 / 472$ (9.7%).
+   - Describe 42 comunidades rurales e indígenas Zenú con $78\%$ de traspatio y sin letrinas; **no es una cifra extrapolable a todo el país**.
+3. **ICA (Instituto Colombiano Agropecuario — Tablero AnalítICA 2026):**
+   - Monitorea 241 episodios sospechosos en cerdos (~11.000 animales).
+   - El **85.1% (205 episodios) fue descartado para Peste Porcina Clásica (PPC)** y se enfoca en alerta preventiva de PPA.
+   - **Cero vigilancia activa predial de cisticercosis:** La cisticercosis no forma parte del circuito diagnóstico de granjas del ICA. Solo se detecta post-mortem en frigoríficos regulados por el INVIMA.
+   - **El vacío de traspatio:** El 78.4% de los predios porcinos en Colombia son de traspatio informal, por lo que nunca pasan por inspecciones del ICA ni del INVIMA.
 
-## Cifras clave (usar exactamente estas)
+---
 
-- **Inventario porcino (millones de cabezas):**
-  - Colombia: 10.67 millones de cerdos (10,668,276 cabezas en 189,198 predios, censo oficial 2024 compilado por ICA / Porcinews; 78.4% traspatio).
-  - Unión Europea (UE-27): 131.45 millones de cerdos (censo 2025, Eurostat `apro_mt_lspig`).
-  - Estados Unidos: 74.3 millones de cerdos y cerdas (estimación al 1 de septiembre de 2026, USDA NASS).
-- **Brecha de datos PPA:** Un estudio de 2025 (Castillo et al., Frontiers in Veterinary Science) evaluó 40 territorios en América Latina y el Caribe y clasificó el riesgo de introducción como desconocido en 24 de 40 territorios por datos insuficientes. Esto no equivale a ausencia de PPA ni a ausencia total de datos.
-- **Riesgo en Colombia (PPA):** Clasificado como "probable" en el estudio de Castillo et al. debido a vías de importación informal.
-- **Mortalidad PPA:** En formas agudas, la mortalidad puede alcanzar el 100%; las formas subagudas y crónicas pueden tener menor mortalidad. Fuente: WOAH.
-- **Cisticercosis (estimaciones locales, no nacionales ni regionales):**
-  - 9.7% de cisticercosis porcina en Tuchín, Córdoba (Colombia), según estudio de 472 cerdos de traspatio muestreados en 2021 (publicado en 2024).
-  - En Coyaima, Tolima (estudio publicado en 2025): 14% de seroprevalencia en cerdos muestreados y 8.5% de seroprevalencia humana.
-- **Ciclo biológico y One Health:** Huevos de *T. solium* en heces humanas → cerdos con cisticercosis → consumo de carne de cerdo poco cocida → teniasis humana; la cisticercosis humana ocurre por ingesta accidental de huevos. La neurocisticercosis por *Taenia solium* es una causa importante y prevenible de epilepsia. Comer carne de cerdo poco cocida causa teniasis intestinal, no cisticercosis directa.
-- **Referencia internacional:** TRACES NT (UE). LatAm no tiene un sistema centralizado equivalente.
+## 2. Matriz Epidemiológica: Región Andina y Zoonosis
 
-No inventes cifras, años ni fuentes. Si un dato no aparece aquí o en las herramientas MCP, dilo explícitamente.
+- **PPC (Peste Porcina Clásica):** Única con estatus oficial de libre de la OMSA. México, Costa Rica, Cono Sur (Arg, Chi, Par, Uru) son libres. Colombia tiene 3 zonas libres; Bolivia tiene el Dpto. de Santa Cruz libre (mayo 2026); Ecuador continental y Perú continúan endémicos.
+- **PPA (Peste Porcina Africana):** Libre en toda Sudamérica, México y Centroamérica. **Amenaza activa y brotes endémicos en el Caribe (La Española: República Dominicana y Haití desde 2021)**. 24 de 40 territorios evaluados en ALyC tienen riesgo de introducción clasificado como desconocido por falta de datos suficientes (Castillo et al., 2025).
+- **Zoonosis Principales:**
+  - *Taenia solium* (Teniasis / Cisticercosis): Endémica en traspatio rural de la Región Andina (Colombia, Perú, Bolivia, Ecuador), México y Centroamérica. Causa prevenible de epilepsia humana.
+  - *Trichinella spiralis* (Triquinelosis): Focalizada en el Cono Sur (Argentina y Chile).
+  - *Influenza Porcina* y *Erisipela*: Endémicas generalizadas en granjas comerciales.
+  - *Hepatitis E (HEV-3)*: Zoonosis alimentaria emergente en la región.
 
-## Referencias bibliográficas (IEEE)
+---
 
-- [1] A. Castillo, J. E. Pérez, et al., "Risk assessment of African swine fever introduction into Latin America and the Caribbean," *Frontiers in Veterinary Science*, vol. 12, art. 1587131, 2025.
-- [2] World Organisation for Animal Health (WOAH), "African Swine Fever (ASF) Portal and Technical Factsheet," *WOAH Animal Diseases*, 2024.
-- [3] D. C. Montero, R. Paternina, et al., "Porcine cysticercosis in backyard pigs from Tuchín, Córdoba, Colombia," *Parasites & Vectors*, PMC11054264, 2024.
-- [4] G. Arboleda, M. Sánchez, et al., "Seroprevalence of Taenia solium cysticercosis in swine and human populations of Coyaima, Tolima," *PubMed / Acta Tropica*, PMID 40872264, 2025.
-- [5] A. Flórez, A. Pastrán, et al., "Spatial distribution and epidemiological characteristics of human cysticercosis in Colombia," *PLOS Neglected Tropical Diseases*, PMC8626945, 2021.
-- [6] World Health Organization (WHO), "Improving data on Taenia solium infections," *WHO NTD Activities*, 2023.
-- [7] World Health Organization (WHO), "Status of endemicity of Taenia solium," *Global Health Observatory (GHO)*, 2024.
-- [8] Eurostat, "Pig population - annual data (APRO_MT_LSPIG)," *European Commission Data Browser*, 2025.
-- [9] USDA NASS, "Hogs and Pigs Report," *United States Department of Agriculture*, 2026.
-- [10] ICA / Porcinews, "Censo Pecuario Nacional Porcino e informe del sector," 2024.
+## 3. Herramientas del Servidor MCP (`porco`)
 
-Consulta la lista interactiva con enlaces directos en https://porco-tau.vercel.app/citas.
+Transporte: Streamable HTTP (stateless) en `https://porco-tau.vercel.app/api/mcp` (sin autenticación, de solo lectura).
 
-## Herramientas MCP
+| Herramienta | Qué devuelve |
+| :--- | :--- |
+| `get_riesgos_sanitarios` | Estructura completa de la versión 0.0.1, tarjetas del feed, indicadores e inventario. |
+| `get_evidencia_colombia_csv` | Microdatos tabulares limpios en CSV con registros auditados de ICA, RIPS, Tuchín, Coyaima y OMSA. |
+| `get_documento_metodologia_andina` | Documento Markdown completo con la matriz epidemiológica regional, análisis de AnalítICA y oportunidades B2B. |
+| `get_analitica_ica_2026` | Datos específicos del tablero AnalítICA 2026 del ICA (241 episodios, 85% descartado PPC, cuadros clínicos y origen de notificaciones). |
+| `get_resumen_porco` | Resumen ejecutivo conciso de discrepancias y calidad de datos. |
 
-Servidor: `porco` · transporte: Streamable HTTP (stateless) · autenticación: ninguna · solo lectura.
+---
 
-| Herramienta | Argumentos | Devuelve |
-| :--- | :--- | :--- |
-| `get_riesgos_sanitarios` | ninguno | Observatorio completo: meta, inventario, acceso a datos, cisticercosis, PPA y tarjetas. |
-| `get_inventario_porcino` | ninguno | Serie comparada Colombia / UE-27 / EE.UU. con cabezas, periodo, fuente y cita IEEE. |
-| `get_cisticercosis` | `incluir_contexto_one_health?: boolean` | Estimaciones locales de Tuchín y Coyaima, ciclo biológico y prevención de epilepsia. |
-| `get_estado_ppa` | ninguno | Territorios con riesgo desconocido (24 de 40), riesgo en Colombia y mortalidad según WOAH. |
-| `get_resumen_porco` | ninguno | Cifras mínimas verificadas para respuestas rápidas. |
+## 4. Oportunidades de Negocio B2B (Porco Radar & Audit)
 
-Ejemplo de llamada `tools/call`:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "tools/call",
-  "params": { "name": "get_resumen_porco", "arguments": {} }
-}
-```
-
-El endpoint es stateless: se usa `POST` para `initialize`, `tools/list` y `tools/call`. Un `GET` devuelve `405` y es normal; no hay stream SSE persistente.
-
-## Cómo conectar
-
-### Claude (web o escritorio)
-
-1. Abre **Configuración → Conectores → Añadir conector personalizado**.
-2. Nombre: `Porco`. URL: `https://porco-tau.vercel.app/api/mcp`.
-3. Autenticación: **Sin autenticación**.
-4. En un chat nuevo, pide: “¿Qué puedes consultar con Porco?”.
-
-Guía completa: https://porco-tau.vercel.app/conectar
-
-### Claude Code
-
-```bash
-claude mcp add --transport http porco https://porco-tau.vercel.app/api/mcp
-```
-
-### Cursor, VS Code u otros clientes con Streamable HTTP
-
-```json
-{
-  "mcpServers": {
-    "porco": {
-      "url": "https://porco-tau.vercel.app/api/mcp"
-    }
-  }
-}
-```
-
-### Clientes que solo hablan stdio
-
-```bash
-npx -y mcp-remote https://porco-tau.vercel.app/api/mcp
-```
-
-## Cómo interpretar los datos
-
-- Usa siempre el enfoque **One Health**: saneamiento, animales y personas son un solo ciclo.
-- La neurocisticercosis por *Taenia solium* es una causa importante y prevenible de epilepsia. Comer carne mal cocida causa teniasis; la ingestión accidental de huevos causa cisticercosis.
-- La mortalidad por PPA puede alcanzar el 100% en formas agudas, pero no siempre es del 100% (menor en formas subagudas o crónicas).
-- Un estudio clasificó 24 de 40 territorios evaluados con riesgo de introducción desconocido por falta de datos suficientes. No implica ausencia de la enfermedad ni de todos los datos.
-- Las cifras de cisticercosis (9.7%, 14%, 8.5%) son estimaciones locales (Tuchín y Coyaima), no prevalencias departamentales, nacionales ni regionales.
-- Cita siempre la fuente y año de cada dato.
-
-## Contacto y colaboración
-
-- Comentarios, mejoras o interés en colaborar: usa el botón **Comentarios** del sitio.
-- Repositorio y issues: https://github.com/jdecore/porkxi
-- Autor: Juan Enríquez.
+1. **Porco Radar B2B (Alerta Temprana Territorial):** Mapeo predictivo de riesgo para gremios (Porkcolombia) y grandes porcicultores, combinando predios de traspatio (ICA), cuadros respiratorios inespecíficos y contrabando.
+2. **Audit-as-a-Service (Exportación Frigorífica):** Dossier técnico auditable bajo estándares IEEE/OMSA para frigoríficos exportadores (Decreto 1500 INVIMA) que certifica zonas de acopio libres de focos comunitarios.
+3. **Data Feed API / MCP Enterprise:** Suscripción mensual para farmacéuticas veterinarias (Boehringer Ingelheim, MSD, Zoetis) para dimensionar demanda de biológicos y antiparasitarios en campo.

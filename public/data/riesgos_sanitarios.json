@@ -1,14 +1,23 @@
 {
   "meta": {
     "proyecto": "Porco",
-    "descripcion": "Observatorio visual de riesgos sanitarios en LatAm.",
-    "actualizado": "2026-11-09",
-    "unidad_inventario": "millones de cabezas",
-    "enfoque": "One Health",
+    "version": "0.0.1",
+    "descripcion": "Observatorio de evidencia, trazabilidad y auditoría sanitaria porcina en Colombia y la Región Andina.",
+    "actualizado": "2026-11-11",
+    "enfoque": "One Health y Calidad de Datos para IA",
     "sitio": "https://porco-tau.vercel.app",
     "mcp": "https://porco-tau.vercel.app/api/mcp",
-    "guia_conexion": "https://porco-tau.vercel.app/conectar",
-    "llms": "https://porco-tau.vercel.app/llms.txt"
+    "csv_descarga": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv",
+    "documento_metodologia": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.md"
+  },
+  "indicadores_clave": {
+    "territorios_evaluados": 40,
+    "riesgo_ppa_desconocido": 24,
+    "episodios_ica_2026": 241,
+    "negativos_ppc_ica_pct": 85.1,
+    "predios_traspatio_colombia_pct": 78.4,
+    "prevalencia_cisticercosis_tuchin": 9.7,
+    "desfase_anios_rips": 4
   },
   "inventario": [
     {
@@ -18,9 +27,8 @@
       "millones": 10.67,
       "periodo": "2024",
       "fuente": "ICA / Porcinews",
-      "fuente_detalle": "Censo pecuario 2024, 189.198 predios",
-      "cita_id": 10,
-      "color": "#B8E3A0"
+      "fuente_detalle": "Censo pecuario 2024, 189.198 predios (78.4% traspatio)",
+      "color": "#D93A2B"
     },
     {
       "region": "UE-27",
@@ -30,8 +38,7 @@
       "periodo": "2025",
       "fuente": "Eurostat (apro_mt_lspig)",
       "fuente_detalle": "Censo anual UE-27 2025",
-      "cita_id": 8,
-      "color": "#FBF9F4"
+      "color": "#1F5C45"
     },
     {
       "region": "EE. UU.",
@@ -41,75 +48,129 @@
       "periodo": "Sep 2026",
       "fuente": "USDA NASS",
       "fuente_detalle": "Estimación al 1 de septiembre de 2026",
-      "cita_id": 9,
-      "color": "#E8C3AE"
+      "color": "#1B1B1B"
     }
   ],
-  "acceso_datos": {
-    "territorios_evaluados": 40,
-    "riesgo_ppa_desconocido": 24,
-    "porcentaje_desconocido": 60,
-    "sistema_referencia": "TRACES NT (UE)",
-    "mensaje": "24 de 40 territorios con riesgo de introducción de PPA clasificado como desconocido por datos insuficientes.",
-    "cita_id": 1
-  },
-  "cisticercosis": {
-    "patogeno": "Taenia solium",
-    "prevalencia_cerdos_pct": 9.7,
-    "prevalencia_resto_pct": 90.3,
-    "pais": "Colombia",
-    "municipio": "Tuchín",
-    "departamento": "Córdoba",
-    "muestra_cerdos": 472,
-    "anio_muestreo": 2021,
-    "anio_publicacion": 2024,
-    "cita_id": 3,
-    "tolima": {
-      "municipio": "Coyaima",
-      "departamento": "Tolima",
-      "cerdos_pct": 14,
-      "humanos_pct": 8.5,
-      "anio": 2025,
-      "cita_id": 4
-    },
-    "consecuencia": "La neurocisticercosis por Taenia solium es una causa importante y prevenible de epilepsia.",
-    "ciclo_biologico": "Huevos de T. solium en heces humanas → cerdos con cisticercosis → consumo de carne de cerdo poco cocida → teniasis humana; la cisticercosis humana ocurre por ingesta accidental de huevos.",
-    "mensaje": "9.7% de cisticercosis porcina en Tuchín, Córdoba (Colombia), 2021. En Coyaima (Tolima, 2025), seroprevalencia de 14% en cerdos y 8.5% en humanos."
-  },
-  "ppa": {
-    "riesgo_desconocido_territorios": 24,
-    "total_territorios": 40,
-    "ambito_territorial": "40 territorios evaluados en América Latina y el Caribe",
-    "mortalidad_cerdos_pct": 100,
-    "mortalidad_nota": "La mortalidad por PPA puede alcanzar el 100% en formas agudas.",
-    "riesgo_colombia": "probable",
-    "causa_colombia": "vías de importación informal",
-    "mensaje": "24 de 40 territorios con riesgo de introducción de PPA clasificado como desconocido.",
-    "cita_id": 1,
-    "cita_mortalidad_id": 2
-  },
-  "tarjetas": [
+  "tarjetas_feed": [
     {
       "id": "problema",
-      "titulo": "Producimos más. Sabemos menos.",
-      "dato_gigante": "24 de 40",
-      "microcopy": "24 de 40 territorios con riesgo de introducción de PPA clasificado como desconocido por datos insuficientes."
+      "numero": "01",
+      "tag": "El problema",
+      "titulo": "Un número publicado no es una respuesta completa.",
+      "cifra_principal": "46 / 471",
+      "cifra_subtitulo": "Muestra real auditada vs. titular aislado (9.7%)",
+      "texto_corto": "Antes de reutilizar una estadística de salud, necesitas saber qué mide, cuándo se recopiló y qué población describe. Porco hace visibles los vacíos en lugar de ocultarlos tras porcentajes de titular.",
+      "boton_texto": "Ver ejemplos documentados",
+      "referencias": "MinSalud RIPS (datos.gov.co) · Estudio de Tuchín (PubMed)"
     },
     {
-      "id": "amenaza",
-      "titulo": "El ciclo oculto: Cerdos y humanos.",
-      "dato_gigante": "9.7%",
-      "microcopy": "La neurocisticercosis por Taenia solium es una causa importante y prevenible de epilepsia. Cifras corresponden a estimaciones locales en Tuchín (Córdoba) y Coyaima (Tolima)."
+      "id": "alcance",
+      "numero": "02",
+      "tag": "Nuestra primera versión",
+      "titulo": "Colombia primero. Un alcance claro y medible.",
+      "cifra_principal": "v0.0.1",
+      "cifra_subtitulo": "Enfoque Colombia con proyección a la Región Andina",
+      "texto_corto": "Organizamos la evidencia de teniasis y cisticercosis antes de expandirnos a la Región Andina. Las fuentes entran a la tabla solo tras verificar métodos, fechas y denominadores.",
+      "candidatas": [
+        {
+          "nombre": "ICA (AnalítICA)",
+          "estado": "Evaluado en Censo/PPC"
+        },
+        {
+          "nombre": "MinSalud RIPS",
+          "estado": "Evaluado (Desfase 4 años)"
+        },
+        {
+          "nombre": "OMSA / WAHIS",
+          "estado": "En evaluación Andina"
+        }
+      ],
+      "boton_texto": "Qué incluye esta versión"
     },
     {
-      "id": "accion",
-      "titulo": "Interroga a los datos.",
-      "prompt": "Lee los datos de Porco en https://porco-tau.vercel.app/llms.txt. ¿Cómo se conecta la falta de saneamiento en Colombia con la cisticercosis y la epilepsia?"
+      "id": "unidades",
+      "numero": "03",
+      "tag": "Unidades de medida",
+      "titulo": "Una atención no es una persona. Una muestra local no es un país.",
+      "comparativa": [
+        {
+          "tipo": "Registros Administrativos (RIPS)",
+          "unidad": "Atenciones de salud",
+          "advertencia": "No es conteo de pacientes únicos ni prevalencia poblacional."
+        },
+        {
+          "tipo": "Estudio Científico Local (Tuchín)",
+          "unidad": "Cerdos muestreados y diagnóstico de laboratorio",
+          "advertencia": "Describe 42 comunidades indígenas, no a todo el país."
+        }
+      ],
+      "texto_corto": "RIPS registra eventos de consulta médica facturados. El estudio de Tuchín evaluó cerdos en comunidades rurales específicas. Confundir las unidades distorsiona cualquier modelo de IA."
     },
     {
-      "id": "desarrolladores",
-      "titulo": "Conecta tu Agente.",
-      "comando": "claude mcp add --transport http porco https://porco-tau.vercel.app/api/mcp"
+      "id": "verificacion",
+      "numero": "04",
+      "tag": "Evidencia comprobable",
+      "titulo": "Misma fuente. Fechas diferentes. Denominadores sin resolver.",
+      "discrepancias": [
+        {
+          "fuente": "MinSalud RIPS (datos.gov.co)",
+          "linea_1": "Metadatos: 18 de mayo de 2026",
+          "linea_2": "Datos reales: 9 de junio de 2022 (congelado en 2021)",
+          "badge": "Fechas de actualización verificadas"
+        },
+        {
+          "fuente": "Estudio Tuchín (PMC11054264)",
+          "linea_1": "Metodología del abstract: n = 442 cerdos",
+          "linea_2": "Resultados del abstract: 46 / 472 (9.7%)",
+          "badge": "Discrepancia de denominador sin resolver"
+        },
+        {
+          "fuente": "ICA (AnalítICA 2026)",
+          "linea_1": "241 episodios evaluados: 85% descartado PPC",
+          "linea_2": "Vigilancia de cisticercosis en granjas: 0%",
+          "badge": "Punto ciego de traspatio documentado"
+        }
+      ],
+      "boton_texto": "Abrir registro de verificación"
+    },
+    {
+      "id": "registro",
+      "numero": "05",
+      "tag": "Qué aporta Porco",
+      "titulo": "De un enlace suelto a un registro auditable.",
+      "ficha_preview": {
+        "id": "OBS-COL-004",
+        "fuente": "Estudio de Tuchín (Córdoba)",
+        "pais": "Colombia",
+        "periodo": "Diciembre 2020 – Marzo 2021",
+        "resultado": "Positividad Ag-ELISA: 9.7% (46/472)",
+        "estado": "Discrepancia de denominador en abstract",
+        "ref": "PMC11054264"
+      },
+      "planes": [
+        "Búsqueda estructurada",
+        "Filtros territoriales",
+        "API / MCP para agentes"
+      ]
+    },
+    {
+      "id": "acceso",
+      "numero": "06",
+      "tag": "Primero las personas, luego la IA",
+      "titulo": "Explóralo por tu cuenta. Conecta un agente si lo deseas.",
+      "texto_corto": "Descarga los microdatos curados en CSV o consulta el observatorio desde tu agente de IA vía MCP. La IA es una interfaz complementaria; el valor real está en los datos curados.",
+      "acciones": [
+        {
+          "label": "Descargar CSV",
+          "tipo": "descarga",
+          "url": "/data/colombia-andina-sanidad.csv"
+        },
+        {
+          "label": "Conectar un agente",
+          "tipo": "enlace",
+          "url": "/conectar"
+        }
+      ]
     }
   ]
 }
