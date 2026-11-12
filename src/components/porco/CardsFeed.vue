@@ -222,6 +222,12 @@ function notificarCita(id: number) {
 </template>
 
 <style scoped>
+/* Tokens locales para alto contraste táctico */
+:root {
+  --terra-neon: #FF6B4A;
+  --terra-bright: #FF8566;
+}
+
 .cards-feed {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -235,16 +241,17 @@ function notificarCita(id: number) {
   flex-direction: column;
   padding: clamp(22px, 3vw, 32px);
   border-radius: var(--radius);
-  background: var(--terra);
-  border: 1px solid var(--terra-deep);
-  color: #ffffff;
-  box-shadow: 0 8px 24px -6px rgba(184, 64, 31, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #111214;
+  border: 1px solid rgba(255, 107, 74, 0.22);
+  color: #FFFFFF;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -8px rgba(255, 107, 74, 0.15);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .feed-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px -8px rgba(184, 64, 31, 0.35);
+  border-color: rgba(255, 107, 74, 0.45);
+  box-shadow: 0 14px 38px -10px rgba(0, 0, 0, 0.7), 0 0 28px -6px rgba(255, 107, 74, 0.28);
 }
 
 .feed-card__head {
@@ -258,7 +265,7 @@ function notificarCita(id: number) {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .feed-card__tag {
@@ -267,11 +274,12 @@ function notificarCita(id: number) {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #161512;
-  background: var(--lime);
+  color: #111214;
+  background: #FF6B4A;
   padding: 3px 10px;
   border-radius: 999px;
   border: none;
+  box-shadow: 0 0 12px rgba(255, 107, 74, 0.4);
 }
 
 .feed-card__title {
@@ -281,15 +289,14 @@ function notificarCita(id: number) {
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .feed-card__desc {
   margin: 0 0 18px;
   font-size: 0.9375rem;
   line-height: 1.55;
-  color: #fbf9f4;
-  opacity: 0.92;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 /* Card 1 Metric */
@@ -297,8 +304,8 @@ function notificarCita(id: number) {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: var(--terra-deep);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #18191D;
+  border: 1px solid rgba(255, 107, 74, 0.2);
   padding: 14px 18px;
   border-radius: 18px;
   margin-bottom: 16px;
@@ -313,19 +320,19 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
   text-decoration: line-through;
 }
 
 .struck-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .metric-arrow {
   font-size: 1.25rem;
-  color: var(--lime);
+  color: #FF6B4A;
   font-weight: bold;
 }
 
@@ -338,13 +345,14 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.85rem;
   font-weight: 800;
-  color: var(--lime);
+  color: #FF6B4A;
+  text-shadow: 0 0 16px rgba(255, 107, 74, 0.35);
 }
 
 .verified-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 /* Card 2 Coverage */
@@ -360,32 +368,32 @@ function notificarCita(id: number) {
   flex-direction: column;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: var(--terra-deep);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18191D;
 }
 
 .coverage-pill strong {
   font-family: var(--font-mono);
   font-size: 1.1rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .coverage-pill span {
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .coverage-pill--active {
-  background: var(--terra-dark);
-  border-color: var(--lime);
+  background: rgba(255, 107, 74, 0.1);
+  border-color: #FF6B4A;
 }
 
 .coverage-pill--active strong {
-  color: var(--lime);
+  color: #FF6B4A;
 }
 
 .coverage-pill--pending {
-  background: var(--terra-deep);
+  background: #18191D;
 }
 
 .candidatas-list {
@@ -400,28 +408,29 @@ function notificarCita(id: number) {
   justify-content: space-between;
   padding: 8px 12px;
   border-radius: 10px;
-  background: var(--terra-deep);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #18191D;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .candidata-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--lime);
+  background: #FF6B4A;
+  box-shadow: 0 0 8px rgba(255, 107, 74, 0.7);
   margin-right: 8px;
 }
 
 .candidata-nombre {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .candidata-badge {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Card 3 Units Split */
@@ -434,8 +443,8 @@ function notificarCita(id: number) {
 .unit-box {
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: var(--terra-deep);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #18191D;
 }
 
 .unit-kicker {
@@ -443,7 +452,7 @@ function notificarCita(id: number) {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   text-transform: uppercase;
-  color: var(--lime);
+  color: #FF6B4A;
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -452,7 +461,7 @@ function notificarCita(id: number) {
   display: block;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #FFFFFF;
   margin-bottom: 4px;
 }
 
@@ -460,7 +469,7 @@ function notificarCita(id: number) {
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Card 4 Discrepancias */
@@ -473,8 +482,8 @@ function notificarCita(id: number) {
 .discrepancia-item {
   padding: 10px 14px;
   border-radius: 12px;
-  background: var(--terra-deep);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #18191D;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .discrepancia-head {
@@ -487,14 +496,14 @@ function notificarCita(id: number) {
 
 .discrepancia-head strong {
   font-size: 0.8125rem;
-  color: #ffffff;
+  color: #FFFFFF;
 }
 
 .badge-alert {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: #161512;
-  background: var(--lime);
+  color: #111214;
+  background: #FF6B4A;
   padding: 2px 7px;
   border-radius: 6px;
   font-weight: 700;
@@ -504,20 +513,20 @@ function notificarCita(id: number) {
   display: grid;
   gap: 2px;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.75);
   font-family: var(--font-mono);
 }
 
 /* Card 5 Terminal */
 .terminal-preview {
   border-radius: 14px;
-  background: var(--terra-dark);
-  color: #ffffff;
+  background: #0B0C0E;
+  color: #FFFFFF;
   padding: 12px 14px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   margin-bottom: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 107, 74, 0.2);
 }
 
 .terminal-top {
@@ -526,24 +535,24 @@ function notificarCita(id: number) {
   gap: 5px;
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .term-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .term-dot:first-child {
-  background: var(--lime);
+  background: #FF6B4A;
 }
 
 .term-id {
   margin-left: auto;
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .terminal-code {
@@ -552,11 +561,11 @@ function notificarCita(id: number) {
 }
 
 .term-k {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .term-warn {
-  color: var(--lime);
+  color: #FF6B4A;
   font-weight: 700;
 }
 
@@ -569,11 +578,11 @@ function notificarCita(id: number) {
 .plan-tag {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #ffffff;
-  background: var(--terra-deep);
+  color: #FFFFFF;
+  background: #18191D;
   padding: 4px 8px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Card 6 Actions */
@@ -601,24 +610,27 @@ function notificarCita(id: number) {
 }
 
 .feed-card__btn--red {
-  background: var(--lime);
-  color: #161512;
+  background: #FF6B4A;
+  color: #111214;
+  box-shadow: 0 0 16px rgba(255, 107, 74, 0.35);
 }
 
 .feed-card__btn--red:hover {
-  background: #cbf0b5;
+  background: #FF8566;
   transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(255, 107, 74, 0.5);
 }
 
 .feed-card__btn--secondary {
-  background: var(--terra-deep);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.25);
+  background: #18191D;
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .feed-card__btn--secondary:hover {
-  background: var(--terra-dark);
-  color: #ffffff;
+  background: #23252B;
+  border-color: #FF6B4A;
+  color: #FFFFFF;
 }
 
 .feed-card__foot {
@@ -630,7 +642,7 @@ function notificarCita(id: number) {
 
 .feed-card__ref-note {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Mobile: Feed de cartas individual y fluido */
