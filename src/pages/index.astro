@@ -190,6 +190,31 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
             <span>actualizado {fecha}</span>
           </div>
         </div>
+        <script is:inline>
+          (function () {
+            const buttons = document.querySelectorAll('.country-circle[data-country]');
+            const colStats = document.getElementById('hero-stats-col');
+            const ecuStats = document.getElementById('hero-stats-ecu');
+
+            function setCountry(country) {
+              buttons.forEach((btn) => {
+                const active = btn.getAttribute('data-country') === country;
+                btn.classList.toggle('is-active', active);
+                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+              });
+              if (colStats) colStats.hidden = country !== 'col';
+              if (ecuStats) ecuStats.hidden = country !== 'ecu';
+              window.dispatchEvent(new CustomEvent('porco:country-change', { detail: country }));
+            }
+
+            buttons.forEach((btn) => {
+              btn.addEventListener('click', () => {
+                const country = btn.getAttribute('data-country') || 'col';
+                setCountry(country);
+              });
+            });
+          })();
+        </script>
       </section>
 
       <!-- FEED DE 6 CARDS -->
