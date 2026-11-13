@@ -1175,10 +1175,13 @@ code {
 
 .nav-cta,
 .lang-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 6px 12px !important;
   gap: 5px;
 }
 
