@@ -1173,6 +1173,15 @@ code {
   word-break: break-word;
 }
 
+.nav-cta,
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
+}
+
 .hero__title {
   overflow-wrap: break-word;
 }
