@@ -203,7 +203,7 @@ function notificarCita(id: number) {
       <div class="coverage-bar">
         <div class="coverage-pill coverage-pill--active">
           <strong>{{ pais === 'ecu' ? 'ECU' : 'COL' }}</strong>
-          <span>100% activo (v0.0.1)</span>
+          <span>100% activo (v0.0.2)</span>
         </div>
         <div class="coverage-pill coverage-pill--pending">
           <strong>{{ pais === 'ecu' ? 'COL' : 'ANDINA' }}</strong>
