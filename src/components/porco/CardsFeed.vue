@@ -217,6 +217,30 @@ function notificarCita(id: number) {
           🤖 {{ tarjetas[5].acciones[1].label }}
         </a>
       </div>
+
+      <div class="download-matrix" aria-label="Descargas por país">
+        <div class="download-col">
+          <span class="download-col__title">🇨🇴 Solo Colombia</span>
+          <div class="download-col__links">
+            <a href="/data/colombia-andina-sanidad.csv" download="colombia-sanidad.csv" class="download-chip">.csv</a>
+            <a href="/data/colombia-sanidad.md" download="colombia-sanidad.md" class="download-chip">.md</a>
+          </div>
+        </div>
+        <div class="download-col">
+          <span class="download-col__title">🇪🇨 Solo Ecuador</span>
+          <div class="download-col__links">
+            <a href="/data/ecuador-sanidad.csv" download="ecuador-sanidad.csv" class="download-chip">.csv</a>
+            <a href="/data/ecuador-sanidad.md" download="ecuador-sanidad.md" class="download-chip">.md</a>
+          </div>
+        </div>
+        <div class="download-col">
+          <span class="download-col__title">🌎 Ambos países</span>
+          <div class="download-col__links">
+            <a href="/data/colombia-andina-sanidad.csv" download="colombia-andina-sanidad.csv" class="download-chip">.csv</a>
+            <a href="/data/colombia-andina-sanidad.md" download="colombia-andina-sanidad.md" class="download-chip">.md</a>
+          </div>
+        </div>
+      </div>
     </article>
   </div>
 </template>

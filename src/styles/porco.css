@@ -1124,3 +1124,118 @@ a {
   border-color: var(--terra-deep);
   color: #fff;
 }
+
+/* --- v0.0.2: píldora de versión en navbar y selector circular de país --- */
+.version-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(227, 83, 54, 0.12);
+  color: #b8401f;
+  border: 1px solid rgba(227, 83, 54, 0.28);
+}
+
+.country-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 24px 0 18px;
+}
+
+.country-circle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(22, 21, 18, 0.14);
+  background: #fbf9f4;
+  color: #161512;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.15s ease;
+}
+
+.country-circle svg {
+  border-radius: 999px;
+  display: block;
+  box-shadow: 0 0 0 1px rgba(22, 21, 18, 0.12);
+}
+
+.country-circle:hover {
+  border-color: #e35336;
+  transform: translateY(-1px);
+}
+
+.country-circle.is-active {
+  border-color: #e35336;
+  background: #e35336;
+  color: #fbf9f4;
+}
+
+.hero__stats--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  .hero__stats--three {
+    grid-template-columns: 1fr;
+  }
+}
+
+.download-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.download-col {
+  background: rgba(251, 249, 244, 0.08);
+  border: 1px solid rgba(251, 249, 244, 0.18);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.download-col__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fbf9f4;
+}
+
+.download-col__links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.download-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #b8e3a0;
+  color: #161512;
+  text-decoration: none;
+}
+
+.download-chip:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 720px) {
+  .download-matrix {
+    grid-template-columns: 1fr;
+  }
+}

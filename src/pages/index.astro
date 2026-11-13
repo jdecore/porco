@@ -88,6 +88,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </a>
 
         <nav class="topnav" aria-label="Navegación principal">
+          <span class="version-pill" aria-label="Versión actual">v0.0.2</span>
           <a
             class="nav-cta"
             href={claudeUrl}
@@ -105,16 +106,57 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
 
       <!-- HERO CONTEXTO DE DATOS EN LA ERA DE LA IA -->
       <section class="hero">
-        <p class="eyebrow">Auditoría · Evidencia · Colombia v0.0.1 pública</p>
+        <p class="eyebrow">Auditoría · Evidencia · Colombia &amp; Ecuador v0.0.2</p>
         <h1 class="hero__title">
           Sin datos ordenados ni limpios,<br />
           <span>la IA no ve nada.</span>
         </h1>
         <p class="hero__lede">
-          En la era de la IA, sin datos curados no hay modelos de inteligencia artificial que den buenos resultados y no alucinen. Seis señales sobre vacíos de información en Colombia antes de expandirlo a la Región Andina.
+          En la era de la IA, sin datos curados no hay modelos de inteligencia artificial que den buenos resultados y no alucinen. Evidencia verificable sobre vacíos de información sanitaria en Colombia y Ecuador.
         </p>
 
-        <div class="hero__stats">
+        <!-- Selector circular de país (Colombia / Ecuador) -->
+        <div class="country-switcher" role="group" aria-label="Seleccionar país">
+          <button
+            type="button"
+            class="country-circle is-active"
+            data-country="col"
+            aria-pressed="true"
+            aria-label="Ver datos de Colombia"
+            title="Colombia"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-col"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-col)">
+                <rect width="36" height="18" y="0" fill="#FCD116" />
+                <rect width="36" height="9" y="18" fill="#003893" />
+                <rect width="36" height="9" y="27" fill="#CE1126" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Colombia</span>
+          </button>
+
+          <button
+            type="button"
+            class="country-circle"
+            data-country="ecu"
+            aria-pressed="false"
+            aria-label="Ver datos de Ecuador"
+            title="Ecuador"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-ecu"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-ecu)">
+                <rect width="36" height="18" y="0" fill="#FFD100" />
+                <rect width="36" height="9" y="18" fill="#0033A0" />
+                <rect width="36" height="9" y="27" fill="#EF3340" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Ecuador</span>
+          </button>
+        </div>
+
+        <div class="hero__stats hero__stats--three" id="hero-stats-col">
           <div class="stat">
             <div class="stat__head">
               <strong>241</strong>
