@@ -167,7 +167,7 @@ function notificarCita(id: number) {
 
       <div class="feed-card__hero-metric">
         <div class="metric-struck">
-          <span class="struck-value">9.7%</span>
+          <span class="struck-value">{{ pais === 'ecu' ? '0.9M' : '9.7%' }}</span>
           <span class="struck-label">Titular sin contexto</span>
         </div>
         <div class="metric-arrow" aria-hidden="true">→</div>
@@ -202,11 +202,11 @@ function notificarCita(id: number) {
 
       <div class="coverage-bar">
         <div class="coverage-pill coverage-pill--active">
-          <strong>COL</strong>
+          <strong>{{ pais === 'ecu' ? 'ECU' : 'COL' }}</strong>
           <span>100% activo (v0.0.1)</span>
         </div>
         <div class="coverage-pill coverage-pill--pending">
-          <strong>ANDINA</strong>
+          <strong>{{ pais === 'ecu' ? 'COL' : 'ANDINA' }}</strong>
           <span>Próxima versión</span>
         </div>
       </div>
@@ -238,7 +238,7 @@ function notificarCita(id: number) {
           <p class="unit-desc">Registra visitas médicas facturadas. Si un paciente consulta 5 veces, son 5 filas.</p>
         </div>
         <div class="unit-box unit-box--field">
-          <span class="unit-kicker">Estudio de Campo (Tuchín)</span>
+          <span class="unit-kicker">{{ pais === 'ecu' ? 'Encuesta INEC (ESPAC)' : 'Estudio de Campo (Tuchín)' }}</span>
           <strong class="unit-stat">42 Comunidades ≠ País</strong>
           <p class="unit-desc">Muestra focal de cerdos en comunidades rurales Zenú con traspatio predominante.</p>
         </div>
@@ -321,7 +321,7 @@ function notificarCita(id: number) {
       <div class="access-actions" v-if="activeTarjetas[5].acciones">
         <a
           :href="activeTarjetas[5].acciones[0].url"
-          download="colombia-andina-sanidad.csv"
+          :download="pais === 'ecu' ? 'ecuador-sanidad.csv' : 'colombia-andina-sanidad.csv'"
           class="feed-card__btn feed-card__btn--red"
         >
           📥 {{ activeTarjetas[5].acciones[0].label }}
