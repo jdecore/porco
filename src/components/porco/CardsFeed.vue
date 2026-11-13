@@ -555,8 +555,8 @@ function notificarCita(id: number) {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #18191D;
-  border: 1px solid rgba(255, 107, 74, 0.2);
+  background: #ffffff;
+  border: 1px solid rgba(22, 21, 18, 0.12);
   padding: 14px 18px;
   border-radius: 18px;
   margin-bottom: 16px;
@@ -571,19 +571,19 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.4);
+  color: #726b5f;
   text-decoration: line-through;
 }
 
 .struck-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: #726b5f;
 }
 
 .metric-arrow {
   font-size: 1.25rem;
-  color: #FF6B4A;
+  color: #e35336;
   font-weight: bold;
 }
 
@@ -596,14 +596,13 @@ function notificarCita(id: number) {
   font-family: var(--font-display);
   font-size: 1.85rem;
   font-weight: 800;
-  color: #FF6B4A;
-  text-shadow: 0 0 16px rgba(255, 107, 74, 0.35);
+  color: #b8401f;
 }
 
 .verified-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #161512;
 }
 
 /* Card 2 Coverage */
@@ -619,32 +618,32 @@ function notificarCita(id: number) {
   flex-direction: column;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #18191D;
+  border: 1px solid rgba(22, 21, 18, 0.12);
+  background: #ffffff;
 }
 
 .coverage-pill strong {
   font-family: var(--font-mono);
   font-size: 1.1rem;
-  color: #FFFFFF;
+  color: #161512;
 }
 
 .coverage-pill span {
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #5a544b;
 }
 
 .coverage-pill--active {
-  background: rgba(255, 107, 74, 0.1);
-  border-color: #FF6B4A;
+  background: #ffffff;
+  border-color: #e35336;
 }
 
 .coverage-pill--active strong {
-  color: #FF6B4A;
+  color: #b8401f;
 }
 
 .coverage-pill--pending {
-  background: #18191D;
+  background: #fbf9f4;
 }
 
 .candidatas-list {
@@ -657,31 +656,30 @@ function notificarCita(id: number) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: #18191D;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(22, 21, 18, 0.12);
 }
 
 .candidata-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #FF6B4A;
-  box-shadow: 0 0 8px rgba(255, 107, 74, 0.7);
+  background: #e35336;
   margin-right: 8px;
 }
 
 .candidata-nombre {
   font-size: 0.8125rem;
-  font-weight: 600;
-  color: #FFFFFF;
+  font-weight: 700;
+  color: #161512;
 }
 
 .candidata-badge {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #5a544b;
 }
 
 /* Card 3 Units Split */
@@ -694,8 +692,8 @@ function notificarCita(id: number) {
 .unit-box {
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #18191D;
+  border: 1px solid rgba(22, 21, 18, 0.12);
+  background: #ffffff;
 }
 
 .unit-kicker {
@@ -703,7 +701,7 @@ function notificarCita(id: number) {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   text-transform: uppercase;
-  color: #FF6B4A;
+  color: #b8401f;
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -712,7 +710,7 @@ function notificarCita(id: number) {
   display: block;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #161512;
   margin-bottom: 4px;
 }
 
@@ -720,7 +718,7 @@ function notificarCita(id: number) {
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.7);
+  color: #5a544b;
 }
 
 /* Card 4 Discrepancias */
@@ -731,10 +729,10 @@ function notificarCita(id: number) {
 }
 
 .discrepancia-item {
-  padding: 10px 14px;
+  padding: 12px 14px;
   border-radius: 12px;
-  background: #18191D;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(22, 21, 18, 0.12);
 }
 
 .discrepancia-head {
@@ -747,15 +745,15 @@ function notificarCita(id: number) {
 
 .discrepancia-head strong {
   font-size: 0.8125rem;
-  color: #FFFFFF;
+  color: #161512;
 }
 
 .badge-alert {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  color: #111214;
-  background: #FF6B4A;
-  padding: 2px 7px;
+  color: #ffffff;
+  background: #b8401f;
+  padding: 2px 8px;
   border-radius: 6px;
   font-weight: 700;
 }
@@ -764,20 +762,20 @@ function notificarCita(id: number) {
   display: grid;
   gap: 2px;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.75);
+  color: #5a544b;
   font-family: var(--font-mono);
 }
 
 /* Card 5 Terminal */
 .terminal-preview {
   border-radius: 14px;
-  background: #0B0C0E;
-  color: #FFFFFF;
+  background: #ffffff;
+  color: #161512;
   padding: 12px 14px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   margin-bottom: 14px;
-  border: 1px solid rgba(255, 107, 74, 0.2);
+  border: 1px solid rgba(22, 21, 18, 0.12);
 }
 
 .terminal-top {
@@ -786,24 +784,24 @@ function notificarCita(id: number) {
   gap: 5px;
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(22, 21, 18, 0.1);
 }
 
 .term-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(22, 21, 18, 0.2);
 }
 
 .term-dot:first-child {
-  background: #FF6B4A;
+  background: #e35336;
 }
 
 .term-id {
   margin-left: auto;
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #5a544b;
 }
 
 .terminal-code {
@@ -812,11 +810,11 @@ function notificarCita(id: number) {
 }
 
 .term-k {
-  color: rgba(255, 255, 255, 0.55);
+  color: #726b5f;
 }
 
 .term-warn {
-  color: #FF6B4A;
+  color: #b8401f;
   font-weight: 700;
 }
 
@@ -829,19 +827,26 @@ function notificarCita(id: number) {
 .plan-tag {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #FFFFFF;
-  background: #18191D;
-  padding: 4px 8px;
+  color: #161512;
+  background: #ffffff;
+  padding: 5px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(22, 21, 18, 0.12);
 }
 
 /* Card 6 Actions */
 .access-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-top: auto;
+  padding-top: 8px;
+}
+
+@media (max-width: 520px) {
+  .access-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Buttons */
