@@ -408,16 +408,26 @@ function notificarCita(id: number) {
       <div class="access-actions" v-if="activeTarjetas[5].acciones">
         <button
           type="button"
-          class="feed-card__btn feed-card__btn--red"
+          class="access-banner access-banner--primary"
           @click="showDownloadModal = true"
         >
-          📥 Descargar CSV / .MD
+          <span class="access-banner__icon" aria-hidden="true">📥</span>
+          <span class="access-banner__body">
+            <strong>Descargar CSV / .MD</strong>
+            <span>Elige Colombia, Ecuador, Perú o Región Andina completa</span>
+          </span>
+          <span class="access-banner__arrow" aria-hidden="true">→</span>
         </button>
         <a
           :href="activeTarjetas[5].acciones[1].url"
-          class="feed-card__btn feed-card__btn--secondary"
+          class="access-banner access-banner--secondary"
         >
-          🤖 {{ activeTarjetas[5].acciones[1].label }}
+          <span class="access-banner__icon" aria-hidden="true">🤖</span>
+          <span class="access-banner__body">
+            <strong>{{ activeTarjetas[5].acciones[1].label }}</strong>
+            <span>Conecta Claude, Cursor o VS Code vía servidor MCP</span>
+          </span>
+          <span class="access-banner__arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </article>
@@ -836,17 +846,78 @@ function notificarCita(id: number) {
 
 /* Card 6 Actions */
 .access-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-top: auto;
   padding-top: 8px;
 }
 
-@media (max-width: 520px) {
-  .access-actions {
-    grid-template-columns: 1fr;
-  }
+.access-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 16px;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.access-banner--primary {
+  background: #FF6B4A;
+  color: #111214;
+  border: 1px solid #FF8566;
+  box-shadow: 0 6px 20px rgba(255, 107, 74, 0.28);
+}
+
+.access-banner--primary:hover {
+  background: #FF8566;
+  transform: translateY(-2px);
+}
+
+.access-banner--secondary {
+  background: #ffffff;
+  color: #161512;
+  border: 1px solid rgba(22, 21, 18, 0.14);
+}
+
+.access-banner--secondary:hover {
+  border-color: #FF6B4A;
+  transform: translateY(-2px);
+}
+
+.access-banner__icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.access-banner__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.access-banner__body strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.access-banner__body span {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+.access-banner__arrow {
+  font-size: 1.15rem;
+  font-weight: 700;
+  opacity: 0.75;
 }
 
 /* Buttons */
