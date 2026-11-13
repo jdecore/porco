@@ -1093,18 +1093,17 @@ a {
 
 @media (max-width: 640px) {
   .topbar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    width: 100%;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 6px;
   }
 
   .topnav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-    flex-shrink: 0;
+    margin-left: auto !important;
+    justify-content: flex-end;
+    gap: 6px;
+    min-width: 0;
   }
 
   .nav-cta,
@@ -1114,31 +1113,25 @@ a {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 34px;
-    padding: 0 12px;
+    height: 30px;
+    padding: 0 9px;
     font-size: 13px;
     line-height: 1;
     white-space: nowrap;
   }
 
-  .topbar {
-    width: 100%;
-    flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-  }
-
-  .topnav {
-    margin-left: auto !important;
-    justify-content: flex-end;
-  }
-
   .brand {
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
   }
 
+  .brand__mark img {
+    width: 30px;
+    height: 30px;
+  }
+
   .brand__name {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
