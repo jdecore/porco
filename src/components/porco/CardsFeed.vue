@@ -31,12 +31,12 @@ const props = defineProps<{
   tarjetas: Tarjeta[];
 }>();
 
-const pais = ref<'col' | 'ecu'>('col');
+const pais = ref<'col' | 'ecu' | 'per'>('col');
 
 onMounted(() => {
   window.addEventListener('porco:country-change', (e: Event) => {
     const detail = (e as CustomEvent).detail;
-    if (detail === 'ecu' || detail === 'col') {
+    if (detail === 'ecu' || detail === 'col' || detail === 'per') {
       pais.value = detail;
     }
   });
@@ -143,8 +143,105 @@ const tarjetasEcuador: Tarjeta[] = [
   },
 ];
 
+const tarjetasPeru: Tarjeta[] = [
+  {
+    id: 'problema',
+    numero: '01',
+    tag: 'EL PROBLEMA',
+    titulo: '13 regiones libres internas, pero endémico ante el mundo.',
+    cifra_principal: '3.7M / 58%',
+    cifra_subtitulo: 'Cerdos en Perú (MIDAGRI 2025) y proporción en crianza familiar',
+    texto_corto:
+      'SENASA declaró 13 regiones libres de PPC sin vacunación, pero ante la OMSA Perú sigue figurando como endémico y el 58% de cerdos está en traspatio.',
+    boton_texto: 'Ver ejemplos documentados',
+    referencias: 'MIDAGRI (Ene 2025) · SENASA (Ago 2026) · OMSA Res. 26',
+  },
+  {
+    id: 'alcance',
+    numero: '02',
+    tag: 'ALCANCE PERÚ',
+    titulo: 'De la sierra sur a la frontera norte.',
+    texto_corto:
+      'Evaluamos inventario MIDAGRI, campañas de vacunación PPC de SENASA y estudios serológicos locales de cisticercosis en Tumbes, Cusco y Piura.',
+    candidatas: [
+      { nombre: 'MIDAGRI (Cierre 2024)', estado: '3.702.587 cerdos · 419.702 productores' },
+      { nombre: 'SENASA (Campaña PPC)', estado: '2.65M vacunados (2025) · 996k (2026)' },
+      { nombre: 'SENASA (Camales D.S. 007)', estado: '0% vigilancia activa en granjas' },
+    ],
+  },
+  {
+    id: 'unidades',
+    numero: '03',
+    tag: 'UNIDADES DE MEDIDA',
+    titulo: 'Camal autorizado no es todo el traspatio.',
+    comparativa: [
+      {
+        tipo: 'Inspección SENASA (Camales)',
+        unidad: 'Decomiso post-mortem',
+        advertencia: 'Solo ve lo que entra a mataderos formales; el traspatio suele faenarse por fuera.',
+      },
+      {
+        tipo: 'Estudios Locales (Tumbes / Cusco)',
+        unidad: 'Western Blot (EITB) y lengua',
+        advertencia: '45.0% EITB en Tumbes (1.872 cerdos) y 20%–43% en Sierra Sur.',
+      },
+    ],
+    texto_corto:
+      'En granjas tecnificadas la cisticercosis es casi 0%, pero en traspatio rural la mayoría de cerdos infectados evade el matadero formal.',
+  },
+  {
+    id: 'verificacion',
+    numero: '04',
+    tag: 'EVIDENCIA COMPROBABLE',
+    titulo: 'Estatus interno vs. OMSA y brecha de cisticercosis.',
+    discrepancias: [
+      {
+        fuente: 'SENASA vs. OMSA (PPC)',
+        linea_1: '13 regiones declaradas libres internamente sin vacunación',
+        linea_2: 'OMSA (Res. 26, mayo 2026): Perú sigue sin estatus oficial libre',
+        badge: 'Asimetría de estatus',
+      },
+      {
+        fuente: 'Cisticercosis en Campo (CWGP / Tumbes)',
+        linea_1: 'SENASA: 0% tamizaje serológico activo en granjas de traspatio',
+        linea_2: 'Estudios en Tumbes: 45.0% EITB (hasta 70% en caseríos rurales)',
+        badge: 'Punto ciego documentado',
+      },
+    ],
+    boton_texto: 'Abrir registro de verificación',
+  },
+  {
+    id: 'registro',
+    numero: '05',
+    tag: 'QUÉ APORTA PORCO',
+    titulo: 'De notas de prensa sueltas a registros auditables.',
+    ficha_preview: {
+      id: 'OBS-PER-017',
+      fuente: 'MIDAGRI / SENASA Perú',
+      pais: 'Perú',
+      periodo: '2024 – 2026',
+      resultado: '3.7M cerdos · 58% traspatio · 45% EITB Tumbes',
+      estado: 'Vigilancia activa granjas: 0%',
+      ref: 'MIDAGRI 2025 / SENASA 2026',
+    },
+    planes: ['Inventario MIDAGRI', 'Vacunación SENASA', 'Estudios Tumbes/Cusco'],
+  },
+  {
+    id: 'acceso',
+    numero: '06',
+    tag: 'PRIMERO LAS PERSONAS, LUEGO LA IA',
+    titulo: 'Explóralo por tu cuenta. Conecta un agente si lo deseas.',
+    texto_corto:
+      'Descarga el CSV unificado de la Región Andina (Colombia, Ecuador y Perú) o consulta directo desde tu agente de IA vía MCP.',
+    acciones: [
+      { label: 'Descargar CSV Andino', tipo: 'csv', url: '/data/andina-porcinos.csv' },
+      { label: 'Conectar un agente', tipo: 'mcp', url: '/conectar' },
+    ],
+  },
+];
+
 const activeTarjetas = computed(() =>
-  pais.value === 'ecu' ? tarjetasEcuador : props.tarjetas,
+  pais.value === 'ecu' ? tarjetasEcuador : pais.value === 'per' ? tarjetasPeru : props.tarjetas,
 );
 
 function notificarCita(id: number) {
@@ -167,7 +264,7 @@ function notificarCita(id: number) {
 
       <div class="feed-card__hero-metric">
         <div class="metric-struck">
-          <span class="struck-value">{{ pais === 'ecu' ? '0.9M' : '9.7%' }}</span>
+          <span class="struck-value">{{ pais === 'ecu' ? '0.9M' : pais === 'per' ? '13 reg.' : '9.7%' }}</span>
           <span class="struck-label">Titular sin contexto</span>
         </div>
         <div class="metric-arrow" aria-hidden="true">→</div>
@@ -227,7 +324,7 @@ function notificarCita(id: number) {
           <p class="unit-desc">Registra visitas médicas facturadas. Si un paciente consulta 5 veces, son 5 filas.</p>
         </div>
         <div class="unit-box unit-box--field">
-          <span class="unit-kicker">{{ pais === 'ecu' ? 'Encuesta INEC (ESPAC)' : 'Estudio de Campo (Tuchín)' }}</span>
+          <span class="unit-kicker">{{ pais === 'ecu' ? 'Encuesta INEC (ESPAC)' : pais === 'per' ? 'Estudios Locales (Tumbes/Cusco)' : 'Estudio de Campo (Tuchín)' }}</span>
           <strong class="unit-stat">42 Comunidades ≠ País</strong>
           <p class="unit-desc">Muestra focal de cerdos en comunidades rurales Zenú con traspatio predominante.</p>
         </div>

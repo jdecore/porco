@@ -111,29 +111,29 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
           <span>la IA no ve nada.</span>
         </h1>
         <p class="hero__lede">
-          En la era de la IA, sin datos curados no hay modelos de inteligencia artificial que den buenos resultados y no alucinen. Evidencia verificable sobre vacíos de información sanitaria en Colombia y Ecuador.
+          En la era de la IA, sin datos curados no hay modelos de inteligencia artificial que den buenos resultados y no alucinen. Evidencia verificable sobre vacíos de información sanitaria en Colombia, Ecuador y Perú.
         </p>
 
-        <div class="hero__stats hero__stats--three" aria-label="Panorama general Colombia y Ecuador">
+        <div class="hero__stats hero__stats--three" aria-label="Panorama general Colombia, Ecuador y Perú">
           <div class="stat">
             <div class="stat__head">
               <strong>Libre de PPA</strong>
             </div>
-            <span>Colombia y Ecuador mantienen estatus libre de Peste Porcina Africana con vigilancia fronteriza</span>
+            <span>Colombia, Ecuador y Perú mantienen estatus libre de Peste Porcina Africana con vigilancia fronteriza</span>
           </div>
 
           <div class="stat">
             <div class="stat__head">
               <strong>PPC en control</strong>
             </div>
-            <span>Colombia con 3 zonas libres (ICA/OMSA); Ecuador en erradicación obligatoria (PROZEC)</span>
+            <span>Colombia con 3 zonas libres (OMSA); Ecuador en erradicación (PROZEC); Perú con 13 regiones libres internas (SENASA)</span>
           </div>
 
           <div class="stat stat--alert">
             <div class="stat__head">
               <strong>Brecha rural</strong>
             </div>
-            <span>El traspatio informal y el faenamiento sin inspección ocultan la cisticercosis en ambos países</span>
+            <span>El traspatio informal y el faenamiento sin inspección ocultan la cisticercosis en los tres países</span>
           </div>
         </div>
 
@@ -175,6 +175,25 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
               </g>
             </svg>
             <span class="country-circle__label">Ecuador</span>
+          </button>
+
+          <button
+            type="button"
+            class="country-circle"
+            data-country="per"
+            aria-pressed="false"
+            aria-label="Ver datos de Perú"
+            title="Perú"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-per"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-per)">
+                <rect width="12" height="36" x="0" fill="#D91023" />
+                <rect width="12" height="36" x="12" fill="#FFFFFF" />
+                <rect width="12" height="36" x="24" fill="#D91023" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Perú</span>
           </button>
         </div>
 
@@ -224,7 +243,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </div>
 
         <p class="footer__note">
-          Fuentes y limitaciones: ICA (AnalítICA 2026 y Censo Pecuario), MinSalud (RIPS datos.gov.co), OMSA / WAHIS (Zonificación PPC/PPA), Eurostat (UE, 2025), USDA NASS (EE. UU., 2026), y estudios locales de Córdoba y Tolima para cisticercosis. Los datos administrativos miden atenciones, no pacientes; las muestras comunitarias describen entornos locales, no al país entero. Un dato no registrado no equivale a ausencia de enfermedad.
+          Fuentes y limitaciones: ICA (AnalítICA 2026 y Censo Pecuario), Agrocalidad / INEC (Ecuador ESPAC 2024 y PROZEC), SENASA / MIDAGRI (Perú 2025–2026), MinSalud (RIPS datos.gov.co), OMSA / WAHIS (Zonificación PPC/PPA), Eurostat (UE, 2025), USDA NASS (EE. UU., 2026), y estudios locales de Córdoba, Tolima, Pelileo, Tumbes, Cusco y Piura para cisticercosis. Los datos administrativos miden atenciones, no pacientes; las muestras comunitarias describen entornos locales, no al país entero. Un dato no registrado no equivale a ausencia de enfermedad.
         </p>
 
         <div class="footer__citas-link-box">
