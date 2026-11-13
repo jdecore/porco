@@ -58,14 +58,14 @@ function leerArchivoPublico(relPath: string, fallback: string): string {
 
 function crearServidor() {
   const server = new McpServer(
-    { name: 'porco', version: '0.0.3.5' },
+    { name: 'porco', version: '0.0.3.6' },
     { instructions: instrucciones },
   );
 
   server.registerTool(
     'get_riesgos_sanitarios',
     {
-      title: 'Observatorio de Evidencia Porco (v0.0.3.5)',
+      title: 'Observatorio de Evidencia Porco (v0.0.3.6)',
       description:
         'Devuelve la estructura completa de Porco: tarjetas de auditoría, indicadores clave, inventario y referencias IEEE.',
       inputSchema: {},

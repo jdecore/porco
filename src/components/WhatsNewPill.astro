@@ -9,14 +9,15 @@ const { lang = 'es', conectarUrl } = Astro.props;
 const copy =
   lang === 'en'
     ? {
-        badge: 'v0.0.3.5',
+        badge: 'v0.0.3.6',
         label: "What's new: Vector DB in MCP →",
-        aria: 'Open v0.0.3.5 changelog',
-        title: 'What’s new · Porco v0.0.3.5',
+        aria: 'Open v0.0.3.6 changelog',
+        title: 'What’s new · Porco v0.0.3.6',
         highlightTitle: 'New MCP tool: search_docs',
         highlightBody:
           'Evidence and documentation are now queried from a vector database in Neon (powered by Vita), without reading raw .md files.',
         items: [
+          'v0.0.3.6 — Unified 46/472 data + direct email feedback (juenriquez09@gmail.com).',
           'v0.0.3.5 — Vector & keyword search in Neon (search_docs) + Vita adapter.',
           'v0.0.3 — Ecuador sanitary evidence + verified IEEE citations.',
         ],
@@ -24,14 +25,15 @@ const copy =
         close: 'Close',
       }
     : {
-        badge: 'v0.0.3.5',
+        badge: 'v0.0.3.6',
         label: 'Novedades: Base vectorial en MCP →',
-        aria: 'Abrir novedades de la versión v0.0.3.5',
-        title: 'Novedades · Porco v0.0.3.5',
+        aria: 'Abrir novedades de la versión v0.0.3.6',
+        title: 'Novedades · Porco v0.0.3.6',
         highlightTitle: 'Nueva herramienta MCP: search_docs',
         highlightBody:
           'La evidencia y documentación ahora se consultan desde una base vectorial en Neon (impulsada por Vita), sin leer archivos .md crudos.',
         items: [
+          'v0.0.3.6 — Cifra 46/472 unificada + botón directo de Comentarios por correo.',
           'v0.0.3.5 — Búsqueda en Neon (search_docs) + adaptador Vita.',
           'v0.0.3 — Evidencia sanitaria de Ecuador + citas IEEE verificadas.',
         ],
@@ -237,5 +239,29 @@ const copy =
     color: #161512;
     font-size: 14px;
     cursor: pointer;
+  }
+
+  @media (max-width: 480px) {
+    .whatsnew-pill {
+      max-width: 100%;
+      padding: 6px 12px;
+      gap: 8px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+
+    .whatsnew-dialog {
+      padding: 18px;
+    }
+
+    .whatsnew-dialog__actions {
+      flex-direction: column-reverse;
+    }
+
+    .whatsnew-dialog__cta,
+    .whatsnew-dialog__btn {
+      width: 100%;
+      text-align: center;
+    }
   }
 </style>
