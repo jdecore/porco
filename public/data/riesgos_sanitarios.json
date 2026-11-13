@@ -77,6 +77,10 @@
           "estado": "Evaluado en Censo/PPC"
         },
         {
+          "nombre": "Agrocalidad / INEC",
+          "estado": "Evaluado (ESPAC/PROZEC)"
+        },
+        {
           "nombre": "MinSalud RIPS",
           "estado": "Evaluado (Desfase 4 años)"
         },
@@ -129,6 +133,12 @@
           "linea_1": "241 episodios evaluados: 85% descartado PPC",
           "linea_2": "Vigilancia de cisticercosis en granjas: 0%",
           "badge": "Punto ciego de traspatio documentado"
+        },
+        {
+          "fuente": "Agrocalidad / INEC (Ecuador)",
+          "linea_1": "896.456 cerdos (44,1% criollos/mestizos); 1,34M vacunados PPC",
+          "linea_2": "Sin vigilancia activa de cisticercosis en granjas (~50% traspatio fuera de camal)",
+          "badge": "Brecha de camal y traspatio"
         }
       ],
       "boton_texto": "Abrir registro de verificación"
