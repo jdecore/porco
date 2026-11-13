@@ -1109,9 +1109,27 @@ a {
 
   .nav-cta,
   .lang-toggle {
-    padding: 7px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 12px;
     font-size: 13px;
+    line-height: 1;
     white-space: nowrap;
+  }
+
+  .topbar {
+    flex-wrap: nowrap !important;
+  }
+
+  .brand {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .brand__name {
+    font-size: 18px;
   }
 }
 
