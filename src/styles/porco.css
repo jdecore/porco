@@ -1142,6 +1142,24 @@ a {
   }
 }
 
+/* Adaptación automática al ancho de pantalla sin desbordamiento horizontal */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.page,
+.topbar,
+.hero {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hero__title {
+  overflow-wrap: break-word;
+}
+
 @media (max-width: 420px) {
   .amenaza__side {
     grid-template-columns: 1fr;
