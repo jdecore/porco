@@ -42,26 +42,52 @@ function leerDocumentoAndina(): string {
     const mdPath = path.resolve(process.cwd(), 'public/data/colombia-andina-sanidad.md');
     return fs.readFileSync(mdPath, 'utf8');
   } catch {
-    return '# Evidencia Sanitaria Porco v0.0.1';
+    return '# Evidencia Sanitaria Porco v0.0.2';
+  }
+}
+
+function leerArchivoPublico(relPath: string, fallback: string): string {
+  try {
+    return fs.readFileSync(path.resolve(process.cwd(), relPath), 'utf8');
+  } catch {
+    return fallback;
   }
 }
 
 function crearServidor() {
   const server = new McpServer(
-    { name: 'porco', version: '0.0.1' },
+    { name: 'porco', version: '0.0.2' },
     { instructions: instrucciones },
   );
 
   server.registerTool(
     'get_riesgos_sanitarios',
     {
-      title: 'Observatorio de Evidencia Porco (v0.0.1)',
+      title: 'Observatorio de Evidencia Porco (v0.0.2)',
       description:
         'Devuelve la estructura completa de Porco: tarjetas de auditoría, indicadores clave, inventario y referencias IEEE.',
       inputSchema: {},
       annotations: { readOnlyHint: true },
     },
     async () => json({ ...riesgos, citas_ieee: CITAS_IEEE }),
+  );
+
+  server.registerTool(
+    'get_evidencia_ecuador',
+    {
+      title: 'Evidencia Sanitaria de Ecuador (CSV + Markdown + Citas IEEE)',
+      description:
+        'Devuelve los microdatos curados de Ecuador en CSV y el documento Markdown con citas IEEE verificadas (INEC ESPAC, ASPE, Agrocalidad PROZEC/PPA y estudios en Loja/El Oro).',
+      inputSchema: {},
+      annotations: { readOnlyHint: true },
+    },
+    async () =>
+      json({
+        pais: 'Ecuador',
+        version: '0.0.2',
+        csv: leerArchivoPublico('public/data/ecuador-sanidad.csv', ''),
+        markdown: leerArchivoPublico('public/data/ecuador-sanidad.md', ''),
+      }),
   );
 
   server.registerTool(

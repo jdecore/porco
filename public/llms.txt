@@ -1,4 +1,4 @@
-# Porco (porco-tau.vercel.app) — Observatorio de Evidencia y Datos Sanitarios (v0.0.1)
+# Porco (porco-tau.vercel.app) — Observatorio de Evidencia y Datos Sanitarios (v0.0.2)
 
 > Porco es un observatorio de auditoría, trazabilidad y calidad de datos sanitarios porcinos enfocado en Colombia y en expansión hacia la Región Andina.
 > Tesis central: **En la era de la inteligencia artificial, ningún modelo de predicción de brotes o bioseguridad funciona si los datos de origen están desactualizados, dispersos en PDFs estáticos o reportan unidades incompatibles.**
@@ -9,12 +9,15 @@
 - Guía de Conexión MCP (Claude, Cursor, VS Code): https://porco-tau.vercel.app/conectar
 - Fuentes y Citas Científicas (IEEE): https://porco-tau.vercel.app/citas
 - Endpoint MCP (Streamable HTTP, sin autenticación): https://porco-tau.vercel.app/api/mcp
-- Microdatos Curados en CSV (descarga directa): https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv
-- Base de Conocimiento y Matriz Andina (Markdown): https://porco-tau.vercel.app/data/colombia-andina-sanidad.md
+- Microdatos Curados en CSV (Colombia / Andina): https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv
+- Microdatos Curados en CSV (Solo Ecuador): https://porco-tau.vercel.app/data/ecuador-sanidad.csv
+- Base de Conocimiento (Solo Colombia, Markdown): https://porco-tau.vercel.app/data/colombia-sanidad.md
+- Base de Conocimiento (Solo Ecuador, Markdown + IEEE): https://porco-tau.vercel.app/data/ecuador-sanidad.md
+- Base de Conocimiento Combinada (Markdown): https://porco-tau.vercel.app/data/colombia-andina-sanidad.md
 - Datos Completos de la Plataforma (JSON): https://porco-tau.vercel.app/data/riesgos_sanitarios.json
 - Repositorio Oficial: https://github.com/jdecore/porco
 
-Versión de datos: `0.0.1` · Actualizado: `Noviembre 2026` · Idioma: español (es-CO).
+Versión de datos: `0.0.2` · Actualizado: `Noviembre 2026` · Idioma: español (es-CO / es-EC).
 
 ---
 
@@ -54,7 +57,8 @@ Transporte: Streamable HTTP (stateless) en `https://porco-tau.vercel.app/api/mcp
 
 | Herramienta | Qué devuelve |
 | :--- | :--- |
-| `get_riesgos_sanitarios` | Estructura completa de la versión 0.0.1, tarjetas del feed, indicadores e inventario. |
+| `get_riesgos_sanitarios` | Estructura completa de la versión 0.0.2, tarjetas del feed, indicadores e inventario. |
+| `get_evidencia_ecuador` | Microdatos curados de Ecuador en CSV y documento Markdown con citas IEEE (INEC ESPAC, ASPE, Agrocalidad, Loja/El Oro). |
 | `get_evidencia_colombia_csv` | Microdatos tabulares limpios en CSV con registros auditados de ICA, RIPS, Tuchín, Coyaima y OMSA. |
 | `get_documento_metodologia_andina` | Documento Markdown completo con la matriz epidemiológica regional, análisis de AnalítICA y oportunidades B2B. |
 | `get_analitica_ica_2026` | Datos específicos del tablero AnalítICA 2026 del ICA (241 episodios, 85% descartado PPC, cuadros clínicos y origen de notificaciones). |
