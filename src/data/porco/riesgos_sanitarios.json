@@ -1,7 +1,7 @@
 {
   "meta": {
     "proyecto": "Porco",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "descripcion": "Observatorio de evidencia, trazabilidad y auditoría sanitaria porcina en Colombia y la Región Andina.",
     "actualizado": "2026-11-11",
     "enfoque": "One Health y Calidad de Datos para IA",
@@ -68,7 +68,7 @@
       "numero": "02",
       "tag": "Nuestra primera versión",
       "titulo": "Colombia primero. Un alcance claro y medible.",
-      "cifra_principal": "v0.0.1",
+      "cifra_principal": "v0.0.3",
       "cifra_subtitulo": "Enfoque Colombia con proyección a la Región Andina",
       "texto_corto": "Organizamos la evidencia de teniasis y cisticercosis antes de expandirnos a la Región Andina. Las fuentes entran a la tabla solo tras verificar métodos, fechas y denominadores.",
       "candidatas": [
