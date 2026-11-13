@@ -7,7 +7,7 @@
     "enfoque": "One Health y Calidad de Datos para IA",
     "sitio": "https://porco-tau.vercel.app",
     "mcp": "https://porco-tau.vercel.app/api/mcp",
-    "csv_descarga": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv",
+    "csv_descarga": "https://porco-tau.vercel.app/data/andina-porcinos.csv",
     "documento_metodologia": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.md"
   },
   "indicadores_clave": {
@@ -161,7 +161,7 @@
       "titulo": "Explóralo por tu cuenta. Conecta un agente si lo deseas.",
       "texto_corto": "Descarga los microdatos curados en CSV o consulta el observatorio desde tu agente de IA vía MCP. La IA es una interfaz complementaria; el valor real está en los datos curados.",
       "acciones": [
-        { "label": "Descargar CSV", "tipo": "descarga", "url": "/data/colombia-andina-sanidad.csv" },
+        { "label": "Descargar CSV", "tipo": "descarga", "url": "/data/andina-porcinos.csv" },
         { "label": "Conectar un agente", "tipo": "enlace", "url": "/conectar" }
       ]
     }

@@ -310,7 +310,7 @@ function notificarCita(id: number) {
       <div class="access-actions" v-if="activeTarjetas[5].acciones">
         <a
           :href="activeTarjetas[5].acciones[0].url"
-          :download="pais === 'ecu' ? 'ecuador-sanidad.csv' : 'colombia-andina-sanidad.csv'"
+          :download="pais === 'ecu' ? 'ecuador-sanidad.csv' : 'andina-porcinos.csv'"
           class="feed-card__btn feed-card__btn--red"
         >
           📥 {{ activeTarjetas[5].acciones[0].label }}
@@ -327,7 +327,7 @@ function notificarCita(id: number) {
         <div class="download-col">
           <span class="download-col__title">🇨🇴 Solo Colombia</span>
           <div class="download-col__links">
-            <a href="/data/colombia-andina-sanidad.csv" download="colombia-sanidad.csv" class="download-chip">.csv</a>
+            <a href="/data/andina-porcinos.csv" download="colombia-sanidad.csv" class="download-chip">.csv</a>
             <a href="/data/colombia-sanidad.md" download="colombia-sanidad.md" class="download-chip">.md</a>
           </div>
         </div>
@@ -341,7 +341,7 @@ function notificarCita(id: number) {
         <div class="download-col">
           <span class="download-col__title">🌎 Ambos países</span>
           <div class="download-col__links">
-            <a href="/data/colombia-andina-sanidad.csv" download="colombia-andina-sanidad.csv" class="download-chip">.csv</a>
+            <a href="/data/andina-porcinos.csv" download="andina-porcinos.csv" class="download-chip">.csv</a>
             <a href="/data/colombia-andina-sanidad.md" download="colombia-andina-sanidad.md" class="download-chip">.md</a>
           </div>
         </div>

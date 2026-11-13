@@ -7,7 +7,7 @@
     "enfoque": "One Health y Calidad de Datos para IA",
     "sitio": "https://porco-tau.vercel.app",
     "mcp": "https://porco-tau.vercel.app/api/mcp",
-    "csv_descarga": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv",
+    "csv_descarga": "https://porco-tau.vercel.app/data/andina-porcinos.csv",
     "documento_metodologia": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.md"
   },
   "indicadores_clave": {
@@ -183,7 +183,7 @@
         {
           "label": "Descargar CSV",
           "tipo": "descarga",
-          "url": "/data/colombia-andina-sanidad.csv"
+          "url": "/data/andina-porcinos.csv"
         },
         {
           "label": "Conectar un agente",

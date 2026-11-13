@@ -177,7 +177,7 @@
         {
           "label": "Descargar CSV",
           "tipo": "descarga",
-          "url": "/data/colombia-andina-sanidad.csv"
+          "url": "/data/andina-porcinos.csv"
         },
         {
           "label": "Conectar un agente",
@@ -187,7 +187,7 @@
       ]
     }
   ],
-  "csv_descarga": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.csv",
+  "csv_descarga": "https://porco-tau.vercel.app/data/andina-porcinos.csv",
   "documento_metodologia": "https://porco-tau.vercel.app/data/colombia-andina-sanidad.md",
   "fuentes": [
     "ICA (AnalítICA)",

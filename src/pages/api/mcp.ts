@@ -30,7 +30,7 @@ const instrucciones =
 
 function leerDatasetCsv(): string {
   try {
-    const csvPath = path.resolve(process.cwd(), 'public/data/colombia-andina-sanidad.csv');
+    const csvPath = path.resolve(process.cwd(), 'public/data/andina-porcinos.csv');
     return fs.readFileSync(csvPath, 'utf8');
   } catch {
     return 'id_observacion,pais,evento\nOBS-COL-001,Colombia,PPC';
