@@ -1109,9 +1109,11 @@ a {
 
   .nav-cta,
   .lang-toggle {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     height: 34px;
     padding: 0 12px;
     font-size: 13px;
@@ -1120,7 +1122,14 @@ a {
   }
 
   .topbar {
+    width: 100%;
     flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+  }
+
+  .topnav {
+    margin-left: auto !important;
+    justify-content: flex-end;
   }
 
   .brand {
