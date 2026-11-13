@@ -44,7 +44,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[0]" class="feed-card feed-card--problema" id="card-problema">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[0].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[0].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[0].titulo }}</h2>
@@ -79,7 +79,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[1]" class="feed-card feed-card--alcance" id="card-alcance">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[1].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[1].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[1].titulo }}</h2>
@@ -110,7 +110,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[2]" class="feed-card feed-card--unidades" id="card-unidades">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[2].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[2].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[2].titulo }}</h2>
@@ -135,7 +135,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[3]" class="feed-card feed-card--verificacion" id="card-verificacion">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[3].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[3].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[3].titulo }}</h2>
@@ -168,7 +168,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[4]" class="feed-card feed-card--registro" id="card-registro">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[4].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[4].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[4].titulo }}</h2>
@@ -195,7 +195,7 @@ function notificarCita(id: number) {
     <article v-if="tarjetas[5]" class="feed-card feed-card--acceso" id="card-acceso">
       <header class="feed-card__head">
         <span class="feed-card__num">{{ tarjetas[5].numero }}</span>
-        <span class="feed-card__tag">{{ tarjetas[5].tag }}</span>
+
       </header>
 
       <h2 class="feed-card__title">{{ tarjetas[5].titulo }}</h2>
