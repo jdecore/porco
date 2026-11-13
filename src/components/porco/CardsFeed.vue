@@ -200,17 +200,6 @@ function notificarCita(id: number) {
 
       <h2 class="feed-card__title">{{ activeTarjetas[1].titulo }}</h2>
 
-      <div class="coverage-bar">
-        <div class="coverage-pill coverage-pill--active">
-          <strong>{{ pais === 'ecu' ? 'ECU' : 'COL' }}</strong>
-          <span>100% activo (v0.0.2)</span>
-        </div>
-        <div class="coverage-pill coverage-pill--pending">
-          <strong>{{ pais === 'ecu' ? 'COL' : 'ANDINA' }}</strong>
-          <span>Próxima versión</span>
-        </div>
-      </div>
-
       <p class="feed-card__desc">{{ activeTarjetas[1].texto_corto }}</p>
 
       <div class="candidatas-list" v-if="activeTarjetas[1].candidatas">
