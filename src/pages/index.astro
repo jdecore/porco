@@ -114,6 +114,29 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
           En la era de la IA, sin datos curados no hay modelos de inteligencia artificial que den buenos resultados y no alucinen. Evidencia verificable sobre vacíos de información sanitaria en Colombia y Ecuador.
         </p>
 
+        <div class="hero__stats hero__stats--three" aria-label="Panorama general Colombia y Ecuador">
+          <div class="stat">
+            <div class="stat__head">
+              <strong>Libre de PPA</strong>
+            </div>
+            <span>Colombia y Ecuador mantienen estatus libre de Peste Porcina Africana con vigilancia fronteriza</span>
+          </div>
+
+          <div class="stat">
+            <div class="stat__head">
+              <strong>PPC en control</strong>
+            </div>
+            <span>Colombia con 3 zonas libres (ICA/OMSA); Ecuador en erradicación obligatoria (PROZEC)</span>
+          </div>
+
+          <div class="stat stat--alert">
+            <div class="stat__head">
+              <strong>Brecha rural</strong>
+            </div>
+            <span>El traspatio informal y el faenamiento sin inspección ocultan la cisticercosis en ambos países</span>
+          </div>
+        </div>
+
         <!-- Selector circular de país (Colombia / Ecuador) -->
         <div class="country-switcher" role="group" aria-label="Seleccionar país">
           <button
@@ -155,46 +178,9 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
           </button>
         </div>
 
-        <div class="hero__stats hero__stats--three" id="hero-stats-col">
-          <div class="stat">
-            <div class="stat__head">
-              <strong>241</strong>
-              <button
-                type="button"
-                class="cite-tag"
-                aria-label="Ver cita ICA"
-                data-trigger-cite="10"
-              >
-                ICA
-              </button>
-            </div>
-            <span>Episodios AnalítICA 2026 (85% descartado PPC)</span>
-          </div>
-
-          <div class="stat">
-            <div class="stat__head">
-              <strong>78.4%</strong>
-            </div>
-            <span>Predios porcinos en traspatio informal (sin vigilancia activa)</span>
-          </div>
-
-          <div class="stat stat--alert">
-            <div class="stat__head">
-              <strong>4 años</strong>
-            </div>
-            <span>Desfase temporal en datos RIPS de MinSalud (congelado en 2021)</span>
-          </div>
-
-          <div class="stat stat--mono">
-            <strong>v0.0.1 pública</strong>
-            <span>actualizado {fecha}</span>
-          </div>
-        </div>
         <script is:inline>
           (function () {
             const buttons = document.querySelectorAll('.country-circle[data-country]');
-            const colStats = document.getElementById('hero-stats-col');
-            const ecuStats = document.getElementById('hero-stats-ecu');
 
             function setCountry(country) {
               buttons.forEach((btn) => {
@@ -202,8 +188,6 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
                 btn.classList.toggle('is-active', active);
                 btn.setAttribute('aria-pressed', active ? 'true' : 'false');
               });
-              if (colStats) colStats.hidden = country !== 'col';
-              if (ecuStats) ecuStats.hidden = country !== 'ecu';
               window.dispatchEvent(new CustomEvent('porco:country-change', { detail: country }));
             }
 
