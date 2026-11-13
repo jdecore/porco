@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 type Tarjeta = {
   id: string;
@@ -27,9 +27,125 @@ type Tarjeta = {
   acciones?: Array<{ label: string; tipo: string; url: string }>;
 };
 
-defineProps<{
+const props = defineProps<{
   tarjetas: Tarjeta[];
 }>();
+
+const pais = ref<'col' | 'ecu'>('col');
+
+onMounted(() => {
+  window.addEventListener('porco:country-change', (e: Event) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail === 'ecu' || detail === 'col') {
+      pais.value = detail;
+    }
+  });
+});
+
+const tarjetasEcuador: Tarjeta[] = [
+  {
+    id: 'problema',
+    numero: '01',
+    tag: 'EL PROBLEMA',
+    titulo: 'Dos cifras oficiales pueden contar historias opuestas.',
+    cifra_principal: '2.49M → 0.9M',
+    cifra_subtitulo: 'Caída interanual en inventario oficial INEC ESPAC (2021 vs. 2022)',
+    texto_corto:
+      'Un dato suelto sin su marco muestral induce a error. En Ecuador, el inventario oficial cae casi a un tercio de un año a otro y la inspección en camal deja fuera el faenamiento rural.',
+    referencias: 'INEC (ESPAC 2021–2023) · PubMed (Loja y El Oro)',
+  },
+  {
+    id: 'alcance',
+    numero: '02',
+    tag: 'ECUADOR V0.0.2',
+    titulo: 'Ecuador en foco: del censo a la frontera sanitaria.',
+    texto_corto:
+      'Reunimos la evidencia verificada de inventario porcino, estatus PPC/PPA y cisticercosis en Ecuador. Cada registro incluye año, cobertura y fuente primaria.',
+    candidatas: [
+      { nombre: 'INEC (ESPAC)', estado: 'Evaluado (2021–2023)' },
+      { nombre: 'Agrocalidad (PROZEC)', estado: 'Evaluado (PPC / PPA)' },
+      { nombre: 'ASPE / PubMed', estado: 'Evaluado (Gremio y Loja/El Oro)' },
+    ],
+  },
+  {
+    id: 'unidades',
+    numero: '03',
+    tag: 'UNIDADES DE MEDIDA',
+    titulo: 'El camal no mide el traspatio. La UPA no mide toda la industria.',
+    texto_corto:
+      'Comparar inspecciones de matadero con comunidades hiperendémicas o encuestas de fincas tradicionales con estimaciones gremiales de ASPE sesga cualquier análisis.',
+    comparativa: [
+      {
+        tipo: 'Camales locales (Loja / El Oro)',
+        unidad: 'Camal ≠ Traspatio',
+        advertencia: 'La inspección visual en camal (3.9%–5.5%) excluye el faenamiento clandestino rural.',
+      },
+      {
+        tipo: 'Encuesta INEC (ESPAC)',
+        unidad: 'UPA tradicional ≠ Hato total',
+        advertencia: 'Registra fincas tradicionales; el gremio (ASPE) estima ~100 mil productores y 220 mil t/año.',
+      },
+    ],
+  },
+  {
+    id: 'verificacion',
+    numero: '04',
+    tag: 'EVIDENCIA COMPROBABLE',
+    titulo: 'Tres fuentes clave, tres brechas documentadas.',
+    discrepancias: [
+      {
+        fuente: 'INEC (ESPAC 2021–2022)',
+        linea_1: 'ESPAC 2021: 2.49 millones de cabezas',
+        linea_2: 'ESPAC 2022: 0.9 millones de cabezas',
+        badge: 'Oscilación interanual',
+      },
+      {
+        fuente: 'Agrocalidad (PROZEC / Res. 0323)',
+        linea_1: 'PPA: País libre (vigilancia en fronteras)',
+        linea_2: 'PPC: Control y erradicación (vacunación obligatoria)',
+        badge: 'Doble estatus sanitario',
+      },
+      {
+        fuente: 'Cisticercosis (Loja y El Oro)',
+        linea_1: 'Camales locales: 3.9%–5.5% (PubMed)',
+        linea_2: 'Faenamiento informal: sin registro oficial',
+        badge: 'Punto ciego rural',
+      },
+    ],
+  },
+  {
+    id: 'registro',
+    numero: '05',
+    tag: 'QUÉ APORTA PORCO',
+    titulo: 'Del PDF disperso a una ficha trazable.',
+    ficha_preview: {
+      id: 'OBS-ECU-001',
+      fuente: 'INEC ESPAC (2021–2023) & ASPE (2024)',
+      pais: 'Ecuador',
+      periodo: '2021 – 2024',
+      resultado: '59.4% de raza (2023) · ~100 mil productores / 220 mil t/año',
+      estado: 'Brecha de cobertura entre encuesta oficial y gremio',
+      ref: 'INEC / Forbes Ecuador',
+    },
+    planes: ['Búsqueda estructurada', 'Citas IEEE verificadas', 'API / MCP para agentes'],
+  },
+  {
+    id: 'acceso',
+    numero: '06',
+    tag: 'DATOS Y AGENTES',
+    titulo: 'Lleva los datos de Ecuador a tu análisis o a tu IA.',
+    texto_corto:
+      'Descarga el CSV o Markdown exclusivo de Ecuador con citas IEEE, o consúltalo directo desde tu agente con la herramienta get_evidencia_ecuador.',
+    acciones: [
+      { label: 'Descargar CSV Ecuador', tipo: 'csv', url: '/data/ecuador-sanidad.csv' },
+      { label: 'Conectar un agente', tipo: 'mcp', url: '/conectar' },
+    ],
+  },
+];
+
+const activeTarjetas = computed(() =>
+  pais.value === 'ecu' ? tarjetasEcuador : props.tarjetas,
+);
 
 function notificarCita(id: number) {
   if (typeof window !== 'undefined') {
@@ -41,13 +157,13 @@ function notificarCita(id: number) {
 <template>
   <div class="cards-feed" id="feed-tarjetas" role="region" aria-label="Feed de evidencia sanitaria">
     <!-- Card 1: El problema -->
-    <article v-if="tarjetas[0]" class="feed-card feed-card--problema" id="card-problema">
+    <article v-if="activeTarjetas[0]" class="feed-card feed-card--problema" id="card-problema">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[0].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[0].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[0].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[0].titulo }}</h2>
 
       <div class="feed-card__hero-metric">
         <div class="metric-struck">
@@ -56,12 +172,12 @@ function notificarCita(id: number) {
         </div>
         <div class="metric-arrow" aria-hidden="true">→</div>
         <div class="metric-verified">
-          <strong class="verified-value">{{ tarjetas[0].cifra_principal }}</strong>
-          <span class="verified-label">{{ tarjetas[0].cifra_subtitulo }}</span>
+          <strong class="verified-value">{{ activeTarjetas[0].cifra_principal }}</strong>
+          <span class="verified-label">{{ activeTarjetas[0].cifra_subtitulo }}</span>
         </div>
       </div>
 
-      <p class="feed-card__desc">{{ tarjetas[0].texto_corto }}</p>
+      <p class="feed-card__desc">{{ activeTarjetas[0].texto_corto }}</p>
 
       <footer class="feed-card__foot">
         <button
@@ -69,20 +185,20 @@ function notificarCita(id: number) {
           class="feed-card__btn feed-card__btn--red"
           @click="notificarCita(1)"
         >
-          {{ tarjetas[0].boton_texto }} [1]
+          {{ activeTarjetas[0].boton_texto }} [1]
         </button>
-        <span class="feed-card__ref-note">{{ tarjetas[0].referencias }}</span>
+        <span class="feed-card__ref-note">{{ activeTarjetas[0].referencias }}</span>
       </footer>
     </article>
 
     <!-- Card 2: Alcance v0.0.1 -->
-    <article v-if="tarjetas[1]" class="feed-card feed-card--alcance" id="card-alcance">
+    <article v-if="activeTarjetas[1]" class="feed-card feed-card--alcance" id="card-alcance">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[1].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[1].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[1].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[1].titulo }}</h2>
 
       <div class="coverage-bar">
         <div class="coverage-pill coverage-pill--active">
@@ -95,10 +211,10 @@ function notificarCita(id: number) {
         </div>
       </div>
 
-      <p class="feed-card__desc">{{ tarjetas[1].texto_corto }}</p>
+      <p class="feed-card__desc">{{ activeTarjetas[1].texto_corto }}</p>
 
-      <div class="candidatas-list" v-if="tarjetas[1].candidatas">
-        <div v-for="c in tarjetas[1].candidatas" :key="c.nombre" class="candidata-item">
+      <div class="candidatas-list" v-if="activeTarjetas[1].candidatas">
+        <div v-for="c in activeTarjetas[1].candidatas" :key="c.nombre" class="candidata-item">
           <span class="candidata-dot"></span>
           <span class="candidata-nombre">{{ c.nombre }}</span>
           <span class="candidata-badge">{{ c.estado }}</span>
@@ -107,15 +223,15 @@ function notificarCita(id: number) {
     </article>
 
     <!-- Card 3: Unidades de medida -->
-    <article v-if="tarjetas[2]" class="feed-card feed-card--unidades" id="card-unidades">
+    <article v-if="activeTarjetas[2]" class="feed-card feed-card--unidades" id="card-unidades">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[2].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[2].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[2].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[2].titulo }}</h2>
 
-      <div class="split-units" v-if="tarjetas[2].comparativa">
+      <div class="split-units" v-if="activeTarjetas[2].comparativa">
         <div class="unit-box unit-box--admin">
           <span class="unit-kicker">Registros Oficiales (RIPS)</span>
           <strong class="unit-stat">Atención ≠ Persona</strong>
@@ -128,20 +244,20 @@ function notificarCita(id: number) {
         </div>
       </div>
 
-      <p class="feed-card__desc">{{ tarjetas[2].texto_corto }}</p>
+      <p class="feed-card__desc">{{ activeTarjetas[2].texto_corto }}</p>
     </article>
 
     <!-- Card 4: La Verificación -->
-    <article v-if="tarjetas[3]" class="feed-card feed-card--verificacion" id="card-verificacion">
+    <article v-if="activeTarjetas[3]" class="feed-card feed-card--verificacion" id="card-verificacion">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[3].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[3].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[3].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[3].titulo }}</h2>
 
-      <div class="discrepancias-list" v-if="tarjetas[3].discrepancias">
-        <div v-for="d in tarjetas[3].discrepancias" :key="d.fuente" class="discrepancia-item">
+      <div class="discrepancias-list" v-if="activeTarjetas[3].discrepancias">
+        <div v-for="d in activeTarjetas[3].discrepancias" :key="d.fuente" class="discrepancia-item">
           <div class="discrepancia-head">
             <strong>{{ d.fuente }}</strong>
             <span class="badge-alert">{{ d.badge }}</span>
@@ -159,62 +275,62 @@ function notificarCita(id: number) {
           class="feed-card__btn feed-card__btn--secondary"
           @click="notificarCita(3)"
         >
-          {{ tarjetas[3].boton_texto }} [3]
+          {{ activeTarjetas[3].boton_texto }} [3]
         </button>
       </footer>
     </article>
 
     <!-- Card 5: El Registro de Porco -->
-    <article v-if="tarjetas[4]" class="feed-card feed-card--registro" id="card-registro">
+    <article v-if="activeTarjetas[4]" class="feed-card feed-card--registro" id="card-registro">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[4].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[4].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[4].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[4].titulo }}</h2>
 
-      <div class="terminal-preview" v-if="tarjetas[4].ficha_preview">
+      <div class="terminal-preview" v-if="activeTarjetas[4].ficha_preview">
         <div class="terminal-top">
           <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
-          <span class="term-id">{{ tarjetas[4].ficha_preview.id }} · FICHA AUDITADA</span>
+          <span class="term-id">{{ activeTarjetas[4].ficha_preview.id }} · FICHA AUDITADA</span>
         </div>
         <div class="terminal-code">
-          <div><span class="term-k">Fuente:</span> {{ tarjetas[4].ficha_preview.fuente }}</div>
-          <div><span class="term-k">Periodo:</span> {{ tarjetas[4].ficha_preview.periodo }}</div>
-          <div><span class="term-k">Resultado:</span> {{ tarjetas[4].ficha_preview.resultado }}</div>
-          <div><span class="term-k">Estado:</span> <span class="term-warn">{{ tarjetas[4].ficha_preview.estado }}</span></div>
+          <div><span class="term-k">Fuente:</span> {{ activeTarjetas[4].ficha_preview.fuente }}</div>
+          <div><span class="term-k">Periodo:</span> {{ activeTarjetas[4].ficha_preview.periodo }}</div>
+          <div><span class="term-k">Resultado:</span> {{ activeTarjetas[4].ficha_preview.resultado }}</div>
+          <div><span class="term-k">Estado:</span> <span class="term-warn">{{ activeTarjetas[4].ficha_preview.estado }}</span></div>
         </div>
       </div>
 
-      <div class="plans-tags" v-if="tarjetas[4].planes">
-        <span v-for="p in tarjetas[4].planes" :key="p" class="plan-tag">✓ {{ p }}</span>
+      <div class="plans-tags" v-if="activeTarjetas[4].planes">
+        <span v-for="p in activeTarjetas[4].planes" :key="p" class="plan-tag">✓ {{ p }}</span>
       </div>
     </article>
 
     <!-- Card 6: Primero las personas, luego la IA -->
-    <article v-if="tarjetas[5]" class="feed-card feed-card--acceso" id="card-acceso">
+    <article v-if="activeTarjetas[5]" class="feed-card feed-card--acceso" id="card-acceso">
       <header class="feed-card__head">
-        <span class="feed-card__num">{{ tarjetas[5].numero }}</span>
+        <span class="feed-card__num">{{ activeTarjetas[5].numero }}</span>
 
       </header>
 
-      <h2 class="feed-card__title">{{ tarjetas[5].titulo }}</h2>
+      <h2 class="feed-card__title">{{ activeTarjetas[5].titulo }}</h2>
 
-      <p class="feed-card__desc">{{ tarjetas[5].texto_corto }}</p>
+      <p class="feed-card__desc">{{ activeTarjetas[5].texto_corto }}</p>
 
-      <div class="access-actions" v-if="tarjetas[5].acciones">
+      <div class="access-actions" v-if="activeTarjetas[5].acciones">
         <a
-          :href="tarjetas[5].acciones[0].url"
+          :href="activeTarjetas[5].acciones[0].url"
           download="colombia-andina-sanidad.csv"
           class="feed-card__btn feed-card__btn--red"
         >
-          📥 {{ tarjetas[5].acciones[0].label }}
+          📥 {{ activeTarjetas[5].acciones[0].label }}
         </a>
         <a
-          :href="tarjetas[5].acciones[1].url"
+          :href="activeTarjetas[5].acciones[1].url"
           class="feed-card__btn feed-card__btn--secondary"
         >
-          🤖 {{ tarjetas[5].acciones[1].label }}
+          🤖 {{ activeTarjetas[5].acciones[1].label }}
         </a>
       </div>
 
@@ -681,3 +797,4 @@ function notificarCita(id: number) {
   }
 }
 </style>
+
