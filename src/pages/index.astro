@@ -2,6 +2,7 @@
 import CardsFeed from '../components/porco/CardsFeed.vue';
 import CiteModal from '../components/porco/CiteModal.vue';
 import FeedbackForm from '../components/porco/FeedbackForm.vue';
+import WhatsNewPill from '../components/WhatsNewPill.astro';
 import riesgos from '../data/porco/riesgos_sanitarios.json';
 import 'vue-data-ui/style.css';
 import '../styles/porco.css';
@@ -88,7 +89,6 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </a>
 
         <nav class="topnav" aria-label="Navegación principal">
-          <span class="version-pill" aria-label="Versión actual">v0.0.3</span>
           <a
             class="nav-cta"
             href={claudeUrl}
@@ -106,6 +106,7 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
 
       <!-- HERO CONTEXTO DE DATOS EN LA ERA DE LA IA -->
       <section class="hero">
+        <WhatsNewPill lang="es" conectarUrl={withBase('conectar')} />
         <h1 class="hero__title">
           Sin datos ordenados ni limpios,<br />
           <span>la IA no ve nada.</span>

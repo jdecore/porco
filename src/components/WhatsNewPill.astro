@@ -1,0 +1,241 @@
+---
+interface Props {
+  lang?: 'es' | 'en';
+  conectarUrl: string;
+}
+
+const { lang = 'es', conectarUrl } = Astro.props;
+
+const copy =
+  lang === 'en'
+    ? {
+        badge: 'v0.0.3.5',
+        label: "What's new: Vector DB in MCP →",
+        aria: 'Open v0.0.3.5 changelog',
+        title: 'What’s new · Porco v0.0.3.5',
+        highlightTitle: 'New MCP tool: search_docs',
+        highlightBody:
+          'Evidence and documentation are now queried from a vector database in Neon (powered by Vita), without reading raw .md files.',
+        items: [
+          'v0.0.3.5 — Vector & keyword search in Neon (search_docs) + Vita adapter.',
+          'v0.0.3 — Ecuador sanitary evidence + verified IEEE citations.',
+        ],
+        cta: 'Open MCP guide',
+        close: 'Close',
+      }
+    : {
+        badge: 'v0.0.3.5',
+        label: 'Novedades: Base vectorial en MCP →',
+        aria: 'Abrir novedades de la versión v0.0.3.5',
+        title: 'Novedades · Porco v0.0.3.5',
+        highlightTitle: 'Nueva herramienta MCP: search_docs',
+        highlightBody:
+          'La evidencia y documentación ahora se consultan desde una base vectorial en Neon (impulsada por Vita), sin leer archivos .md crudos.',
+        items: [
+          'v0.0.3.5 — Búsqueda en Neon (search_docs) + adaptador Vita.',
+          'v0.0.3 — Evidencia sanitaria de Ecuador + citas IEEE verificadas.',
+        ],
+        cta: 'Ver guía MCP',
+        close: 'Cerrar',
+      };
+---
+
+<div class="whatsnew-wrap">
+  <button
+    type="button"
+    class="whatsnew-pill"
+    data-whatsnew-open
+    aria-label={copy.aria}
+  >
+    <span class="whatsnew-pill__dot" data-whatsnew-dot aria-hidden="true"></span>
+    <span class="whatsnew-pill__ver">{copy.badge}</span>
+    <span class="whatsnew-pill__text">{copy.label}</span>
+  </button>
+
+  <dialog class="whatsnew-dialog" data-whatsnew-dialog aria-labelledby="whatsnew-title">
+    <div class="whatsnew-dialog__head">
+      <h2 id="whatsnew-title">{copy.title}</h2>
+      <button type="button" class="whatsnew-dialog__close" data-whatsnew-close aria-label={copy.close}>
+        ×
+      </button>
+    </div>
+
+    <div class="whatsnew-dialog__highlight">
+      <strong>{copy.highlightTitle}</strong>
+      <p>{copy.highlightBody}</p>
+    </div>
+
+    <ul class="whatsnew-dialog__list">
+      {copy.items.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+
+    <div class="whatsnew-dialog__actions">
+      <a class="whatsnew-dialog__cta" href={conectarUrl}>{copy.cta}</a>
+      <button type="button" class="whatsnew-dialog__btn" data-whatsnew-close>{copy.close}</button>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const STORAGE_KEY = 'porco_seen_v0035';
+  document.querySelectorAll('[data-whatsnew-open]').forEach((btn) => {
+    const wrap = btn.closest('.whatsnew-wrap');
+    const dialog = wrap?.querySelector('[data-whatsnew-dialog]') as HTMLDialogElement | null;
+    const dot = wrap?.querySelector('[data-whatsnew-dot]') as HTMLElement | null;
+
+    if (dot && localStorage.getItem(STORAGE_KEY) === '1') {
+      dot.style.display = 'none';
+    }
+
+    btn.addEventListener('click', () => {
+      dialog?.showModal();
+      localStorage.setItem(STORAGE_KEY, '1');
+      if (dot) dot.style.display = 'none';
+    });
+
+    wrap?.querySelectorAll('[data-whatsnew-close]').forEach((closeBtn) => {
+      closeBtn.addEventListener('click', () => dialog?.close());
+    });
+
+    dialog?.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  });
+</script>
+
+<style>
+  .whatsnew-wrap {
+    margin-bottom: 18px;
+  }
+
+  .whatsnew-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(22, 21, 18, 0.16);
+    background: #fbf9f4;
+    color: #161512;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .whatsnew-pill:hover {
+    border-color: #e35336;
+    transform: translateY(-1px);
+  }
+
+  .whatsnew-pill__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: #b8e3a0;
+    border: 1px solid #161512;
+    flex-shrink: 0;
+  }
+
+  .whatsnew-pill__ver {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #b8e3a0;
+    color: #161512;
+  }
+
+  .whatsnew-dialog {
+    max-width: 480px;
+    width: calc(100% - 32px);
+    border: 1px solid rgba(22, 21, 18, 0.18);
+    border-radius: 20px;
+    padding: 24px;
+    background: #fbf9f4;
+    color: #161512;
+  }
+
+  .whatsnew-dialog::backdrop {
+    background: rgba(22, 21, 18, 0.45);
+  }
+
+  .whatsnew-dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .whatsnew-dialog__head h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .whatsnew-dialog__close {
+    border: 0;
+    background: transparent;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: #161512;
+  }
+
+  .whatsnew-dialog__highlight {
+    background: #e35336;
+    color: #fbf9f4;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .whatsnew-dialog__highlight strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: #b8e3a0;
+  }
+
+  .whatsnew-dialog__highlight p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .whatsnew-dialog__list {
+    margin: 0 0 20px;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .whatsnew-dialog__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .whatsnew-dialog__cta {
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: #b8e3a0;
+    color: #161512;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .whatsnew-dialog__btn {
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(22, 21, 18, 0.2);
+    background: transparent;
+    color: #161512;
+    font-size: 14px;
+    cursor: pointer;
+  }
+</style>

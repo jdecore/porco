@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
+import { neon } from '@neondatabase/serverless';
+import { z } from 'zod';
 import riesgos from '../../data/porco/riesgos_sanitarios.json';
 import { CITAS_IEEE } from '../../data/porco/citas';
 import fs from 'node:fs';
@@ -56,14 +58,14 @@ function leerArchivoPublico(relPath: string, fallback: string): string {
 
 function crearServidor() {
   const server = new McpServer(
-    { name: 'porco', version: '0.0.2' },
+    { name: 'porco', version: '0.0.3.5' },
     { instructions: instrucciones },
   );
 
   server.registerTool(
     'get_riesgos_sanitarios',
     {
-      title: 'Observatorio de Evidencia Porco (v0.0.2)',
+      title: 'Observatorio de Evidencia Porco (v0.0.3.5)',
       description:
         'Devuelve la estructura completa de Porco: tarjetas de auditoría, indicadores clave, inventario y referencias IEEE.',
       inputSchema: {},
@@ -193,6 +195,56 @@ function crearServidor() {
         ica_analitica: '241 episodios; PPC 85% descartado; 0% vigilancia de cisticercosis predial',
         inventario_colombia: '10.67M cabezas, 189.198 predios (78.4% traspatio)',
       }),
+  );
+
+  server.registerTool(
+    'search_docs',
+    {
+      title: 'Buscar en documentación y evidencia (.md)',
+      description:
+        'Busca fragmentos relevantes en los documentos Markdown indexados en Neon (búsqueda léxica en español sobre porco_docs_chunks).',
+      inputSchema: {
+        query: z.string().min(2).describe('Pregunta o términos clave a buscar'),
+        archivo: z.string().optional().describe('Filtrar por nombre de archivo, ej. design.md'),
+        limit: z.number().int().min(1).max(10).default(5).describe('Máximo de resultados'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ query, archivo, limit = 5 }) => {
+      const dbUrl = process.env.DATABASE_URL;
+      if (!dbUrl) {
+        return json({
+          error: 'DATABASE_URL no configurada en el servidor.',
+          sugerencia: 'Configura DATABASE_URL en .env o Vercel y ejecuta npm run db:init.',
+        });
+      }
+
+      const sql = neon(dbUrl);
+      const rows = archivo
+        ? await sql`
+            SELECT archivo, ruta_seccion, contenido,
+                   ts_rank(tsv, plainto_tsquery('spanish', ${query})) AS score
+            FROM porco_docs_chunks
+            WHERE archivo = ${archivo}
+              AND tsv @@ plainto_tsquery('spanish', ${query})
+            ORDER BY score DESC
+            LIMIT ${limit}
+          `
+        : await sql`
+            SELECT archivo, ruta_seccion, contenido,
+                   ts_rank(tsv, plainto_tsquery('spanish', ${query})) AS score
+            FROM porco_docs_chunks
+            WHERE tsv @@ plainto_tsquery('spanish', ${query})
+            ORDER BY score DESC
+            LIMIT ${limit}
+          `;
+
+      return json({
+        query,
+        total: rows.length,
+        resultados: rows,
+      });
+    },
   );
 
   return server;

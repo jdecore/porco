@@ -2,6 +2,7 @@
 import CardsFeed from '../../components/porco/CardsFeed.vue';
 import CiteModal from '../../components/porco/CiteModal.vue';
 import FeedbackForm from '../../components/porco/FeedbackForm.vue';
+import WhatsNewPill from '../../components/WhatsNewPill.astro';
 import riesgos from '../../data/porco/riesgos_sanitarios.json';
 import 'vue-data-ui/style.css';
 import '../../styles/porco.css';
@@ -190,7 +191,6 @@ const tarjetasEn = [
         </a>
 
         <nav class="topnav" aria-label="Main Navigation">
-          <span class="version-pill" aria-label="Current version">v0.0.3</span>
           <a
             class="nav-cta"
             href={claudeUrl}
@@ -208,6 +208,7 @@ const tarjetasEn = [
 
       <!-- HERO CONTEXT -->
       <section class="hero">
+        <WhatsNewPill lang="en" conectarUrl={withBase('conectar')} />
         <h1 class="hero__title">
           Without clean and structured data,<br />
           <span>AI is blind.</span>
