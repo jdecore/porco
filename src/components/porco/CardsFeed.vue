@@ -32,6 +32,7 @@ const props = defineProps<{
 }>();
 
 const pais = ref<'col' | 'ecu' | 'per'>('col');
+const showDownloadModal = ref(false);
 
 onMounted(() => {
   window.addEventListener('porco:country-change', (e: Event) => {
@@ -405,13 +406,13 @@ function notificarCita(id: number) {
       <p class="feed-card__desc">{{ activeTarjetas[5].texto_corto }}</p>
 
       <div class="access-actions" v-if="activeTarjetas[5].acciones">
-        <a
-          :href="activeTarjetas[5].acciones[0].url"
-          :download="pais === 'ecu' ? 'ecuador-sanidad.csv' : 'andina-porcinos.csv'"
+        <button
+          type="button"
           class="feed-card__btn feed-card__btn--red"
+          @click="showDownloadModal = true"
         >
-          📥 {{ activeTarjetas[5].acciones[0].label }}
-        </a>
+          📥 Descargar CSV / .MD
+        </button>
         <a
           :href="activeTarjetas[5].acciones[1].url"
           class="feed-card__btn feed-card__btn--secondary"
@@ -419,31 +420,55 @@ function notificarCita(id: number) {
           🤖 {{ activeTarjetas[5].acciones[1].label }}
         </a>
       </div>
+    </article>
 
-      <div class="download-matrix" aria-label="Descargas por país">
-        <div class="download-col">
-          <span class="download-col__title">🇨🇴 Solo Colombia</span>
-          <div class="download-col__links">
-            <a href="/data/andina-porcinos.csv" download="colombia-sanidad.csv" class="download-chip">.csv</a>
-            <a href="/data/colombia-sanidad.md" download="colombia-sanidad.md" class="download-chip">.md</a>
-          </div>
+    <!-- Pop-up de descarga por país -->
+    <div
+      v-if="showDownloadModal"
+      class="dl-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Seleccionar país para descargar"
+      @click.self="showDownloadModal = false"
+    >
+      <div class="dl-modal">
+        <div class="dl-modal__head">
+          <h3>Descargar evidencia curada</h3>
+          <button type="button" class="dl-modal__close" aria-label="Cerrar" @click="showDownloadModal = false">✕</button>
         </div>
-        <div class="download-col">
-          <span class="download-col__title">🇪🇨 Solo Ecuador</span>
-          <div class="download-col__links">
-            <a href="/data/ecuador-sanidad.csv" download="ecuador-sanidad.csv" class="download-chip">.csv</a>
-            <a href="/data/ecuador-sanidad.md" download="ecuador-sanidad.md" class="download-chip">.md</a>
+        <p class="dl-modal__sub">Elige el alcance y formato que necesitas (CSV tabular o Markdown para agentes):</p>
+        <div class="dl-modal__list">
+          <div class="dl-row">
+            <span class="dl-row__name">🇨🇴 Solo Colombia</span>
+            <div class="dl-row__btns">
+              <a href="/data/andina-porcinos.csv" download="colombia-sanidad.csv" class="download-chip" @click="showDownloadModal = false">.csv</a>
+              <a href="/data/colombia-sanidad.md" download="colombia-sanidad.md" class="download-chip" @click="showDownloadModal = false">.md</a>
+            </div>
           </div>
-        </div>
-        <div class="download-col">
-          <span class="download-col__title">🌎 Ambos países</span>
-          <div class="download-col__links">
-            <a href="/data/andina-porcinos.csv" download="andina-porcinos.csv" class="download-chip">.csv</a>
-            <a href="/data/colombia-andina-sanidad.md" download="colombia-andina-sanidad.md" class="download-chip">.md</a>
+          <div class="dl-row">
+            <span class="dl-row__name">🇪🇨 Solo Ecuador</span>
+            <div class="dl-row__btns">
+              <a href="/data/ecuador-sanidad.csv" download="ecuador-sanidad.csv" class="download-chip" @click="showDownloadModal = false">.csv</a>
+              <a href="/data/ecuador-sanidad.md" download="ecuador-sanidad.md" class="download-chip" @click="showDownloadModal = false">.md</a>
+            </div>
+          </div>
+          <div class="dl-row">
+            <span class="dl-row__name">🇵🇪 Solo Perú</span>
+            <div class="dl-row__btns">
+              <a href="/data/peru-sanidad.csv" download="peru-sanidad.csv" class="download-chip" @click="showDownloadModal = false">.csv</a>
+              <a href="/data/peru-sanidad.md" download="peru-sanidad.md" class="download-chip" @click="showDownloadModal = false">.md</a>
+            </div>
+          </div>
+          <div class="dl-row dl-row--all">
+            <span class="dl-row__name">🌎 Región Andina (Todos)</span>
+            <div class="dl-row__btns">
+              <a href="/data/andina-porcinos.csv" download="andina-porcinos.csv" class="download-chip" @click="showDownloadModal = false">.csv</a>
+              <a href="/data/colombia-andina-sanidad.md" download="colombia-andina-sanidad.md" class="download-chip" @click="showDownloadModal = false">.md</a>
+            </div>
           </div>
         </div>
       </div>
-    </article>
+    </div>
   </div>
 </template>
 
@@ -881,6 +906,97 @@ function notificarCita(id: number) {
   .feed-card {
     border-radius: 24px;
   }
+}
+
+/* Pop-up Modal de Descarga */
+.dl-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(11, 12, 14, 0.78);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.dl-modal {
+  width: 100%;
+  max-width: 440px;
+  background: #141518;
+  border: 1px solid rgba(255, 107, 74, 0.35);
+  border-radius: 24px;
+  padding: 24px;
+  color: #ffffff;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.dl-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.dl-modal__head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.dl-modal__close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.dl-modal__close:hover {
+  border-color: #FF6B4A;
+  color: #FF6B4A;
+}
+
+.dl-modal__sub {
+  margin: 0 0 18px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.45;
+}
+
+.dl-modal__list {
+  display: grid;
+  gap: 10px;
+}
+
+.dl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #1B1C21;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dl-row--all {
+  border-color: rgba(255, 107, 74, 0.4);
+  background: rgba(255, 107, 74, 0.08);
+}
+
+.dl-row__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dl-row__btns {
+  display: flex;
+  gap: 8px;
 }
 </style>
 

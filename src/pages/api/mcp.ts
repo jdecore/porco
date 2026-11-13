@@ -84,9 +84,27 @@ function crearServidor() {
     async () =>
       json({
         pais: 'Ecuador',
-        version: '0.0.2',
+        version: '0.0.3',
         csv: leerArchivoPublico('public/data/ecuador-sanidad.csv', ''),
         markdown: leerArchivoPublico('public/data/ecuador-sanidad.md', ''),
+      }),
+  );
+
+  server.registerTool(
+    'get_evidencia_peru',
+    {
+      title: 'Evidencia Sanitaria de Perú (CSV + Markdown)',
+      description:
+        'Devuelve los microdatos curados de Perú en CSV y el documento Markdown (MIDAGRI, SENASA PPC/camales, OMSA Res. 26 y estudios locales en Tumbes, Cusco y Piura).',
+      inputSchema: {},
+      annotations: { readOnlyHint: true },
+    },
+    async () =>
+      json({
+        pais: 'Perú',
+        version: '0.0.3',
+        csv: leerArchivoPublico('public/data/peru-sanidad.csv', ''),
+        markdown: leerArchivoPublico('public/data/peru-sanidad.md', ''),
       }),
   );
 
