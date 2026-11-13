@@ -44,6 +44,7 @@ const tarjetasEn = [
     candidatas: [
       { nombre: "ICA (AnalítICA)", estado: "Evaluated in Census/CSF" },
       { nombre: "Agrocalidad / INEC", estado: "Evaluated (ESPAC/PROZEC)" },
+      { nombre: "SENASA / MIDAGRI (Peru)", estado: "Evaluated (Census/CSF)" },
       { nombre: "MinSalud RIPS", estado: "Evaluated (4-year lag)" },
       { nombre: "WOAH / WAHIS", estado: "Under Andean Evaluation" }
     ],
@@ -96,6 +97,12 @@ const tarjetasEn = [
         fuente: "Agrocalidad / INEC (Ecuador)",
         linea_1: "896,456 pigs (44.1% creole/mixed); 1.34M CSF vaccinated",
         linea_2: "No active farm cysticercosis surveillance (~50% backyard outside slaughterhouses)",
+        badge: "Slaughterhouse & backyard gap"
+      },
+      {
+        fuente: "SENASA / MIDAGRI (Peru)",
+        linea_1: "3.7M pigs (58% backyard); 2.65M CSF vaccinated (2025)",
+        linea_2: "0% active farm cysticercosis surveillance; Tumbes up to 45% EITB in local studies",
         badge: "Slaughterhouse & backyard gap"
       }
     ],
@@ -319,7 +326,7 @@ const tarjetasEn = [
         </div>
 
         <p class="footer__note">
-          Sources & limitations: ICA (AnalítICA 2026 & Livestock Census), MinSalud (RIPS open data), WOAH / WAHIS, Eurostat, USDA NASS, and local peer-reviewed field studies (Córdoba & Tolima). Administrative healthcare data counts billed encounters, not unique patients. Local community studies describe specific rural settings, not an entire nation. A missing record does not imply absence of disease.
+          Sources & limitations: ICA (AnalítICA 2026 & Livestock Census), Agrocalidad / INEC (Ecuador ESPAC 2024 & PROZEC), SENASA / MIDAGRI (Peru 2025–2026), MinSalud (RIPS open data), WOAH / WAHIS, Eurostat, USDA NASS, and local peer-reviewed field studies (Córdoba, Tolima, Pelileo, Tumbes, Cusco & Piura). Administrative healthcare data counts billed encounters, not unique patients. Local community studies describe specific rural settings, not an entire nation. A missing record does not imply absence of disease.
         </p>
 
         <div class="footer__citas-link-box">

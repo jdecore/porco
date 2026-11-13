@@ -81,6 +81,10 @@
           "estado": "Evaluado (ESPAC/PROZEC)"
         },
         {
+          "nombre": "SENASA / MIDAGRI (Perú)",
+          "estado": "Evaluado (Censo/PPC)"
+        },
+        {
           "nombre": "MinSalud RIPS",
           "estado": "Evaluado (Desfase 4 años)"
         },
@@ -138,6 +142,12 @@
           "fuente": "Agrocalidad / INEC (Ecuador)",
           "linea_1": "896.456 cerdos (44,1% criollos/mestizos); 1,34M vacunados PPC",
           "linea_2": "Sin vigilancia activa de cisticercosis en granjas (~50% traspatio fuera de camal)",
+          "badge": "Brecha de camal y traspatio"
+        },
+        {
+          "fuente": "SENASA / MIDAGRI (Perú)",
+          "linea_1": "3,7M cerdos (58% traspatio); 2,65M vacunados PPC (2025)",
+          "linea_2": "0% vigilancia activa de cisticercosis en granjas; Tumbes hasta 45% EITB en estudios locales",
           "badge": "Brecha de camal y traspatio"
         }
       ],
