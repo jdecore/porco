@@ -199,45 +199,99 @@ const tarjetasEn = [
           <span>AI is blind.</span>
         </h1>
         <p class="hero__lede">
-          In the era of AI, without curated data there are no artificial intelligence models that deliver solid results without hallucinating. Six signals on data blindspots in Colombia before expanding to the Andean Region.
+          In the era of AI, without curated data there are no artificial intelligence models that deliver solid results without hallucinating. Verifiable evidence on animal and public health data gaps in Colombia and Ecuador.
         </p>
 
-        <div class="hero__stats hero__stats--three">
+        <div class="hero__stats hero__stats--three" aria-label="Colombia and Ecuador overview">
           <div class="stat">
             <div class="stat__head">
-              <strong>241</strong>
-              <button
-                type="button"
-                class="cite-tag"
-                aria-label="View ICA Citation"
-                data-trigger-cite="10"
-              >
-                ICA
-              </button>
+              <strong>ASF-free</strong>
             </div>
-            <span>Episodes in AnalítICA 2026 (85% ruled out for CSF)</span>
+            <span>Both Colombia and Ecuador maintain African Swine Fever-free status with border surveillance</span>
           </div>
 
           <div class="stat">
             <div class="stat__head">
-              <strong>78.4%</strong>
+              <strong>CSF control</strong>
             </div>
-            <span>Informal backyard farms (without active surveillance)</span>
+            <span>Colombia has 3 free zones (ICA/WOAH); Ecuador runs mandatory eradication (PROZEC)</span>
           </div>
 
           <div class="stat stat--alert">
             <div class="stat__head">
-              <strong>4 years</strong>
+              <strong>Rural gap</strong>
             </div>
-            <span>Time lag in MinSalud RIPS microdata (frozen in 2021)</span>
+            <span>Informal backyard farming and uninspected slaughter hide cysticercosis in both countries</span>
           </div>
-
         </div>
+
+        <!-- Circular country selector (Colombia / Ecuador) -->
+        <div class="country-switcher" role="group" aria-label="Select country">
+          <button
+            type="button"
+            class="country-circle is-active"
+            data-country="col"
+            aria-pressed="true"
+            aria-label="View Colombia data"
+            title="Colombia"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-col-en"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-col-en)">
+                <rect width="36" height="18" y="0" fill="#FCD116" />
+                <rect width="36" height="9" y="18" fill="#003893" />
+                <rect width="36" height="9" y="27" fill="#CE1126" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Colombia</span>
+          </button>
+
+          <button
+            type="button"
+            class="country-circle"
+            data-country="ecu"
+            aria-pressed="false"
+            aria-label="View Ecuador data"
+            title="Ecuador"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-ecu-en"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-ecu-en)">
+                <rect width="36" height="18" y="0" fill="#FFD100" />
+                <rect width="36" height="9" y="18" fill="#0033A0" />
+                <rect width="36" height="9" y="27" fill="#EF3340" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Ecuador</span>
+          </button>
+        </div>
+
+        <script is:inline>
+          (function () {
+            const buttons = document.querySelectorAll('.country-circle[data-country]');
+
+            function setCountry(country) {
+              buttons.forEach((btn) => {
+                const active = btn.getAttribute('data-country') === country;
+                btn.classList.toggle('is-active', active);
+                btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+              });
+              window.dispatchEvent(new CustomEvent('porco:country-change', { detail: country }));
+            }
+
+            buttons.forEach((btn) => {
+              btn.addEventListener('click', () => {
+                const country = btn.getAttribute('data-country') || 'col';
+                setCountry(country);
+              });
+            });
+          })();
+        </script>
       </section>
 
       <!-- 6-CARD FEED -->
       <CardsFeed
-        client:visible
+        client:load
         tarjetas={tarjetasEn}
       />
 
