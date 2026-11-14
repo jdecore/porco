@@ -1,9 +1,9 @@
 {
   "meta": {
     "proyecto": "Porco",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "descripcion": "Observatorio de evidencia, trazabilidad y auditoría sanitaria porcina en Colombia y la Región Andina.",
-    "actualizado": "2026-11-11",
+    "actualizado": "2026-11-14",
     "enfoque": "One Health y Calidad de Datos para IA",
     "sitio": "https://porco-tau.vercel.app",
     "mcp": "https://porco-tau.vercel.app/api/mcp",
@@ -61,14 +61,15 @@
       "cifra_subtitulo": "Muestra real auditada vs. titular aislado (9.7%)",
       "texto_corto": "Antes de reutilizar una estadística de salud, necesitas saber qué mide, cuándo se recopiló y qué población describe. Porco hace visibles los vacíos en lugar de ocultarlos tras porcentajes de titular.",
       "boton_texto": "Ver ejemplos documentados",
-      "referencias": "MinSalud RIPS (datos.gov.co) · Estudio de Tuchín (PubMed)"
+      "referencias": "MinSalud RIPS (datos.gov.co) · Estudio de Tuchín (PubMed)",
+      "citas": [3, 5]
     },
     {
       "id": "alcance",
       "numero": "02",
       "tag": "Nuestra primera versión",
       "titulo": "Colombia primero. Un alcance claro y medible.",
-      "cifra_principal": "v0.0.3",
+      "cifra_principal": "v0.0.4",
       "cifra_subtitulo": "Enfoque Colombia con proyección a la Región Andina",
       "texto_corto": "Organizamos la evidencia de teniasis y cisticercosis antes de expandirnos a la Región Andina. Las fuentes entran a la tabla solo tras verificar métodos, fechas y denominadores.",
       "candidatas": [
@@ -78,7 +79,8 @@
         { "nombre": "MinSalud RIPS", "estado": "Evaluado (Desfase 4 años)" },
         { "nombre": "OMSA / WAHIS", "estado": "En evaluación Andina" }
       ],
-      "boton_texto": "Qué incluye esta versión"
+      "boton_texto": "Qué incluye esta versión",
+      "citas": [1, 10, 6]
     },
     {
       "id": "unidades",
@@ -97,7 +99,8 @@
           "advertencia": "Describe 42 comunidades indígenas, no a todo el país."
         }
       ],
-      "texto_corto": "RIPS registra eventos de consulta médica facturados. El estudio de Tuchín evaluó cerdos en comunidades rurales específicas. Confundir las unidades distorsiona cualquier modelo de IA."
+      "texto_corto": "RIPS registra eventos de consulta médica facturados. El estudio de Tuchín evaluó cerdos en comunidades rurales específicas. Confundir las unidades distorsiona cualquier modelo de IA.",
+      "citas": [3, 5]
     },
     {
       "id": "verificacion",
@@ -136,7 +139,8 @@
           "badge": "Brecha de camal y traspatio"
         }
       ],
-      "boton_texto": "Abrir registro de verificación"
+      "boton_texto": "Abrir registro de verificación",
+      "citas": [3, 4, 10]
     },
     {
       "id": "registro",
@@ -152,7 +156,8 @@
         "estado": "Discrepancia de denominador en abstract",
         "ref": "PMC11054264"
       },
-      "planes": ["Búsqueda estructurada", "Filtros territoriales", "API / MCP para agentes"]
+      "planes": ["Búsqueda estructurada", "Filtros territoriales", "API / MCP para agentes"],
+      "citas": [3, 6]
     },
     {
       "id": "acceso",
@@ -163,7 +168,8 @@
       "acciones": [
         { "label": "Descargar CSV", "tipo": "descarga", "url": "/data/andina-porcinos.csv" },
         { "label": "Conectar un agente", "tipo": "enlace", "url": "/conectar" }
-      ]
+      ],
+      "citas": [1, 8, 9, 10]
     }
   ]
 }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import CountryChart from './CountryChart.vue';
-import CountryVersus from './CountryVersus.vue';
 
 type Tarjeta = {
   id: string;
@@ -27,19 +26,21 @@ type Tarjeta = {
   };
   planes?: string[];
   acciones?: Array<{ label: string; tipo: string; url: string }>;
+  citas?: number[];
 };
 
 const props = defineProps<{
   tarjetas: Tarjeta[];
+  lang?: 'es' | 'en';
 }>();
 
-const pais = ref<'col' | 'ecu' | 'per'>('col');
+const pais = ref<'col' | 'ecu' | 'per' | 'ven'>('col');
 const showDownloadModal = ref(false);
 
 onMounted(() => {
   window.addEventListener('porco:country-change', (e: Event) => {
     const detail = (e as CustomEvent).detail;
-    if (detail === 'ecu' || detail === 'col' || detail === 'per') {
+    if (detail === 'ecu' || detail === 'col' || detail === 'per' || detail === 'ven') {
       pais.value = detail;
     }
   });
@@ -55,7 +56,9 @@ const tarjetasEcuador: Tarjeta[] = [
     cifra_subtitulo: 'Caída interanual en inventario oficial INEC ESPAC (2021 vs. 2022)',
     texto_corto:
       'Un dato suelto sin su marco muestral induce a error. En Ecuador, el inventario oficial cae casi a un tercio de un año a otro y la inspección en camal deja fuera el faenamiento rural.',
+    boton_texto: 'Ver cita principal',
     referencias: 'INEC (ESPAC 2021–2023) · PubMed (Loja y El Oro)',
+    citas: [11, 13],
   },
   {
     id: 'alcance',
@@ -69,6 +72,7 @@ const tarjetasEcuador: Tarjeta[] = [
       { nombre: 'Agrocalidad (PROZEC)', estado: 'Evaluado (PPC / PPA)' },
       { nombre: 'ASPE / PubMed', estado: 'Evaluado (Gremio y Loja/El Oro)' },
     ],
+    citas: [11, 12, 13],
   },
   {
     id: 'unidades',
@@ -89,6 +93,7 @@ const tarjetasEcuador: Tarjeta[] = [
         advertencia: 'Registra fincas tradicionales; el gremio (ASPE) estima ~100 mil productores y 220 mil t/año.',
       },
     ],
+    citas: [11, 13],
   },
   {
     id: 'verificacion',
@@ -115,6 +120,8 @@ const tarjetasEcuador: Tarjeta[] = [
         badge: 'Punto ciego rural',
       },
     ],
+    boton_texto: 'Abrir registro de verificación',
+    citas: [12, 11, 13],
   },
   {
     id: 'registro',
@@ -131,6 +138,7 @@ const tarjetasEcuador: Tarjeta[] = [
       ref: 'INEC / Forbes Ecuador',
     },
     planes: ['Búsqueda estructurada', 'Citas IEEE verificadas', 'API / MCP para agentes'],
+    citas: [11, 12],
   },
   {
     id: 'acceso',
@@ -143,6 +151,7 @@ const tarjetasEcuador: Tarjeta[] = [
       { label: 'Descargar CSV Ecuador', tipo: 'csv', url: '/data/ecuador-sanidad.csv' },
       { label: 'Conectar un agente', tipo: 'mcp', url: '/conectar' },
     ],
+    citas: [11, 12, 13],
   },
 ];
 
@@ -158,6 +167,7 @@ const tarjetasPeru: Tarjeta[] = [
       'SENASA declaró 13 regiones libres de PPC sin vacunación, pero ante la OMSA Perú sigue figurando como endémico y el 58% de cerdos está en traspatio.',
     boton_texto: 'Ver ejemplos documentados',
     referencias: 'MIDAGRI (Ene 2025) · SENASA (Ago 2026) · OMSA Res. 26',
+    citas: [14, 15],
   },
   {
     id: 'alcance',
@@ -171,6 +181,7 @@ const tarjetasPeru: Tarjeta[] = [
       { nombre: 'SENASA (Campaña PPC)', estado: '2.65M vacunados (2025) · 996k (2026)' },
       { nombre: 'SENASA (Camales D.S. 007)', estado: '0% vigilancia activa en granjas' },
     ],
+    citas: [14, 15, 16],
   },
   {
     id: 'unidades',
@@ -191,6 +202,7 @@ const tarjetasPeru: Tarjeta[] = [
     ],
     texto_corto:
       'En granjas tecnificadas la cisticercosis es casi 0%, pero en traspatio rural la mayoría de cerdos infectados evade el matadero formal.',
+    citas: [15, 16],
   },
   {
     id: 'verificacion',
@@ -212,6 +224,7 @@ const tarjetasPeru: Tarjeta[] = [
       },
     ],
     boton_texto: 'Abrir registro de verificación',
+    citas: [15, 16],
   },
   {
     id: 'registro',
@@ -228,6 +241,7 @@ const tarjetasPeru: Tarjeta[] = [
       ref: 'MIDAGRI 2025 / SENASA 2026',
     },
     planes: ['Inventario MIDAGRI', 'Vacunación SENASA', 'Estudios Tumbes/Cusco'],
+    citas: [14, 15, 16],
   },
   {
     id: 'acceso',
@@ -240,11 +254,128 @@ const tarjetasPeru: Tarjeta[] = [
       { label: 'Descargar CSV Andino', tipo: 'csv', url: '/data/andina-porcinos.csv' },
       { label: 'Conectar un agente', tipo: 'mcp', url: '/conectar' },
     ],
+    citas: [14, 15, 16],
+  },
+];
+
+const tarjetasVenezuela: Tarjeta[] = [
+  {
+    id: 'problema',
+    numero: '01',
+    tag: 'EL PROBLEMA',
+    titulo: 'Recuperación comercial rápida, pero el 24% sigue fuera de registro continuo.',
+    cifra_principal: '2.31M / 24%',
+    cifra_subtitulo: 'Cabezas totales (FAOSTAT 2024) y proporción no agremiada / traspatio',
+    texto_corto:
+      'La producción comercial pasó de 21.700 TM en 2020 a 124.000 TM en 2025 (130.000 TM proyectadas en 2026). Sin embargo, el 24% independiente y traspatio carece de censo continuo ante el INSAI.',
+    boton_texto: 'Ver ejemplos documentados',
+    referencias: 'USDA FAS / 3tres3 (2026) · FAOSTAT / OWID (2024)',
+    citas: [17, 18],
+  },
+  {
+    id: 'alcance',
+    numero: '02',
+    tag: 'ALCANCE VENEZUELA',
+    titulo: 'De la granja tecnificada centro-occidental al vacío de datos rurales.',
+    texto_corto:
+      'Integramos inventario FAOSTAT, proyecciones USDA/PROCERDO, estatus PPA/PPC ante INSAI y OMSA, y evidencia serológica de cisticercosis en traspatio.',
+    candidatas: [
+      { nombre: 'FAOSTAT / OWID', estado: '2.31M cabezas (2024; pico 3.81M en 2013)' },
+      { nombre: 'USDA FAS / PROCERDO', estado: '66.000 madres · 124k–130k TM (2025–2026)' },
+      { nombre: 'INSAI / OMSA (WAHIS)', estado: 'Libre PPA (Mem. 031) · Sin estatus libre PPC' },
+      { nombre: 'Yaracuy (Cortez et al.)', estado: '65.4% Ab-ELISA · 19.2% Ag-ELISA HP10' },
+    ],
+    citas: [18, 17, 19, 20, 21],
+  },
+  {
+    id: 'unidades',
+    numero: '03',
+    tag: 'UNIDADES DE MEDIDA',
+    titulo: 'Granjas agremiadas no son todo el hato. Matadero formal no mide el traspatio.',
+    comparativa: [
+      {
+        tipo: 'Sector Tecnificado (PROCERDO / USDA)',
+        unidad: '66.000 madres · 76% de la carne',
+        advertencia: 'Concentrado en Aragua, Carabobo, Yaracuy y Lara; excluye el 24% independiente y traspatio.',
+      },
+      {
+        tipo: 'Estudio en Traspatio (Yaracuy)',
+        unidad: 'Ab-ELISA (65.4%) y Ag-ELISA HP10 (19.2%)',
+        advertencia: 'Muestra rural (n = 52); no existen boletines públicos de decomisos INSAI/MPPS en mataderos.',
+      },
+    ],
+    texto_corto:
+      'En granjas comerciales se reporta >95% de vacunación PPC para movilización SIGMAV. En traspatio, la vacunación es irregular y la matanza domiciliaria evade inspección.',
+    citas: [17, 21],
+  },
+  {
+    id: 'verificacion',
+    numero: '04',
+    tag: 'EVIDENCIA COMPROBABLE',
+    titulo: 'Estatus PPC, retraso en WAHIS y silencio en cisticercosis.',
+    discrepancias: [
+      {
+        fuente: 'OMSA vs. INSAI (PPC y WAHIS)',
+        linea_1: 'Programa INSAI con vacunación obligatoria (cepa China) para guía SIGMAV',
+        linea_2: 'Sin estatus libre ante OMSA (Res. 26) y discontinuidad de reportes en WAHIS',
+        badge: 'Asimetría y retraso WAHIS',
+      },
+      {
+        fuente: 'Vigilancia PPA (INSAI / AVISA)',
+        linea_1: 'Históricamente libre de PPA; alerta reforzada desde 2021 (Mem. Circular Nº 031)',
+        linea_2: 'Control en puertos/aeropuertos y prohibición de importaciones de riesgo',
+        badge: 'Libre con alerta fronteriza',
+      },
+      {
+        fuente: 'Cisticercosis en Campo vs. Registro',
+        linea_1: 'Yaracuy (Cortez Alcobedes et al.): 19.2% con antígenos viables (HP10) por necropsia',
+        linea_2: '0 boletines epidemiológicos públicos INSAI/MPPS sobre decomisos por T. solium',
+        badge: 'Punto ciego documentado',
+      },
+    ],
+    boton_texto: 'Abrir registro de verificación',
+    citas: [19, 20, 21],
+  },
+  {
+    id: 'registro',
+    numero: '05',
+    tag: 'QUÉ APORTA PORCO',
+    titulo: 'De reportes dispersos a una ficha sanitaria auditable.',
+    ficha_preview: {
+      id: 'OBS-VEN-001',
+      fuente: 'FAOSTAT / USDA FAS / INSAI / CIRAD-Pigtrop',
+      pais: 'Venezuela',
+      periodo: '2010 – 2026',
+      resultado: '2.31M cabezas · 124k TM (2025) · 19.2% Ag-ELISA Yaracuy',
+      estado: 'Libre PPA · Endémico PPC (sin estatus OMSA) · 0 boletines T. solium',
+      ref: 'FAOSTAT 2024 / USDA-3tres3 2026 / WOAH',
+    },
+    planes: ['Inventario FAO/USDA', 'Estatus INSAI/OMSA', 'Brecha traspatio'],
+    citas: [18, 17, 19, 21],
+  },
+  {
+    id: 'acceso',
+    numero: '06',
+    tag: 'PRIMERO LAS PERSONAS, LUEGO LA IA',
+    titulo: 'Explora la evidencia de Venezuela. Conecta un agente si lo deseas.',
+    texto_corto:
+      'Descarga el dataset curado o consulta el observatorio desde tu agente de IA mediante el servidor MCP de Porco.',
+    acciones: [
+      { label: 'Descargar CSV Andino', tipo: 'csv', url: '/data/andina-porcinos.csv' },
+      { label: 'Conectar un agente', tipo: 'mcp', url: '/conectar' },
+    ],
+    citas: [17, 18, 19, 20, 21],
   },
 ];
 
 const activeTarjetas = computed(() =>
-  pais.value === 'ecu' ? tarjetasEcuador : pais.value === 'per' ? tarjetasPeru : props.tarjetas,
+  pais.value === 'ecu'
+    ? tarjetasEcuador
+    : pais.value === 'per'
+      ? tarjetasPeru
+      : pais.value === 'ven'
+        ? tarjetasVenezuela
+        : props.tarjetas,
 );
 
 function notificarCita(id: number) {
@@ -257,7 +388,6 @@ function notificarCita(id: number) {
 <template>
   <div class="cards-feed" id="feed-tarjetas" role="region" aria-label="Feed de evidencia sanitaria">
     <CountryChart :pais="pais" :lang="lang" />
-    <CountryVersus :lang="lang" />
     <!-- Card 1: El problema -->
     <article v-if="activeTarjetas[0]" class="feed-card feed-card--problema" id="card-problema">
       <header class="feed-card__head">
@@ -269,8 +399,8 @@ function notificarCita(id: number) {
 
       <div class="feed-card__hero-metric">
         <div class="metric-struck">
-          <span class="struck-value">{{ pais === 'ecu' ? '0.9M' : pais === 'per' ? '13 reg.' : '9.7%' }}</span>
-          <span class="struck-label">Titular sin contexto</span>
+          <span class="struck-value">{{ pais === 'ecu' ? '0.9M' : pais === 'per' ? '13 reg.' : pais === 'ven' ? '+500%' : '9.7%' }}</span>
+          <span class="struck-label">{{ lang === 'en' ? 'Headline without context' : 'Titular sin contexto' }}</span>
         </div>
         <div class="metric-arrow" aria-hidden="true">→</div>
         <div class="metric-verified">
@@ -283,13 +413,24 @@ function notificarCita(id: number) {
 
       <footer class="feed-card__foot">
         <button
+          v-if="activeTarjetas[0].boton_texto"
           type="button"
           class="feed-card__btn feed-card__btn--red"
-          @click="notificarCita(1)"
+          @click="notificarCita(activeTarjetas[0].citas?.[0] ?? 1)"
         >
-          {{ activeTarjetas[0].boton_texto }} [1]
+          {{ activeTarjetas[0].boton_texto }} [{{ activeTarjetas[0].citas?.[0] ?? 1 }}]
         </button>
-        <span class="feed-card__ref-note">{{ activeTarjetas[0].referencias }}</span>
+        <span v-if="activeTarjetas[0].referencias" class="feed-card__ref-note">{{ activeTarjetas[0].referencias }}</span>
+        <div v-if="activeTarjetas[0].citas?.length" class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[0].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
       </footer>
     </article>
 
@@ -311,6 +452,19 @@ function notificarCita(id: number) {
           <span class="candidata-badge">{{ c.estado }}</span>
         </div>
       </div>
+
+      <footer v-if="activeTarjetas[1].citas?.length" class="feed-card__foot">
+        <div class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[1].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
+      </footer>
     </article>
 
     <!-- Card 3: Unidades de medida -->
@@ -323,19 +477,31 @@ function notificarCita(id: number) {
       <h2 class="feed-card__title">{{ activeTarjetas[2].titulo }}</h2>
 
       <div class="split-units" v-if="activeTarjetas[2].comparativa">
-        <div class="unit-box unit-box--admin">
-          <span class="unit-kicker">Registros Oficiales (RIPS)</span>
-          <strong class="unit-stat">Atención ≠ Persona</strong>
-          <p class="unit-desc">Registra visitas médicas facturadas. Si un paciente consulta 5 veces, son 5 filas.</p>
-        </div>
-        <div class="unit-box unit-box--field">
-          <span class="unit-kicker">{{ pais === 'ecu' ? 'Encuesta INEC (ESPAC)' : pais === 'per' ? 'Estudios Locales (Tumbes/Cusco)' : 'Estudio de Campo (Tuchín)' }}</span>
-          <strong class="unit-stat">42 Comunidades ≠ País</strong>
-          <p class="unit-desc">Muestra focal de cerdos en comunidades rurales Zenú con traspatio predominante.</p>
+        <div
+          v-for="(item, idx) in activeTarjetas[2].comparativa"
+          :key="item.tipo"
+          :class="['unit-box', idx === 0 ? 'unit-box--admin' : 'unit-box--field']"
+        >
+          <span class="unit-kicker">{{ item.tipo }}</span>
+          <strong class="unit-stat">{{ item.unidad }}</strong>
+          <p class="unit-desc">{{ item.advertencia }}</p>
         </div>
       </div>
 
       <p class="feed-card__desc">{{ activeTarjetas[2].texto_corto }}</p>
+
+      <footer v-if="activeTarjetas[2].citas?.length" class="feed-card__foot">
+        <div class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[2].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
+      </footer>
     </article>
 
     <!-- Card 4: La Verificación -->
@@ -362,12 +528,23 @@ function notificarCita(id: number) {
 
       <footer class="feed-card__foot">
         <button
+          v-if="activeTarjetas[3].boton_texto"
           type="button"
           class="feed-card__btn feed-card__btn--secondary"
-          @click="notificarCita(3)"
+          @click="notificarCita(activeTarjetas[3].citas?.[0] ?? 3)"
         >
-          {{ activeTarjetas[3].boton_texto }} [3]
+          {{ activeTarjetas[3].boton_texto }} [{{ activeTarjetas[3].citas?.[0] ?? 3 }}]
         </button>
+        <div v-if="activeTarjetas[3].citas?.length" class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[3].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
       </footer>
     </article>
 
@@ -396,6 +573,19 @@ function notificarCita(id: number) {
       <div class="plans-tags" v-if="activeTarjetas[4].planes">
         <span v-for="p in activeTarjetas[4].planes" :key="p" class="plan-tag">✓ {{ p }}</span>
       </div>
+
+      <footer v-if="activeTarjetas[4].citas?.length" class="feed-card__foot">
+        <div class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[4].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
+      </footer>
     </article>
 
     <!-- Card 6: Primero las personas, luego la IA -->
@@ -434,6 +624,19 @@ function notificarCita(id: number) {
           <span class="access-banner__arrow" aria-hidden="true">→</span>
         </a>
       </div>
+
+      <footer v-if="activeTarjetas[5].citas?.length" class="feed-card__foot">
+        <div class="card-citas" aria-label="Citas IEEE">
+          <span class="card-citas__label">{{ lang === 'en' ? 'Citations:' : 'Citas:' }}</span>
+          <button
+            v-for="cid in activeTarjetas[5].citas"
+            :key="cid"
+            type="button"
+            class="cite-chip"
+            @click="notificarCita(cid)"
+          >[{{ cid }}]</button>
+        </div>
+      </footer>
     </article>
 
     <!-- Pop-up de descarga por país -->
@@ -1077,6 +1280,43 @@ function notificarCita(id: number) {
 .dl-row__btns {
   display: flex;
   gap: 8px;
+}
+
+.card-citas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.card-citas__label {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(251, 249, 244, 0.85);
+}
+
+.cite-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(184, 227, 160, 0.55);
+  background: rgba(184, 227, 160, 0.16);
+  color: #b8e3a0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.cite-chip:hover {
+  background: #b8e3a0;
+  color: #161512;
+  transform: translateY(-1px);
 }
 </style>
 

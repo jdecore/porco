@@ -89,9 +89,10 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
         </a>
 
         <nav class="topnav" aria-label="Navegación principal">
+          <a href={withBase('comparar')}>Comparar</a>
           <a
             class="nav-cta"
-            href="mailto:juenriquez09@gmail.com?subject=Comentarios%20Porco%20v0.0.3.6"
+            href="mailto:juenriquez09@gmail.com?subject=Comentarios%20Porco%20v0.0.4"
             aria-label="Enviar comentarios por correo"
           >Comentarios</a>
           <a
@@ -193,6 +194,30 @@ const fecha = new Intl.DateTimeFormat('es-CO', {
               </g>
             </svg>
             <span class="country-circle__label">Perú</span>
+          </button>
+
+          <button
+            type="button"
+            class="country-circle"
+            data-country="ven"
+            aria-pressed="false"
+            aria-label="Ver datos de Venezuela"
+            title="Venezuela"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-ven"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-ven)">
+                <rect width="36" height="12" y="0" fill="#FFCC00" />
+                <rect width="36" height="12" y="12" fill="#00247D" />
+                <rect width="36" height="12" y="24" fill="#CF142B" />
+                <circle cx="12" cy="19.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="14.5" cy="17.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="18" cy="16.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="21.5" cy="17.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="24" cy="19.5" r="0.9" fill="#FFFFFF" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Venezuela</span>
           </button>
         </div>
 

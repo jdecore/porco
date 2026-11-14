@@ -9,35 +9,33 @@ const { lang = 'es', conectarUrl } = Astro.props;
 const copy =
   lang === 'en'
     ? {
-        badge: 'v0.0.3.6',
-        label: "What's new: Vector DB in MCP →",
-        aria: 'Open v0.0.3.6 changelog',
-        title: 'What’s new · Porco v0.0.3.6',
-        highlightTitle: 'New MCP tool: search_docs',
+        badge: 'v0.0.4',
+        label: "What's new: Venezuela, ECharts & /comparar →",
+        aria: 'Open v0.0.4 changelog',
+        title: 'What’s new · Porco v0.0.4',
+        highlightTitle: 'Venezuela + /comparar with vue-echarts',
         highlightBody:
-          'Evidence and documentation are now queried from a vector database in Neon (powered by Vita), without reading raw .md files.',
+          'Added Venezuela evidence cards, numbered IEEE citations across all cards, and a dedicated /comparar border corridor view powered by vue-echarts.',
         items: [
-          'Corregido: se unificó el denominador de cisticercosis (46/471 → 46/472) entre titular y fichas.',
-          'Corregido: se matizó el subtítulo del hero para evitar promesas absolutas sobre IA.',
-          'Nuevo: herramienta MCP search_docs sobre base vectorial en Neon (Vita), sin .md crudos.',
-          'Nuevo: diseño optimizado para móvil y botón directo de Feedback por correo (juenriquez09@gmail.com).',
+          'New: Venezuela swine health & production evidence (USDA FAS, FAOSTAT, OMSA, INSAI, Yaracuy).',
+          'New: /comparar page with vue-echarts multi-country chart and shared border corridors.',
+          'Improved: clickable numbered IEEE citations [N] on every card across all four countries.',
         ],
         cta: 'Open MCP guide',
         close: 'Close',
       }
     : {
-        badge: 'v0.0.3.6',
-        label: 'Novedades: Base vectorial en MCP →',
-        aria: 'Abrir novedades de la versión v0.0.3.6',
-        title: 'Novedades · Porco v0.0.3.6',
-        highlightTitle: 'Nueva herramienta MCP: search_docs',
+        badge: 'v0.0.4',
+        label: 'Novedades: Venezuela y /comparar →',
+        aria: 'Abrir novedades de la versión v0.0.4',
+        title: 'Novedades · Porco v0.0.4',
+        highlightTitle: 'Venezuela + /comparar con vue-echarts',
         highlightBody:
-          'La evidencia y documentación ahora se consultan desde una base vectorial en Neon (impulsada por Vita), sin leer archivos .md crudos.',
+          'Se integró Venezuela con citas verificadas, citas numeradas clicables en todas las cards y el comparador regional de fronteras en /comparar.',
         items: [
-          'Corregido: se unificó la cifra de cisticercosis (46/471 → 46/472) entre el titular y las fichas.',
-          'Corregido: se matizó el subtítulo del hero para no prometer cero alucinaciones absolutas.',
-          'Nuevo: herramienta MCP search_docs en base vectorial Neon (Vita), sin leer .md crudos.',
-          'Nuevo: optimización móvil y botón Comentarios directo a juenriquez09@gmail.com para recibir tu feedback.',
+          'Nuevo: apartado de Venezuela (USDA FAS, FAOSTAT, OMSA Res. 26, INSAI Mem. 031 y Yaracuy).',
+          'Nuevo: página /comparar con gráfica vue-echarts de 4 países y corredores fronterizos.',
+          'Mejorado: citas IEEE numeradas [N] clicables en todas las cards de los cuatro países.',
         ],
         cta: 'Ver guía MCP',
         close: 'Cerrar',

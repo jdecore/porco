@@ -32,14 +32,15 @@ const tarjetasEn = [
     cifra_subtitulo: "Audited field sample vs. headline percentage (9.7%)",
     texto_corto: "Before reusing a public health statistic, you need to verify what it measures, when it was sampled, and which population it describes. Porco makes data gaps visible instead of hiding them behind headline claims.",
     boton_texto: "View documented examples",
-    referencias: "MinSalud RIPS (datos.gov.co) · Tuchín Swine Study (PubMed)"
+    referencias: "MinSalud RIPS (datos.gov.co) · Tuchín Swine Study (PubMed)",
+    citas: [3, 5]
   },
   {
     id: "scope",
     numero: "02",
     tag: "First Public Version",
     titulo: "Colombia first. A clear and measurable scope.",
-    cifra_principal: "v0.0.3",
+    cifra_principal: "v0.0.4",
     cifra_subtitulo: "Colombia focus with planned Andean region roadmap",
     texto_corto: "We structured initial evidence on taeniasis and cysticercosis before expanding across the Andean region. Sources enter the verified table only after method, timeline, and denominator audits.",
     candidatas: [
@@ -49,7 +50,8 @@ const tarjetasEn = [
       { nombre: "MinSalud RIPS", estado: "Evaluated (4-year lag)" },
       { nombre: "WOAH / WAHIS", estado: "Under Andean Evaluation" }
     ],
-    boton_texto: "What this version includes"
+    boton_texto: "What this version includes",
+    citas: [1, 10, 6]
   },
   {
     id: "units",
@@ -68,7 +70,8 @@ const tarjetasEn = [
         advertencia: "Describes 42 indigenous communities, not all Colombian swine."
       }
     ],
-    texto_corto: "RIPS tracks billed medical consultations. The Tuchín trial studied pigs in specific rural indigenous settings. Confusing units distorts any downstream AI models."
+    texto_corto: "RIPS tracks billed medical consultations. The Tuchín trial studied pigs in specific rural indigenous settings. Confusing units distorts any downstream AI models.",
+    citas: [3, 5]
   },
   {
     id: "verification",
@@ -107,7 +110,8 @@ const tarjetasEn = [
         badge: "Slaughterhouse & backyard gap"
       }
     ],
-    boton_texto: "Open verification record"
+    boton_texto: "Open verification record",
+    citas: [3, 4, 10]
   },
   {
     id: "registry",
@@ -123,7 +127,8 @@ const tarjetasEn = [
       estado: "Abstract denominator mismatch",
       ref: "PMC11054264"
     },
-    planes: ["Structured queries", "Territorial risk filters", "Agent MCP API feed"]
+    planes: ["Structured queries", "Territorial risk filters", "Agent MCP API feed"],
+    citas: [3, 6]
   },
   {
     id: "access",
@@ -134,7 +139,8 @@ const tarjetasEn = [
     acciones: [
       { label: "Download CSV", tipo: "descarga", url: "/data/andina-porcinos.csv" },
       { label: "Connect an Agent", tipo: "enlace", url: "/conectar" }
-    ]
+    ],
+    citas: [1, 8, 9, 10]
   }
 ];
 ---
@@ -191,9 +197,10 @@ const tarjetasEn = [
         </a>
 
         <nav class="topnav" aria-label="Main Navigation">
+          <a href={withBase('comparar')}>Compare</a>
           <a
             class="nav-cta"
-            href="mailto:juenriquez09@gmail.com?subject=Porco%20v0.0.3.6%20Feedback"
+            href="mailto:juenriquez09@gmail.com?subject=Porco%20v0.0.4%20Feedback"
             aria-label="Send feedback by email"
           >Feedback</a>
           <a
@@ -295,6 +302,30 @@ const tarjetasEn = [
               </g>
             </svg>
             <span class="country-circle__label">Peru</span>
+          </button>
+
+          <button
+            type="button"
+            class="country-circle"
+            data-country="ven"
+            aria-pressed="false"
+            aria-label="View Venezuela data"
+            title="Venezuela"
+          >
+            <svg viewBox="0 0 36 36" width="40" height="40" aria-hidden="true">
+              <clipPath id="clip-ven-en"><circle cx="18" cy="18" r="18" /></clipPath>
+              <g clip-path="url(#clip-ven-en)">
+                <rect width="36" height="12" y="0" fill="#FFCC00" />
+                <rect width="36" height="12" y="12" fill="#00247D" />
+                <rect width="36" height="12" y="24" fill="#CF142B" />
+                <circle cx="12" cy="19.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="14.5" cy="17.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="18" cy="16.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="21.5" cy="17.5" r="0.9" fill="#FFFFFF" />
+                <circle cx="24" cy="19.5" r="0.9" fill="#FFFFFF" />
+              </g>
+            </svg>
+            <span class="country-circle__label">Venezuela</span>
           </button>
         </div>
 

@@ -1,7 +1,7 @@
 {
   "name": "porco",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -27,9 +27,11 @@
     "@neon/env": "^2.0.1",
     "@neondatabase/serverless": "^1.2.0",
     "astro": "^6.1.2",
+    "echarts": "^6.1.0",
     "jspdf": "^4.2.1",
     "vue": "^3.5.32",
     "vue-data-ui": "^3.28.12",
+    "vue-echarts": "^8.3.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {

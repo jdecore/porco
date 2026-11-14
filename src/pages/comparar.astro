@@ -1,0 +1,84 @@
+---
+import CompararPaises from '../components/porco/CompararPaises.vue';
+import CiteModal from '../components/porco/CiteModal.vue';
+import FeedbackForm from '../components/porco/FeedbackForm.vue';
+import '../styles/porco.css';
+
+const baseUrl = import.meta.env.BASE_URL || '/';
+const withBase = (ruta: string) => `${baseUrl}${String(ruta).replace(/^\/+/, '')}`;
+const site = Astro.site ?? new URL('https://porco-tau.vercel.app');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta
+      name="description"
+      content="Comparador sanitario porcino entre Colombia, Ecuador, Perú y Venezuela con corredores fronterizos y citas IEEE en Porco v0.0.4."
+    />
+    <meta name="author" content="Juan Enríquez" />
+    <meta name="theme-color" content="#F2EEE7" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>Comparar Países y Fronteras | Porco v0.0.4</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="contenedor">
+      <header class="topbar">
+        <a class="brand" href={withBase('/')} aria-label="Porco, inicio">
+          <span class="brand__mark" aria-hidden="true">
+            <img src={withBase('logo.svg')} alt="" width="44" height="44" />
+          </span>
+          <span class="brand__name">Porco</span>
+        </a>
+
+        <nav class="topnav" aria-label="Navegación principal">
+          <a href={withBase('/')}>← Inicio</a>
+          <a href={withBase('citas')}>Citas IEEE</a>
+          <a href={withBase('conectar')}>Conectar MCP</a>
+          <button type="button" class="nav-cta" data-feedback-open>Comentarios</button>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1 class="hero__title">
+          Comparar países,<br />
+          <span>auditar fronteras.</span>
+        </h1>
+        <p class="hero__lede">
+          Contraste regional de hato porcino, brecha de traspatio, estatus PPA/PPC y corredores fronterizos entre Colombia, Ecuador, Perú y Venezuela.
+        </p>
+      </section>
+
+      <CompararPaises client:load />
+
+      <footer class="site-footer">
+        <div class="footer__brand">
+          <span class="brand__name">Porco v0.0.4</span>
+          <p>Observatorio de evidencia y calidad de datos para decisiones públicas y modelos de IA.</p>
+        </div>
+
+        <div class="footer__links">
+          <a href={withBase('/')}>Inicio</a>
+          <a href={withBase('conectar')}>Conectar MCP</a>
+          <a href={withBase('citas')}>Citas IEEE</a>
+          <a href={withBase('data/andina-porcinos.csv')} download="andina-porcinos.csv">Descargar CSV</a>
+        </div>
+      </footer>
+    </main>
+
+    <CiteModal client:load />
+    <FeedbackForm client:load />
+  </body>
+</html>

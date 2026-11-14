@@ -58,7 +58,7 @@ function leerArchivoPublico(relPath: string, fallback: string): string {
 
 function crearServidor() {
   const server = new McpServer(
-    { name: 'porco', version: '0.0.3.6' },
+    { name: 'porco', version: '0.0.4' },
     { instructions: instrucciones },
   );
 
