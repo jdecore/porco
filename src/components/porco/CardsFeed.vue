@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import CountryChart from './CountryChart.vue';
 
 type Tarjeta = {
   id: string;
@@ -254,6 +255,7 @@ function notificarCita(id: number) {
 
 <template>
   <div class="cards-feed" id="feed-tarjetas" role="region" aria-label="Feed de evidencia sanitaria">
+    <CountryChart :pais="pais" :lang="lang" />
     <!-- Card 1: El problema -->
     <article v-if="activeTarjetas[0]" class="feed-card feed-card--problema" id="card-problema">
       <header class="feed-card__head">
