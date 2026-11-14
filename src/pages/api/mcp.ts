@@ -206,11 +206,12 @@ function crearServidor() {
       inputSchema: {
         query: z.string().min(2).describe('Pregunta o términos clave a buscar'),
         archivo: z.string().optional().describe('Filtrar por nombre de archivo, ej. design.md'),
+        pais: z.string().optional().describe('Filtrar por país, ej. col, ecu, per'),
         limit: z.number().int().min(1).max(10).default(5).describe('Máximo de resultados'),
       },
       annotations: { readOnlyHint: true },
     },
-    async ({ query, archivo, limit = 5 }) => {
+    async ({ query, archivo, pais, limit = 5 }) => {
       const dbUrl = process.env.DATABASE_URL;
       if (!dbUrl) {
         return json({
@@ -220,29 +221,105 @@ function crearServidor() {
       }
 
       const sql = neon(dbUrl);
+      const searchTerms = pais ? `${query} ${pais}` : query;
       const rows = archivo
         ? await sql`
             SELECT archivo, ruta_seccion, contenido,
-                   ts_rank(tsv, plainto_tsquery('spanish', ${query})) AS score
+                   ts_rank(tsv, plainto_tsquery('spanish', ${searchTerms})) AS score
             FROM porco_docs_chunks
             WHERE archivo = ${archivo}
-              AND tsv @@ plainto_tsquery('spanish', ${query})
+              AND tsv @@ plainto_tsquery('spanish', ${searchTerms})
             ORDER BY score DESC
             LIMIT ${limit}
           `
         : await sql`
             SELECT archivo, ruta_seccion, contenido,
-                   ts_rank(tsv, plainto_tsquery('spanish', ${query})) AS score
+                   ts_rank(tsv, plainto_tsquery('spanish', ${searchTerms})) AS score
             FROM porco_docs_chunks
-            WHERE tsv @@ plainto_tsquery('spanish', ${query})
+            WHERE tsv @@ plainto_tsquery('spanish', ${searchTerms})
             ORDER BY score DESC
             LIMIT ${limit}
           `;
 
       return json({
         query,
+        pais: pais ?? null,
         total: rows.length,
         resultados: rows,
+      });
+    },
+  );
+
+  const PAISES_DATA = {
+    col: {
+      codigo: 'col',
+      nombre: 'Colombia',
+      traspatio_pct: 78.4,
+      tecnificado_pct: 21.6,
+      cabezas: '10.67M',
+      predios: '189,198',
+      estado_ppa: 'Libre de PPA (OMSA)',
+      brecha_principal: 'RIPS congelado en 2021 y 0% vigilancia predial de cisticercosis documentada.',
+      fortaleza_adoptable: 'AnalítICA 2026: tablero abierto de 241 episodios sanitarios georreferenciados.',
+    },
+    ecu: {
+      codigo: 'ecu',
+      nombre: 'Ecuador',
+      traspatio_pct: 68.0,
+      tecnificado_pct: 32.0,
+      cabezas: '1.1M (ESPAC)',
+      predios: 'N/D consolidado',
+      estado_ppa: 'Libre de PPA (Agrocalidad)',
+      brecha_principal: 'Subregistro en traspatio rural y dispersión entre INEC ESPAC y Agrocalidad.',
+      fortaleza_adoptable: 'Programa PROZEC de erradicación de PPC con trazabilidad por zonas.',
+    },
+    per: {
+      codigo: 'per',
+      nombre: 'Perú',
+      traspatio_pct: 72.0,
+      tecnificado_pct: 28.0,
+      cabezas: '3.2M',
+      predios: 'N/D consolidado',
+      estado_ppa: 'Libre de PPA (SENASA)',
+      brecha_principal: 'Faenamiento informal sin inspección veterinaria en zonas rurales.',
+      fortaleza_adoptable: '13 regiones internas declaradas libres de PPC por SENASA con control regional.',
+    },
+  } as const;
+
+  server.registerTool(
+    'get_pais',
+    {
+      title: 'Obtener evidencia unificada por país',
+      description: 'Devuelve métricas, brecha sanitaria y fortaleza adoptable de un país (col, ecu, per).',
+      inputSchema: {
+        pais: z.enum(['col', 'ecu', 'per']).describe('Código de país: col, ecu o per'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ pais }) => json(PAISES_DATA[pais]),
+  );
+
+  server.registerTool(
+    'comparar_paises',
+    {
+      title: 'Comparar dos países (Versus + Ecosistema Hispano)',
+      description:
+        'Compara métricas de traspatio, cobertura y fortalezas adoptables entre dos países.',
+      inputSchema: {
+        pais_a: z.enum(['col', 'ecu', 'per']).describe('Primer país'),
+        pais_b: z.enum(['col', 'ecu', 'per']).describe('Segundo país'),
+      },
+      annotations: { readOnlyHint: true },
+    },
+    async ({ pais_a, pais_b }) => {
+      const a = PAISES_DATA[pais_a];
+      const b = PAISES_DATA[pais_b];
+      return json({
+        comparacion: [a, b],
+        ecosistema_hispano: {
+          de_a_para_b: `${a.nombre} aporta: ${a.fortaleza_adoptable}`,
+          de_b_para_a: `${b.nombre} aporta: ${b.fortaleza_adoptable}`,
+        },
       });
     },
   );
